@@ -7,7 +7,7 @@ t_camera	*init_camera(void)
 		return (NULL);
 	camera->location = (t_vector){0,0,0};
 	camera->direction = (t_vector){0,1,0};
-	camera->focal_len = 100;
+	camera->focal_len = 1000;
 	return camera;
 }
 
@@ -22,10 +22,10 @@ int main(void)
 		free_data(data);
 		return (1);
 	}
-	t_sphere *sphere = create_sphere(vector(0, 0, -200), 250, 255 << 16 | 255 << 8 | 255);
-	t_node *node = create_node(sphere);
 	data->objects = NULL;
-	add_node(&(data->objects), node);
+	add_node(&(data->objects), create_node(create_sphere(vector(0, 0, -1100), 250, BLUE)));
+	add_node(&(data->objects), create_node(create_sphere(vector(250, 0, -1200), 250, SALMON)));
+	add_node(&(data->objects), create_node(create_sphere(vector(0, 350, -1300), 250, YELLOW)));
 	raycast(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->image->img, 0, 0);
 	mlx_loop(data->mlx);

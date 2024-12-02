@@ -11,6 +11,9 @@
 # include <stdlib.h>
 
 # define BACKGROUND_COLOR 0
+# define BLUE 255
+# define SALMON 0xFA8072
+# define YELLOW 0xDFFF00
 
 typedef struct	s_image
 {
