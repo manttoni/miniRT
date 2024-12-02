@@ -23,9 +23,9 @@ int main(void)
 		return (1);
 	}
 	data->objects = NULL;
-	add_node(&(data->objects), create_node(create_sphere(vector(0, 0, -100), 25, BLUE)));
-	add_node(&(data->objects), create_node(create_sphere(vector(250, 0, -1200), 250, SALMON)));
-	add_node(&(data->objects), create_node(create_sphere(vector(0, 350, -1300), 250, YELLOW)));
+	add_node(&(data->objects), create_node(create_sphere(vector(0, 0, -80), 10, BLUE)));
+	add_node(&(data->objects), create_node(create_sphere(vector(1, 0, -30), 5, SALMON)));
+	add_node(&(data->objects), create_node(create_sphere(vector(0, 1, -20), 2, YELLOW)));
 	raycast(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->image->img, 0, 0);
 	mlx_loop(data->mlx);
