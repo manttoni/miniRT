@@ -10,6 +10,9 @@
 # include <stdio.h>
 # include <stdlib.h>
 
+/* Keyboard */
+# define ESCAPE_KEY 65307
+
 # define BACKGROUND_COLOR 0
 # define BLUE 255
 # define SALMON 0xFA8072
@@ -52,5 +55,9 @@ void	color_pixel(t_data *data, int pixel_color, int x, int y);
 /* Data */
 t_data		*init_data(int x, int y);
 void		free_data(t_data *data);
+
+/* Keyhandler */
+int			handle_close(void *param);
+int			handle_key(int key, t_data *data);
 
 #endif

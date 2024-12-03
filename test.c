@@ -27,6 +27,8 @@ int main(void)
 	add_node(&(data->objects), create_node(create_sphere(vector(1, 0, -30), 5, SALMON)));
 	add_node(&(data->objects), create_node(create_sphere(vector(0, 1, -20), 2, YELLOW)));
 	raycast(data);
+	mlx_key_hook(data->win, handle_key, data);
+	mlx_hook(data->win, 17, 0, handle_close, data);
 	mlx_put_image_to_window(data->mlx, data->win, data->image->img, 0, 0);
 	mlx_loop(data->mlx);
 	return (0);
