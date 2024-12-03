@@ -43,7 +43,7 @@ int     shade_pixel(t_vector P, t_vector light_pos, t_vector sphere_center, int 
 }
 
 
-int	sphere_collision(t_vector d, t_sphere *sphere)
+int	sphere_collision(t_vector d, t_sphere *sphere, double *distance)
 {
 	double	a;
 	double	b;
@@ -61,5 +61,6 @@ int	sphere_collision(t_vector d, t_sphere *sphere)
 		return (BACKGROUND_COLOR);
     t1 = (-b - sqrt(discriminant)) / (2 * a); // First intersection
     t2 = (-b + sqrt(discriminant)) / (2 * a); // Second intersection
+	*distance = fmin(*distance, fmin(t1, t2));
 	return (shade_pixel(vector_multiply(fmin(t1, t2), d), vector(50, 0, 50), sphere->center, sphere->color));
 }

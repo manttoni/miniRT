@@ -23,8 +23,8 @@ int main(void)
 		return (1);
 	}
 	data->objects = NULL;
-	add_node(&(data->objects), create_node(create_sphere(vector(0, 0, -80), 10, BLUE)));
-	add_node(&(data->objects), create_node(create_sphere(vector(1, 0, -30), 5, SALMON)));
+	add_node(&(data->objects), create_node(create_sphere(vector(0, 0, -150), 50, BLUE)));
+	add_node(&(data->objects), create_node(create_sphere(vector(5, 0, -30), 5, SALMON)));
 	add_node(&(data->objects), create_node(create_sphere(vector(0, 1, -20), 2, YELLOW)));
 	raycast(data);
 	mlx_key_hook(data->win, handle_key, data);

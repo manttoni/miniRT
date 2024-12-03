@@ -2,18 +2,23 @@
 
 int	cast_ray(t_vector d, t_data *data)
 {
+	double	distance;
 	int		color;
 	t_node	*current;
+	double	closest_dist;
+	int		closest_color;
 
+	closest_dist = DBL_MAX;
+	closest_color = BACKGROUND_COLOR;
 	current = data->objects;
 	while (current)
 	{
-		color = sphere_collision(d, current->data);
-		if (color != BACKGROUND_COLOR)
-			return (color);
+		color = sphere_collision(d, current->data, &distance);
+		if (distance < closest_dist && color != BACKGROUND_COLOR)
+			closest_color = color;
 		current = current->next;
 	}
-	return (BACKGROUND_COLOR);
+	return (closest_color);
 }
 
 void	raycast(t_data *data)

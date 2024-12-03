@@ -11,6 +11,6 @@ typedef struct	s_sphere
 }	t_sphere;
 
 t_sphere	*create_sphere(t_vector center, double diameter, int color);
-int			sphere_collision(t_vector d, t_sphere *sphere);
+int			sphere_collision(t_vector d, t_sphere *sphere, double *distance);
 
 #endif

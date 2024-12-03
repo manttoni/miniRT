@@ -9,6 +9,7 @@
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <float.h>
 
 /* Keyboard */
 # define ESCAPE_KEY 65307
