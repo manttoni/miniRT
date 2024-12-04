@@ -11,6 +11,7 @@ t_object	*create_sphere(char **info)
 	sphere->location = parse_location(info[1]);
 	sphere->diameter = parse_udouble(info[2]);
 	sphere->color = parse_color(info[3]);
+	sphere->collision = sphere_collision;
 	// inset error handling here
 	return (sphere);
 }
@@ -26,6 +27,7 @@ t_object	*create_plane(char **info)
 	plane->location = parse_location(info[1]);
 	plane->orientation = parse_orientation(info[2]);
 	plane->color = parse_color(info[3]);
+	plane->collision = sphere_collision;
 	// insert error handling here
 	return (plane);
 }
@@ -43,6 +45,7 @@ t_object	*create_cylinder(char **info)
 	cylinder->diameter = parse_udouble(info[3]);
 	cylinder->height = parse_udouble(info[4]);
 	cylinder->color = parse_color(info[5]);
+	cylinder->collision = cylinder_collision;
 	// insert error handling here
 	return (cylinder);
 }
