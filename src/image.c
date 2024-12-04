@@ -10,6 +10,7 @@ t_image	*init_image(t_data *data)
 			&(image->bits_per_pixel), \
 			&(image->size_line), \
 			&(image->endian));
+	image->focal_len = 1000;
 	return (image);
 }
 

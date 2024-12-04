@@ -1,14 +1,15 @@
 #include "../inc/object.h"
 
-void	turn_camera(t_vector orientation
-
-t_object	*get_camera(t_node *list)
+t_object	*get_camera(t_node *objects)
 {
-	while (list)
+	t_object	*object;
+
+	while (objects)
 	{
-		if (list->data->type == CAMERA)
-			return (list);
-		list = list->next;
+		object = (t_object *) objects->data;
+		if (object->type == CAMERA)
+			return (object);
+		objects = objects->next;
 	}
 	return (NULL);
 }

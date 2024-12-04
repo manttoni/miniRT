@@ -1,7 +1,18 @@
 #ifndef OBJECT_H
 # define OBJECT_H
 
-# include "../inc/vector.h"
+# include "vector.h"
+# include "minirt.h"
+
+typedef enum e_type
+{
+	AMBIENT_LIGHT,
+	CAMERA,
+	LIGHT,
+	SPHERE,
+	PLANE,
+	CYLINDER
+}	t_type;
 
 /* type			ambient	camera	light	sphere	plane	cylinder
    color		YES		NO		NO*		YES		YES		YES
@@ -25,17 +36,11 @@ typedef struct	s_object
 	int			collision;
 }	t_object;
 
-typedef enum e_type
-{
-	AMBIENT_LIGHT,
-	CAMERA,
-	LIGHT,
-	SPHERE,
-	PLANE,
-	CYLINDER;
-}	t_type;
-
+/* Object parsers */
 t_object	*parse_object(char *line);
+int			parse_orientation(char *str, t_vector *orientation);
+int			parse_location(char *str, t_vector *location);
+int			parse_color(char *str);
 
 /* Collision detectors 
  * 	Parameters:

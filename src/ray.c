@@ -10,6 +10,7 @@ int	cast_ray(t_vector d, t_data *data)
 
 	closest_dist = DBL_MAX;
 	closest_color = BACKGROUND_COLOR;
+	distance = 0;
 	current = data->objects;
 	while (current)
 	{
@@ -34,7 +35,7 @@ void	raycast(t_data *data)
 		x = -data->x / 2;
 		while (x < data->x / 2)
 		{
-			pixel_color = cast_ray(normalize_vector(vector(x, y, -data->camera->focal_len)), data);
+			pixel_color = cast_ray(normalize_vector(vector(x, y, -data->image->focal_len)), data);
 			color_pixel(data, pixel_color, x, y);
 			x++;
 		}

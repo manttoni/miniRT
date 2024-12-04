@@ -8,9 +8,13 @@ t_object	*create_ambient(char **info)
 	if (ambient == NULL)
 		return (NULL);
 	ambient->type = AMBIENT_LIGHT;
-	ambient->brightness = parse_brightness(info[1]);
+	ambient->brightness = parse_double(info[1]);
 	ambient->color = parse_color(info[2]);
-	// insert error handling here
+	if (ambient->brightness < -1 || ambient->brightness > 1 || errno == EINVAL)
+	{
+		free(ambient);
+		return(NULL);
+	}
 	return (ambient);
 }
 
@@ -22,10 +26,14 @@ t_object	*create_camera(char **info)
 	if (camera == NULL)
 		return (NULL);
 	camera->type = CAMERA;
-	camera->location = parse_location(info[1]);
-	camera->orientation = parse_orientation(info[2]);
-	camera->fov = parse_fov(info[3]);
-	// insert error handling here
+	camera->fov = ft_atoi(info[3]);
+	if (parse_location(info[1], &(camera->location)) < 0
+		|| parse_orientation(info[2], &(camera->orientation)) < 0
+		|| camera->fov < 0 || camera->fov > 180)
+	{
+		free(camera);
+		return (NULL);
+	}
 	return (camera);
 }
 
@@ -37,8 +45,18 @@ t_object	*create_light(char **info)
 	if (light == NULL)
 		return (NULL);
 	light->type = LIGHT;
-	light->location = parse_location(info[1]);
-	light->brightness = parse_brightness(info[2]);
-	// insert error handling here
+	light->brightness = parse_double(info[2]);
+	if (parse_location(info[1], &(light->location)) < 0
+		|| light->brightness < -1 || light->brightness > 1)
+	{
+		printf("light creation failed\n");
+		printf("--------\ninfo about light\n");
+		printf("brightness: %f\n", light->brightness);
+		print_vector(light->location);
+		printf("errno: %d\n", errno);
+		printf("----------\n");
+		free(light);
+		return (NULL);
+	}
 	return (light);
 }

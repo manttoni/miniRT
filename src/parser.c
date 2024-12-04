@@ -1,6 +1,7 @@
 #include "../lib/libft/libft.h"
 #include <errno.h>
 #include <math.h>
+#include <stdio.h>
 
 int	doublelen(char *str)
 {
@@ -48,7 +49,10 @@ double	parse_double(char *str)
 	int		sign;
 
 	if (valid_double(str) == 0)
+	{
+		printf("%s is not a valid double\n", str);
 		return (0);
+	}
 	sign = 1;
 	if (*str == '-')
 		sign = -1;
@@ -59,7 +63,7 @@ double	parse_double(char *str)
 	fract_part = (double) ft_atoi(period + 1);
 	return (int_part + sign * fract_part / pow(10, ft_strlen(period + 1)));
 }
-
+/*
 #include <stdio.h>
 
 int main(void)
@@ -74,4 +78,4 @@ int main(void)
 	printf("%d\n", errno);
 	double g = parse_double("-");
 	printf("%d\n", errno);
-}
+}*/
