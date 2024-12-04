@@ -2,7 +2,7 @@
 
 int main(void)
 {
-	t_data	*data = init_data(1000, 750, "test.rt");
+	t_data	*data = init_data(1000, 1000, "test.rt");
 	if (data == NULL)
 	{
 		printf("data initialization failed\n");

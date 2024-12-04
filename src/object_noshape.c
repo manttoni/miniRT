@@ -1,4 +1,4 @@
-#include "../inc/object.h"
+#include "../inc/minirt.h"
 
 t_object	*create_ambient(char **info)
 {
@@ -49,12 +49,6 @@ t_object	*create_light(char **info)
 	if (parse_location(info[1], &(light->location)) < 0
 		|| light->brightness < -1 || light->brightness > 1)
 	{
-		printf("light creation failed\n");
-		printf("--------\ninfo about light\n");
-		printf("brightness: %f\n", light->brightness);
-		print_vector(light->location);
-		printf("errno: %d\n", errno);
-		printf("----------\n");
 		free(light);
 		return (NULL);
 	}

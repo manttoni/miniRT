@@ -6,27 +6,18 @@ t_data	*init_data(int x, int y, char *file)
 
 	data = malloc(sizeof(t_data));
 	if (data == NULL)
-	{
-		printf("data struct malloc fail\n");
 		return (NULL);
-	}
 	ft_bzero(data, sizeof(t_data));
 	data->x = x;
 	data->y = y;
 	data->mlx = mlx_init();
 	if (data->mlx == NULL)
-	{
-		printf("mlx init fail\n");
 		return (NULL);
-	}
 	data->win = mlx_new_window(data->mlx, data->x, data->y, "raytracing test");
 	data->image = init_image(data);
 	data->objects = read_objects(file);
 	if (data->win == NULL || data->image == NULL || data->objects == NULL)
-	{
-		printf("data->win: %p data->image: %p data->objects: %p\n", data->win, data->image, data->objects);
 		return (NULL);
-	}
 	return (data);
 }
 

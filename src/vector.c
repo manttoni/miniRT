@@ -1,5 +1,4 @@
-#include "../inc/vector.h"
-#include <stdio.h>
+#include "../inc/minirt.h"
 
 double	vector_len(t_vector v)
 {

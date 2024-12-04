@@ -40,7 +40,6 @@ char	*trim(char *str, char c)
 	while (*end == c)
 		end--;
 	trimmed = malloc(end - start);
-	printf("trimmed len: %ld\n", end - start);
 	if (trimmed == NULL)
 	{
 		free(str);
@@ -54,6 +53,5 @@ char	*trim(char *str, char c)
 	}
 	free(str);
 	trimmed[i] = '\0';
-	printf("trimmed: %s\n", trimmed);
 	return (trimmed);
 }

@@ -13,13 +13,11 @@ t_node	*read_objects(char	*file)
 	if (ft_strcmp(ft_strrchr(file, '.'), ".rt") != 0
 		|| ft_countchar(file, '.') != 1)
 	{
-		printf("wrong type of file\n");
 		return (NULL);
 	}
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 	{
-		printf("failed to open file\n");
 		return (NULL);
 	}
 	list = NULL;
@@ -27,10 +25,9 @@ t_node	*read_objects(char	*file)
 	while (line)
 	{
 		line = trim(line, '\n');
-		printf("line: %s\n", line);
+		printf("%s\n", line);
 		if (add_node(&list, create_node(parse_object(line))) < 0)
 		{
-			printf("add node failed\n");
 			close(fd);
 			return (NULL);
 		}

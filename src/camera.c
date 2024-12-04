@@ -1,4 +1,4 @@
-#include "../inc/object.h"
+#include "../inc/minirt.h"
 
 t_object	*get_camera(t_node *objects)
 {
