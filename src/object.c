@@ -5,8 +5,11 @@ t_object	*parse_object(char *line)
 	char		**info;
 	t_object	*object;
 
+	if (line == NULL)
+		return (NULL);
 	object = NULL;
 	info = ft_split(line, ' ');
+	free(line);
 	if (info == NULL)
 		return (NULL);
 	if (ft_strcmp(info[0], "A") == 0)

@@ -28,22 +28,14 @@ typedef struct	s_image
 	int		endian;
 }	t_image;
 
-typedef struct	s_camera
-{
-	t_vector	location;
-	t_vector	direction;
-	int			focal_len;
-}	t_camera;
-
 typedef struct	s_data
 {
-	t_node		*objects;
+	t_object	*objects;
 	int			x;
 	int			y;
 	void		*mlx;
 	void		*win;
 	t_image		*image;
-	t_camera	*camera;
 }	t_data;
 
 /* Raycasting */
