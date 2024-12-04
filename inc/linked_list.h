@@ -10,7 +10,7 @@ typedef struct	s_node
 }	t_node;
 
 t_node	*last_node(t_node *list);
-void	add_node(t_node **list, t_node *new);
+int		add_node(t_node **list, t_node *new);
 void	free_list(t_node *list);
 t_node	*create_node(void *data);
 

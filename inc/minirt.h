@@ -10,6 +10,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <float.h>
+# include <errno.h>
 
 /* Keyboard */
 # define ESCAPE_KEY 65307
@@ -26,14 +27,8 @@ typedef struct	s_image
 	int		bits_per_pixel;
 	int		size_line;
 	int		endian;
+	int		focal_len;
 }	t_image;
-
-typedef struct	s_camera
-{
-	t_vector	location;
-	t_vector	direction;
-	int			focal_len;
-}	t_camera;
 
 typedef struct	s_data
 {
@@ -43,22 +38,32 @@ typedef struct	s_data
 	void		*mlx;
 	void		*win;
 	t_image		*image;
-	t_camera	*camera;
 }	t_data;
 
 /* Raycasting */
-void	raycast(t_data *data);
+void		raycast(t_data *data);
 
 /* Image */
-t_image	*init_image(t_data *data);
-void	color_pixel(t_data *data, int pixel_color, int x, int y);
+t_image		*init_image(t_data *data);
+void		color_pixel(t_data *data, int pixel_color, int x, int y);
 
 /* Data */
-t_data		*init_data(int x, int y);
+t_data		*init_data(int x, int y, char *file);
 void		free_data(t_data *data);
 
 /* Keyhandler */
 int			handle_close(void *param);
 int			handle_key(int key, t_data *data);
+
+/* Memory */
+void		free_array(char **ar);
+
+/* Files */
+t_node		*read_objects(char *file);
+
+/* Utils */
+double		parse_double(char *str);
+int			min(int a, int b);
+char		*trim(char *str, char c);
 
 #endif
