@@ -10,7 +10,7 @@ int	parse_location(char *str, t_vector *location)
 	location->x = parse_double(coords[0]);
 	location->y = parse_double(coords[1]);
 	location->z = parse_double(coords[2]);
-	free_array(coords);
+	ft_free_array(coords);
 	if (errno == EINVAL)
 		return (-1);
 	return (1);

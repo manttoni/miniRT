@@ -29,7 +29,7 @@ t_object	*parse_object(char *line)
 		object = create_cylinder(info);
 	else
 		printf("Wrong identifier!\n");
-	free_array(info);
+	ft_free_array(info);
 	printf("line: %s created object: %p\n", line, object);
 	return (object);
 }

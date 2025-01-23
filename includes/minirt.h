@@ -21,12 +21,12 @@
 # define SALMON 0xFA8072
 # define YELLOW 0xDFFF00
 # define X 1000
-# define Y 1000 
+# define Y 1000
 
 
 typedef struct	s_image
 {
-	void	*img;
+	mlx_image_t	*img;
 	char	*img_data;
 	int		bits_per_pixel;
 	int		size_line;
@@ -41,7 +41,7 @@ typedef struct	s_data
 	int			y;
 	mlx_t		*mlx;
 	void		*win;
-	mlx_image_t		*image;
+	t_image		*image;
 }	t_data;
 
 /* Image */

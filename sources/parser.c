@@ -4,9 +4,9 @@
 #include <math.h>
 #include <stdio.h>
 
-int	doublelen(char *str)
+size_t	doublelen(char *str)
 {
-	int	len;
+	size_t	len;
 	int	periods;
 	int	minus;
 
@@ -34,6 +34,7 @@ int	doublelen(char *str)
 
 int	valid_double(char *str)
 {
+	printf("str: %s\n", str);
 	if (ft_strlen(str) != doublelen(str))
 	{
 		errno = EINVAL;

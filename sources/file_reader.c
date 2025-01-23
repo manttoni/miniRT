@@ -6,8 +6,6 @@ t_node	*read_objects(char	*file)
 	char		*line;
 	int			fd;
 	t_node		*list;
-	// t_node		*new;
-	// t_object	*object;
 
 	if (ft_strcmp(ft_strrchr(file, '.'), ".rt") != 0
 		|| ft_countchar(file, '.') != 1)

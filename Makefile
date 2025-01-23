@@ -13,6 +13,7 @@ SRC = $(SRC_DIR)main.c\
 	$(SRC_DIR)object_parser.c\
 	$(SRC_DIR)object_shape.c\
 	$(SRC_DIR)object.c\
+	$(SRC_DIR)parser.c\
 	$(SRC_DIR)ray.c\
 	$(SRC_DIR)sphere.c\
 	$(SRC_DIR)utils.c\
