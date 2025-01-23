@@ -25,7 +25,6 @@ int parse_orientation(char *str, t_vector *orientation)
 		return (location);
 	// change
 	*orientation = normalize_vector(*orientation);
-	printf("vector_len: %f\n", vector_len(*orientation));
 	if (vector_len(*orientation) != 1)
 		return (-1);
 	return (1);

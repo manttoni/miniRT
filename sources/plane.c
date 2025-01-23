@@ -41,5 +41,6 @@ int plane_collision(t_ray *ray, t_object *plane)
         ray->distance = t;
         ray->color = plane->color;
     }
+    printf("collision");
     return (1);
 }

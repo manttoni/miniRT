@@ -45,7 +45,7 @@ t_ray	get_ray(t_object *camera, int x, int y)
 	ray.direction = normalize_vector(ray.direction);
 	//print_vector(ray.direction);
 	ray.distance = DBL_MAX;
-	ray.color = 0;
+	ray.color = 255;
 	return (ray);
 }
 
