@@ -20,14 +20,14 @@ t_image	*init_image(t_data *data)
 // 	free(image);
 // }
 
-void	color_pixel(t_data *data, int pixel_color, int x, int y)
+void	color_pixel(t_image *image, int pixel_color, int x, int y)
 {
 	int	pixel_index;
-	t_image	*image;
+	// t_image	*image;
 
-	image = data->image;
-	x += data->x / 2;
-	y += data->y / 2;
+	// image = data->image;
+	x += X / 2;
+	y += Y / 2;
 	pixel_index = y * image->size_line + x * (image->bits_per_pixel / 8);
 	*(int *)(image->img_data + pixel_index) = pixel_color;
 }

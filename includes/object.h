@@ -1,8 +1,12 @@
 #ifndef OBJECT_H
 # define OBJECT_H
 
-# include "vector.h"
-# include "minirt.h"
+# include "./vector.h"
+# include "./linked_list.h"
+# include "./ray.h"
+
+# include <stdlib.h>
+# include <errno.h>
 
 typedef enum e_type
 {
@@ -22,7 +26,7 @@ typedef enum e_type
    fov			NO		YES		NO		NO		NO		NO
    diameter		NO		NO		NO		YES		NO		YES
    height		NO		NO		NO		NO		NO		YES
-   *) light has color in bonus 
+   *) light has color in bonus
    */
 typedef struct	s_object
 {
@@ -34,9 +38,13 @@ typedef struct	s_object
 	int			fov;
 	double		diameter;
 	double		height;
-	int			*collision;
+	int			(*collision)(t_ray *, struct s_object *);
 	int			view_distance; // for camera
 }	t_object;
+
+t_object	*get_camera(t_node *objects);
+int plane_collision(t_ray *ray, t_object *plane);
+double		parse_double(char *str);
 
 /* Object parsers */
 t_object	*parse_object(char *line);
@@ -44,15 +52,13 @@ int			parse_orientation(char *str, t_vector *orientation);
 int			parse_location(char *str, t_vector *location);
 int			parse_color(char *str);
 
-/* Collision detectors 
+/* Collision detectors
  * 	Parameters:
  * 		-ray as a direction vector (normalized? might not matter)
  * 		-shape itself
  * 		-distance pointer
  * 	Returns: color of visible point (final color?) */
 int			sphere_collision(t_vector d, t_object *sphere, double *distance);
-int			plane_collision(t_vector d, t_object *plane, double *distance);
-int			cylinder_collision(t_vector d, t_object *cylinder, double *distance);
 
 /* Shaped object creators */
 t_object	*create_sphere(char **info);

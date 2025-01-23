@@ -1,6 +1,10 @@
 #ifndef RAY_H
 # define RAY_H
 
+# include "./data.h"
+# include "./vector.h"
+
+
 typedef struct s_ray
 {
     t_vector    start;

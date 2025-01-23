@@ -1,4 +1,4 @@
-#include "../includes/object.h"
+#include "../includes/minirt.h"
 
 t_object	*create_ambient(char **info)
 {
