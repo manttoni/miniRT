@@ -19,24 +19,25 @@ double  calcD(t_object *plane)
     return (d);
 }
 
-int plane_collision(t_vector linePoint, 
-                    t_vector lineDir, 
-                    t_object plane, 
-                    t_vector *intersection)
+int plane_collision(t_ray *ray, t_object *plane)
 {
     double  denominator;
     double  numerator;
     double  t;
 
-    denominator = dot_product(plane->orientation, lineDir);
+    denominator = dot_product(plane->orientation, ray->direction);
     if (denominator == 0.0)
         return 0;
-    numerator = -dot_product(plane->orientation, linePoint) + calcD(plane);
+    numerator = -dot_product(plane->orientation, ray->start) + calcD(plane);
     t = numerator / denominator;
 
-    intersection->x = linePoint.x + t * lineDir.x;
-    intersection->y = linePoint.y + t * lineDir.y;
-    intersection->z = linePoint.z + t * lineDir.z;
-
+    intersection->x = ray->start.x + t * ray->direction.x;
+    intersection->y = ray->start.y + t * ray->direction.y;
+    intersection->z = ray->start.z + t * ray->direction.z;
+    if (ray->distance > t)
+    {
+        ray->distance = t;
+        ray->color = plane->color;
+    }
     return (1);
 }

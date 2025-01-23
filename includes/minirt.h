@@ -44,9 +44,6 @@ typedef struct	s_data
 	mlx_image_t		*image;
 }	t_data;
 
-/* Raycasting */
-void		raycast(t_data *data);
-
 /* Image */
 t_image		*init_image(t_data *data);
 void		color_pixel(t_data *data, int pixel_color, int x, int y);
