@@ -10,7 +10,7 @@ void print_objects(t_node *objects)
 		if (o->type == CAMERA)
 		{
 			printf("---------------\n");
-			printf("Camera:\nLocation: ");
+			printf("Camera: 📷\nLocation: ");
 			print_vector(o->location);
 			printf("Orientation: ");
 			print_vector(o->orientation);
@@ -19,7 +19,7 @@ void print_objects(t_node *objects)
 		else if (o->type == SPHERE)
 		{
 			printf("---------------\n");
-			printf("Sphere:\nLocation: ");
+			printf("Sphere: ⚪\nLocation: ");
 			print_vector(o->location);
 			printf("Diameter: %f\n", o->diameter);
 			printf("Color: %x\n", o->color);
@@ -27,7 +27,7 @@ void print_objects(t_node *objects)
 		else if (o->type == PLANE)
 		{
 			printf("---------------\n");
-			printf("Plane:\nLocation: ");
+			printf("Plane: ✈️\nLocation: ");
 			print_vector(o->location);
 			printf("Normal: ");
 			print_vector(o->orientation);

@@ -31,7 +31,7 @@ t_vector	cross_product(t_vector v1, t_vector v2)
 
 void	print_vector(t_vector v)
 {
-	printf("x: %f, y: %f, z: %f, len: %f\n", v.x, v.y, v.z, vector_len(v));
+	printf("x: %1.2f, y: %1.2f, z: %1.2f, len: %1.2f\n", v.x, v.y, v.z, vector_len(v));
 }
 
 t_vector	vector(double x, double y, double z)
