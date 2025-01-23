@@ -17,7 +17,7 @@ t_object	*create_sphere(char **info)
 		free(sphere);
 		return (NULL);
 	}
-	//sphere->collision = &sphere_collision;
+	sphere->collision = &sphere_collision;
 	return (sphere);
 }
 

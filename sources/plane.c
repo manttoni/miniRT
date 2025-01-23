@@ -31,7 +31,8 @@ int plane_collision(t_ray *ray, t_object *plane)
         return 0;
     numerator = -dot_product(plane->orientation, ray->start) + calcD(plane);
     t = numerator / denominator;
-
+    if (t < 0)
+        return 0;
     intersection.x = ray->start.x + t * ray->direction.x;
     intersection.y = ray->start.y + t * ray->direction.y;
     intersection.z = ray->start.z + t * ray->direction.z;
