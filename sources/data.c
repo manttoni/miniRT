@@ -21,10 +21,10 @@ t_data	*init_data(int x, int y, char *file)
 		return (NULL);
 	}
 	// data->win = mlx_new_window(data->mlx, data->x, data->y, "raytracing test");
-	data->image->img = mlx_new_image(data->mlx, X, Y);
+	data->image = init_image(data);
 	if (data->image == NULL || data->objects == NULL)
 	{
-		printf("data->win: %p data->image: %p data->objects: %p\n", data->win, data->image, data->objects);
+		printf("data->image: %p data->objects: %p\n", data->image, data->objects);
 		return (NULL);
 	}
 	return (data);
