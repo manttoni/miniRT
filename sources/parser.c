@@ -34,7 +34,7 @@ size_t	doublelen(char *str)
 
 int	valid_double(char *str)
 {
-	printf("str: %s\n", str);
+	// printf("str: %s\n", str);
 	if (ft_strlen(str) != doublelen(str))
 	{
 		errno = EINVAL;

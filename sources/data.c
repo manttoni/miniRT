@@ -1,6 +1,6 @@
 #include "../includes/minirt.h"
 
-t_data	*init_data(int x, int y, char *file)
+t_data	*init_data(char *file)
 {
 	t_data	*data;
 
@@ -12,8 +12,8 @@ t_data	*init_data(int x, int y, char *file)
 	}
 	ft_bzero(data, sizeof(t_data));
 	data->objects = read_objects(file);
-	data->x = x;
-	data->y = y;
+	data->x = X;
+	data->y = Y;
 	data->mlx = mlx_init(X, Y, "miniRT", true);
 	if (data->mlx == NULL)
 	{

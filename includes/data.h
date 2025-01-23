@@ -14,7 +14,7 @@ typedef struct	s_data
 }	t_data;
 
 /* Data */
-t_data		*init_data(int x, int y, char *file);
+t_data		*init_data(char *file);
 void		free_data(t_data *data);
 
 /*Image*/
