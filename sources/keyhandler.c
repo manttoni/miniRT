@@ -26,5 +26,4 @@ void	keypress(mlx_key_data_t mlx_data, void *param)
 			return ;
 		}
 	}
-	return (0);
 }

@@ -27,7 +27,7 @@ void	raycast(t_data *data)
 	int		x;
 	int		y;
 	int		pixel_color;
-	float	aspect_ratio = (float)data->x / (float)data->y;
+	// float	aspect_ratio = (float)data->x / (float)data->y;
 
 	y = -data->y / 2;
 	while (y < data->y / 2)

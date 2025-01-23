@@ -4,9 +4,9 @@
 #include <math.h>
 #include <stdio.h>
 
-int	doublelen(char *str)
+size_t	doublelen(char *str)
 {
-	int	len;
+	size_t	len;
 	int	periods;
 	int	minus;
 

@@ -7,21 +7,6 @@ int	min(int a, int b)
 	return (b);
 }
 
-void	free_array(char **ar)
-{
-	char	**ptr;
-
-	if (ar == NULL)
-		return ;
-	ptr = ar;
-	while (*ptr)
-	{
-		free(*ptr);
-		ptr++;
-	}
-	free(ar);
-}
-
 /* Returns a char pointer with all c
  * removed from start and end */
 char	*trim(char *str, char c)
