@@ -4,14 +4,18 @@
 // # include "../lib/mlx/mlx.h"
 # include "../MLX42/include/MLX42/MLX42.h"
 # include "../libft/includes/libft.h"
-# include "../includes/linked_list.h"
-# include "../includes/object.h"
-# include "../includes/vector.h"
+# include "linked_list.h"
+# include "object.h"
+# include "./vector.h"
+# include "./ray.h"
+# include "data.h"
+# include "image.h"
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <float.h>
 # include <errno.h>
+# include <fcntl.h>
 
 /* Keyboard */
 # define ESCAPE_KEY 65307
@@ -24,33 +28,33 @@
 # define Y 1000
 
 
-typedef struct	s_image
-{
-	mlx_image_t	*img;
-	char	*img_data;
-	int		bits_per_pixel;
-	int		size_line;
-	int		endian;
-	int		focal_len;
-}	t_image;
+// typedef struct	s_image
+// {
+// 	mlx_image_t	*img;
+// 	char	*img_data;
+// 	int		bits_per_pixel;
+// 	int		size_line;
+// 	int		endian;
+// 	int		focal_len;
+// }	t_image;
 
-typedef struct	s_data
-{
-	t_node		*objects;
-	int			x;
-	int			y;
-	mlx_t		*mlx;
-	void		*win;
-	t_image		*image;
-}	t_data;
+// typedef struct	s_data
+// {
+// 	t_node		*objects;
+// 	int			x;
+// 	int			y;
+// 	mlx_t		*mlx;
+// 	void		*win;
+// 	t_image		*image;
+// }	t_data;
 
-/* Image */
-t_image		*init_image(t_data *data);
-void		color_pixel(t_data *data, int pixel_color, int x, int y);
+// /* Image */
+// t_image		*init_image(t_data *data);
+// void		color_pixel(t_data *data, int pixel_color, int x, int y);
 
-/* Data */
-t_data		*init_data(int x, int y, char *file);
-void		free_data(t_data *data);
+// /* Data */
+// t_data		*init_data(int x, int y, char *file);
+// void		free_data(t_data *data);
 
 /* Keyhandler */
 int		handle_close(void *param);
@@ -63,7 +67,6 @@ void	keypress(mlx_key_data_t mlx_data, void *param);
 t_node		*read_objects(char *file);
 
 /* Utils */
-double		parse_double(char *str);
 int			min(int a, int b);
 char		*trim(char *str, char c);
 

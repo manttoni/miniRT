@@ -1,4 +1,4 @@
-#include "../inc/minirt.h"
+#include "../includes/minirt.h"
 
 int scale_color(int color, double intensity)
 {
@@ -23,6 +23,7 @@ int plane_collision(t_ray *ray, t_object *plane)
 {
     double  denominator;
     double  numerator;
+    t_vector intersection;
     double  t;
 
     denominator = dot_product(plane->orientation, ray->direction);
@@ -31,9 +32,9 @@ int plane_collision(t_ray *ray, t_object *plane)
     numerator = -dot_product(plane->orientation, ray->start) + calcD(plane);
     t = numerator / denominator;
 
-    intersection->x = ray->start.x + t * ray->direction.x;
-    intersection->y = ray->start.y + t * ray->direction.y;
-    intersection->z = ray->start.z + t * ray->direction.z;
+    intersection.x = ray->start.x + t * ray->direction.x;
+    intersection.y = ray->start.y + t * ray->direction.y;
+    intersection.z = ray->start.z + t * ray->direction.z;
     if (ray->distance > t)
     {
         ray->distance = t;

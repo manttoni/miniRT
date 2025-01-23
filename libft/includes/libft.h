@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 10:45:23 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/01/22 14:15:18 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/01/23 14:25:51 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stdlib.h>
 # include "ft_printf.h"
 # include "get_next_line.h"
-# include "../../includes/minirt.h"
+
 
 typedef struct s_list
 {

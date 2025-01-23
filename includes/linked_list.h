@@ -2,6 +2,7 @@
 # define LINKED_LIST_H
 
 # include <stdlib.h>
+# include "../libft/includes/libft.h"
 
 typedef struct	s_node
 {
