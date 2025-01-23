@@ -14,7 +14,7 @@ int main(void)
 	//mlx_key_hook(data->win, &handle_key, data);
 	mlx_key_hook(data->mlx, &keypress, data);
 	//mlx_hook(data->win, 17, 0, handle_close, data);
-	mlx_image_to_window(data->mlx, data->image, 0, 0);
+	mlx_image_to_window(data->mlx, data->image->img , 0, 0);
 	mlx_loop(data->mlx);
 	mlx_terminate(data->mlx);
 	return (0);
