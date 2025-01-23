@@ -27,13 +27,12 @@ void	raycast(t_data *data)
 	int		x;
 	int		y;
 	int		pixel_color;
-	float	aspect_ratio = (float)data->x / (float)data->y;
 
-	y = -data->y / 2;
-	while (y < data->y / 2)
+	y = -Y / 2;
+	while (y < Y / 2)
 	{
-		x = -data->x / 2;
-		while (x < data->x / 2)
+		x = -X / 2;
+		while (x < X / 2)
 		{
 			pixel_color = cast_ray(normalize_vector(vector(x, y, -data->image->focal_len)), data);
 			color_pixel(data, pixel_color, x, y);
