@@ -9,6 +9,7 @@ int main(void)
 		free_data(data);
 		return (1);
 	}
+	get_camera(data)->view_distance = 1000;
 	raycast(data);
 	mlx_key_hook(data->win, handle_key, data);
 	mlx_hook(data->win, 17, 0, handle_close, data);

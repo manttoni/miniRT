@@ -64,6 +64,16 @@ t_vector	vector_substract(t_vector v1, t_vector v2)
 	return (difference);
 }
 
+t_vector	vector_sum(t_vector v1, t_vector v2)
+{
+	t_vector	sum;
+
+	sum.x = v1.x + v2.x;
+	sum.y = v1.y + v2.y;
+	sum.z = v1.z + v2.z;
+	return (sum);
+}
+
 /*
 int main(void)
 {
