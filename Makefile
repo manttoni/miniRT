@@ -1,4 +1,4 @@
-NAME = minishell
+NAME = miniRT
 
 SRC_DIR = sources/
 
@@ -7,6 +7,7 @@ SRC = $(SRC_DIR)main.c\
 FLAGS = -Wall -Werror -Wextra -g
 OFLAGS = -ldl -lglfw -pthread -lm
 MAKEFLAGS += --no-print-directory
+HEADS = -I. $(MLX_HEAD) -I$(LIBFT_DIR)
 
 LIBFT = ./libft/libft.a
 LIBFT_DIR = ./libft
@@ -18,10 +19,18 @@ OBJS = $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC))
 OBJ_DIRS = $(sort $(dir $(OBJS)))
 
 MLX = ./MLX42
-
 MLX_HEAD = -I $(MLX)/include
-
 LIBMLX = $(MLX)/build/libmlx42.a
+
+all: $(NAME)
+
+$(NAME): $(LIBMLX) $(LIBFT) $(OBJ_DIRS) $(OBJS)
+		@cc $(OBJS) $(LIBFT) $(LIBMLX) $(OFLAGS) -o $(NAME) > /dev/null
+		@echo "\n\033[0;32mLet's mini!\033[0m\n"
+
+$(LIBFT):
+		@make -C $(LIBFT_DIR)
+		@echo "\n\033[0;32mLibft ready\033[0m\n"
 
 $(LIBMLX):
 		@if [ ! -d "$(MLX)" ]; then \
@@ -34,29 +43,20 @@ $(LIBMLX):
 		@make -C $(MLX)/build -j4 > /dev/null
 		@echo "\n\033[0;32mMLX ready\033[0m\n"
 
-all: $(NAME)
-
-$(NAME): $(LIBFT) $(OBJ_DIRS) $(LIBMLX)
-		@cc $(OBJS) $(LIBFT_LINK) $(OFLAGS) -o $(NAME) > /dev/null
-		@echo "\n\033[0;32mLet's mini!\033[0m\n"
-
 $(OBJ_DIRS):
 		@mkdir -p $(OBJ_DIRS)
 
 $(OBJ_DIR)%.o:$(SRC_DIR)%.c
-		@cc $(FLAGS) $(LIBFT_INC) -c $< -o $@
-
-$(LIBFT):
-		@make -C $(LIBFT_DIR)
-		@echo "\n\033[0;32mLibft ready\033[0m\n"
-
+		@cc $(FLAGS) $(LIBFT_INC) -c $< -o $@ $(HEADS)
 clean:
 		@rm -rf $(OBJ_DIR)
+		@rm -rf $(MLX)/build
 		@make -C $(LIBFT_DIR) clean
 
 fclean: clean
 		@rm -f $(NAME)
 		@make -C $(LIBFT_DIR) fclean
+		@rm -rf $(MLX)
 		@echo "\n\033[0;31mAll is gone\033[0m\n"
 
 re: fclean all

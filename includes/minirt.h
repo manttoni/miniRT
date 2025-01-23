@@ -57,7 +57,7 @@ int			handle_close(void *param);
 int			handle_key(int key, t_data *data);
 
 /* Memory */
-void		free_array(char **ar);
+// void		free_array(char **ar);
 
 /* Files */
 t_node		*read_objects(char *file);

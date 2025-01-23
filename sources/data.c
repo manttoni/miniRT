@@ -1,4 +1,4 @@
-#include "../inc/minirt.h"
+#include "../includes/minirt.h"
 
 t_data	*init_data(int x, int y, char *file)
 {
@@ -11,6 +11,7 @@ t_data	*init_data(int x, int y, char *file)
 		return (NULL);
 	}
 	ft_bzero(data, sizeof(t_data));
+	data->objects = read_objects(file);
 	data->x = x;
 	data->y = y;
 	data->mlx = mlx_init();
@@ -21,7 +22,6 @@ t_data	*init_data(int x, int y, char *file)
 	}
 	data->win = mlx_new_window(data->mlx, data->x, data->y, "raytracing test");
 	data->image = init_image(data);
-	data->objects = read_objects(file);
 	if (data->win == NULL || data->image == NULL || data->objects == NULL)
 	{
 		printf("data->win: %p data->image: %p data->objects: %p\n", data->win, data->image, data->objects);
