@@ -38,6 +38,8 @@ t_ray	get_ray(t_object *camera, int x, int y)
 	vector_sum(ray.direction, vector_multiply((-X / 2 + x + 0.5), u));
 	vector_sum(ray.direction, vector_multiply((-Y / 2 + y + 0.5), v));
 	normalize_vector(ray.direction);
+	ray.distance = DBL_MAX;
+	ray.color = 0;
 	return (ray);
 }
 
@@ -45,20 +47,19 @@ void	raycast(t_data *data)
 {
 	int			x;
 	int			y;
-	int			pixel_color;
 	t_object	*camera;
 	t_ray		ray;
 
 	camera = get_camera(data->objects);
-	y = -Y / 2;
-	while (y < Y / 2)
+	y = 0;
+	while (y < Y)
 	{
-		x = -X / 2;
-		while (x < X / 2)
+		x = 0;
+		while (x < X)
 		{
 			ray = get_ray(camera, x, y);
-			pixel_color = cast_ray(&ray, data->objects);
-			color_pixel(data->image, pixel_color, x, y);
+			cast_ray(&ray, data->objects);
+			color_pixel(data->image, ray.color, x, y);
 			x++;
 		}
 		y++;

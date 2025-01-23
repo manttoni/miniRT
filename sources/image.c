@@ -5,12 +5,11 @@ t_image	*init_image(t_data *data)
 	t_image	*image;
 
 	image = malloc(sizeof(t_image));
-	image->img = mlx_new_image(data->mlx, data->x, data->y);
+	image->img = mlx_new_image(data->mlx, X, Y);
 	image->img_data = (char *)image->img->pixels;
-	image->bits_per_pixel = 32;
-	image->size_line = data->x * 4;
+	image->bits_per_pixel = sizeof(uint32_t *);
+	image->size_line = X;
 	image->endian = 0;
-	image->focal_len = 1000;
 	return (image);
 }
 
@@ -26,8 +25,9 @@ void	color_pixel(t_image *image, int pixel_color, int x, int y)
 	// t_image	*image;
 
 	// image = data->image;
-	x += X / 2;
-	y += Y / 2;
-	pixel_index = y * image->size_line + x * (image->bits_per_pixel / 8);
-	*(int *)(image->img_data + pixel_index) = pixel_color;
+
+	pixel_index = y * X + x;
+	//if (pixel_index >= 800000)
+      //  return;
+	((uint32_t *)(image->img->pixels))[pixel_index] = (uint32_t)pixel_color;
 }
