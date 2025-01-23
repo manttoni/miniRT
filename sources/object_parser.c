@@ -23,6 +23,7 @@ int parse_orientation(char *str, t_vector *orientation)
 	location = parse_location(str, orientation);
 	if (location < 0)
 		return (location);
+	*orientation = normalize_vector(*orientation);
 	if (vector_len(*orientation) != 1)
 		return (-1);
 	return (1);
@@ -33,6 +34,7 @@ int	parse_color(char *str)
 	int	r;
 	int	g;
 	int	b;
+	int a;
 
 	if (ft_countchar(str, ',') != 2)
 	{
@@ -42,10 +44,11 @@ int	parse_color(char *str)
 	r = ft_atoi(str);
 	g = ft_atoi(ft_strchr(str, ',') + 1);
 	b = ft_atoi(ft_strrchr(str, ',') + 1);
+	a = 255;
 	if (min(r, min(g, b)) < 0)
 	{
 		errno = EINVAL;
 		return (-1);
 	}
-	return (r << 16 | g << 8 | b);
+    return (r << 24 | g << 16 | b << 8 | a);
 }

@@ -1,4 +1,4 @@
-#include "../includes/linked_list.h"
+#include "../includes/minirt.h"
 #include <stdio.h>
 
 t_node	*last_node(t_node *list)

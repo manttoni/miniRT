@@ -1,5 +1,5 @@
 #include "../includes/minirt.h"
-#include <fcntl.h>
+
 
 t_node	*read_objects(char	*file)
 {
