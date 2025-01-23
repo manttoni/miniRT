@@ -31,7 +31,7 @@ typedef enum e_type
 typedef struct	s_object
 {
 	t_type		type;
-	int			color;
+	uint32_t	color;
 	double		brightness;
 	t_vector	location;
 	t_vector	orientation;

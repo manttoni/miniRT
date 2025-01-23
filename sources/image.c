@@ -19,15 +19,10 @@ t_image	*init_image(t_data *data)
 // 	free(image);
 // }
 
-void	color_pixel(t_image *image, int pixel_color, int x, int y)
+void	color_pixel(t_image *image, uint32_t pixel_color, int x, int y)
 {
 	int	pixel_index;
-	// t_image	*image;
-
-	// image = data->image;
 
 	pixel_index = y * X + x;
-	//if (pixel_index >= 800000)
-      //  return;
-	((uint32_t *)(image->img->pixels))[pixel_index] = (uint32_t)pixel_color;
+	((uint32_t *)(image->img->pixels))[pixel_index] = pixel_color;
 }
