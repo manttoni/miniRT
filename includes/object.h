@@ -22,7 +22,8 @@ typedef enum e_type
    fov			NO		YES		NO		NO		NO		NO
    diameter		NO		NO		NO		YES		NO		YES
    height		NO		NO		NO		NO		NO		YES
-   *) light has color in bonus */
+   *) light has color in bonus 
+   */
 typedef struct	s_object
 {
 	t_type		type;
@@ -33,7 +34,8 @@ typedef struct	s_object
 	int			fov;
 	double		diameter;
 	double		height;
-	int			collision;
+	int			*collision;
+	int			view_distance; // for camera
 }	t_object;
 
 /* Object parsers */

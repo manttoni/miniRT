@@ -1,40 +1,53 @@
 #include "../includes/minirt.h"
 
-int	cast_ray(t_vector d, t_data *data)
+int cast_ray(t_ray *ray, t_object *objects)
 {
-	double	distance;
-	int		color;
 	t_node	*current;
-	double	closest_dist;
-	int		closest_color;
 
-	closest_dist = DBL_MAX;
-	closest_color = BACKGROUND_COLOR;
-	distance = 0;
-	current = data->objects;
+	current = objects;
 	while (current)
 	{
-		color = sphere_collision(d, current->data, &distance);
-		if (distance < closest_dist && color != BACKGROUND_COLOR)
-			closest_color = color;
+		if (current->collision != NULL)
+			current->collision(ray, current);
 		current = current->next;
 	}
-	return (closest_color);
+}
+
+/*	
+	t_vector u, v
+		perpendicular vectors that define the image plane
+*/
+t_ray	get_ray(t_object *camera, int x, int y)
+{
+	t_ray		ray;
+	t_vector	u;
+	t_vector	v;
+
+	u = vector(-camera->direction.y, camera->direction.x, 0);
+	v = cross_product(camera->direction, u);
+	ray->start = camera->location;
+	ray->direction = vector_sum(camera->location, camera->view_distance); // image center
+	ray->direction += vector_multiply((-X / 2 + x + 0.5), u);
+	ray->direction += vector_multiply((-Y / 2 + j + 0.5), v);
+	normalize_vector(ray->direction);
+	return (ray);
 }
 
 void	raycast(t_data *data)
 {
-	int		x;
-	int		y;
-	int		pixel_color;
+	int			x;
+	int			y;
+	int			pixel_color;
+	t_object	*camera;
 
+	camera = get_camera(data);
 	y = -Y / 2;
 	while (y < Y / 2)
 	{
 		x = -X / 2;
 		while (x < X / 2)
 		{
-			pixel_color = cast_ray(normalize_vector(vector(x, y, -data->image->focal_len)), data);
+			pixel_color = cast_ray(&get_ray(camera, x, y), data);
 			color_pixel(data, pixel_color, x, y);
 			x++;
 		}
