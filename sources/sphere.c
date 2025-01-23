@@ -62,6 +62,8 @@ int sphere_collision(t_ray *ray, t_object *sphere)
     if (t_closest < 0)
         return (0);
 
+    if (t_closest < 0)
+        return 0;
     // Update ray properties if the intersection is closer than the current ray distance
     if (fabs(t_closest) < ray->distance)
     {
