@@ -1,4 +1,5 @@
-#include "../inc/minirt.h"
+
+#include "../includes/minirt.h"
 
 int	handle_close(void *param)
 {
@@ -6,12 +7,24 @@ int	handle_close(void *param)
 	exit(0);
 }
 
-int	handle_key(int key, t_data *data)
+// void	handle_key(int key, t_data *data)
+void	keypress(mlx_key_data_t mlx_data, void *param)
 {
-	if (key == ESCAPE_KEY)
+	t_data	*data;
+
+	data = (t_data *)param;
+	// if (key == ESCAPE_KEY)
+	// {
+	// 	free_data(data);
+	// 	exit(0);
+	// }
+	if (mlx_data.action == MLX_PRESS)
 	{
-		free_data(data);
-		exit(0);
+		if (mlx_data.key == MLX_KEY_ESCAPE)
+		{
+			mlx_close_window(data->mlx);
+			return ;
+		}
 	}
 	return (0);
 }
