@@ -23,6 +23,7 @@
 # define X 1000
 # define Y 1000 
 
+
 typedef struct	s_image
 {
 	void	*img;
