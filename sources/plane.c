@@ -23,7 +23,7 @@ int plane_collision(t_ray *ray, t_object *plane)
 {
     double  denominator;
     double  numerator;
-    t_vector intersection;
+    //t_vector intersection;
     double  t;
 
     denominator = dot_product(plane->orientation, ray->direction);
@@ -31,16 +31,16 @@ int plane_collision(t_ray *ray, t_object *plane)
         return 0;
     numerator = -dot_product(plane->orientation, ray->start) + calcD(plane);
     t = numerator / denominator;
-    if (t < 0)
-        return 0;
-    intersection.x = ray->start.x + t * ray->direction.x;
-    intersection.y = ray->start.y + t * ray->direction.y;
-    intersection.z = ray->start.z + t * ray->direction.z;
-    if (ray->distance > t)
+    //if (t < 0)
+    //    return 0;
+    //intersection.x = ray->start.x + t * ray->direction.x;
+    //intersection.y = ray->start.y + t * ray->direction.y;
+    //intersection.z = ray->start.z + t * ray->direction.z;
+    if (ray->distance > fabs(t))
     {
-        ray->distance = t;
+        ray->distance = fabs(t);
         ray->color = plane->color;
     }
-    printf("collision");
+    //printf("Collision at distance: %f\n", ray->distance);
     return (1);
 }
