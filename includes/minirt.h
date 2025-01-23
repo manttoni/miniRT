@@ -20,6 +20,8 @@
 # define BLUE 255
 # define SALMON 0xFA8072
 # define YELLOW 0xDFFF00
+# define X 1000
+# define Y 1000 
 
 typedef struct	s_image
 {
@@ -36,9 +38,9 @@ typedef struct	s_data
 	t_node		*objects;
 	int			x;
 	int			y;
-	void		*mlx;
+	mlx_t		*mlx;
 	void		*win;
-	t_image		*image;
+	mlx_image_t		*image;
 }	t_data;
 
 /* Raycasting */
@@ -53,8 +55,8 @@ t_data		*init_data(int x, int y, char *file);
 void		free_data(t_data *data);
 
 /* Keyhandler */
-int			handle_close(void *param);
-int			handle_key(int key, t_data *data);
+int		handle_close(void *param);
+void	keypress(mlx_key_data_t mlx_data, void *param);
 
 /* Memory */
 // void		free_array(char **ar);

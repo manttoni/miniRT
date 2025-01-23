@@ -1,4 +1,5 @@
-#include "../lib/libft/libft.h"
+// #include "../lib/libft/libft.h"
+#include "../includes/minirt.h"
 #include <errno.h>
 #include <math.h>
 #include <stdio.h>
@@ -12,7 +13,7 @@ int	doublelen(char *str)
 	len = 0;
 	periods = 0;
 	minus = 0;
-	while (ft_isdigit(str[len]) 
+	while (ft_isdigit(str[len])
 		|| (str[len] == '.' && periods <= 1)
 		|| (str[len] == '-' && minus <= 1))
 	{

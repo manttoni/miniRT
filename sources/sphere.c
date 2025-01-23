@@ -1,4 +1,4 @@
-#include "../inc/minirt.h"
+#include "../includes/minirt.h"
 
 int scale_color(int color, double intensity)
 {
