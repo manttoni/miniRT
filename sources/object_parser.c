@@ -1,4 +1,4 @@
-#include "../inc/minirt.h"
+#include "../includes/minirt.h"
 
 int	parse_location(char *str, t_vector *location)
 {

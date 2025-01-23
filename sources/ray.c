@@ -1,4 +1,4 @@
-#include "../inc/minirt.h"
+#include "../includes/minirt.h"
 
 int cast_ray(t_ray *ray, t_object *objects)
 {

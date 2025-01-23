@@ -1,4 +1,4 @@
-#include "../inc/object.h"
+#include "../includes/object.h"
 
 t_object	*create_sphere(char **info)
 {

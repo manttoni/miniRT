@@ -1,4 +1,4 @@
-#include "../inc/linked_list.h"
+#include "../includes/linked_list.h"
 #include <stdio.h>
 
 t_node	*last_node(t_node *list)
@@ -22,7 +22,7 @@ void	free_list(t_node *list)
 int	add_node(t_node **list, t_node *new)
 {
 	t_node	*last;
-	
+
 	if (new == NULL)
 	{
 		printf("no node to add\n");
