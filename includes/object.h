@@ -67,6 +67,7 @@ int			parse_color(char *str);
  * 		-shape itself
  * 		-distance pointer
  * 	Returns: color of visible point (final color?) */
+
 int			sphere_collision(t_ray *ray, t_object *sphere);
 
 /* Shaped object creators */

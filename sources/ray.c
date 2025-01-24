@@ -72,6 +72,7 @@ void	raycast(t_data *data)
 		while (x < X)
 		{
 			ray = get_ray(camera, x, y);
+
 			cast_ray(&ray, data->objects);
 			color_pixel(data->image, ray.color, x, y);
 			x++;

@@ -1,19 +1,18 @@
 #include "../includes/minirt.h"
 
-/*int scale_color(int color, double intensity)
-{
-    int r = ((color >> 16) & 0xFF) * intensity;
-    int g = ((color >> 8) & 0xFF) * intensity;
-    int b = (color & 0xFF) * intensity;
 
-    return ((r << 16) | (g << 8) | b);
-}
-
-int     shade_pixel(t_vector P, t_vector light_pos, t_vector sphere_center, int base_color)
+int sphere_collision(t_ray *ray, t_object *sphere)
 {
-    t_vector    N; // Surface normal
-    t_vector    L; // Light direction
-    double      diffuse_intensity;
+    double a, b, c, discriminant, t1, t2;
+    t_vector oc = vector_substract(ray->start, sphere->location); // Vector from ray start to sphere center
+
+    // Coefficients of the quadratic equation
+    a = dot_product(ray->direction, ray->direction);
+    b = 2 * dot_product(oc, ray->direction); // Correct sign for b
+    c = dot_product(oc, oc) - pow(sphere->diameter / 2, 2);
+
+    // Calculate the discriminant
+    discriminant = b * b - 4 * a * c;
 
     // Compute surface normal
     N = normalize_vector(vector_substract(P, sphere_center));

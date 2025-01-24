@@ -9,7 +9,6 @@
 # include "./vector.h"
 # include "./ray.h"
 # include "data.h"
-# include "image.h"
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -21,34 +20,8 @@
 # define X 1500
 # define Y 1500
 
-
-// typedef struct	s_image
-// {
-// 	mlx_image_t	*img;
-// 	char	*img_data;
-// 	int		bits_per_pixel;
-// 	int		size_line;
-// 	int		endian;
-// 	int		focal_len;
-// }	t_image;
-
-// typedef struct	s_data
-// {
-// 	t_node		*objects;
-// 	int			x;
-// 	int			y;
-// 	mlx_t		*mlx;
-// 	void		*win;
-// 	t_image		*image;
-// }	t_data;
-
-// /* Image */
-// t_image		*init_image(t_data *data);
-// void		color_pixel(t_data *data, int pixel_color, int x, int y);
-
-// /* Data */
-// t_data		*init_data(int x, int y, char *file);
-// void		free_data(t_data *data);
+/* Image */
+void		color_pixel(mlx_image_t *image, uint32_t pixel_color, int x, int y);
 
 /* Keyhandler */
 int		handle_close(void *param);
@@ -58,11 +31,18 @@ void	keypress(mlx_key_data_t mlx_data, void *param);
 // void		free_array(char **ar);
 
 /* Files */
-t_node		*read_objects(char *file);
+// t_node	*read_objects(t_data *data, char *file);
+t_node	*read_objects(char *file);
 
 /* Utils */
+<<<<<<< HEAD
 int			min(int a, int b);
 int         max(int a, int b);
 char		*trim(char *str, char c);
+=======
+int		min(int a, int b);
+char	*trim(char *str, char c);
+void	error_msg(t_data *data);
+>>>>>>> master
 
 #endif
