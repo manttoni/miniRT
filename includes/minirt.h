@@ -17,13 +17,7 @@
 # include <errno.h>
 # include <fcntl.h>
 
-/* Keyboard */
-# define ESCAPE_KEY 65307
-
-# define BACKGROUND_COLOR 0
-# define BLUE 255
-# define SALMON 0xFA8072
-# define YELLOW 0xDFFF00
+# define BACKGROUND_COLOR 0xff000000
 # define X 1500
 # define Y 1500
 
@@ -68,6 +62,7 @@ t_node		*read_objects(char *file);
 
 /* Utils */
 int			min(int a, int b);
+int         max(int a, int b);
 char		*trim(char *str, char c);
 
 #endif

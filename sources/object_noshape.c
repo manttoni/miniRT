@@ -31,6 +31,11 @@ t_camera_info	image_plane(t_object *camera)
 	else
 		info.u = vector(-camera->orientation.y, camera->orientation.x, 0);
 	info.v = cross_product(camera->orientation, info.u);
+	info.ray.start = camera->location;
+	info.ray.direction = vector_multiply(camera->info.view_distance, camera->orientation);
+	info.ray.direction = vector_sum(camera->location, info.ray.direction);
+	info.ray.distance = DBL_MAX;
+	info.ray.color = BACKGROUND_COLOR;
 	return (info);
 }
 
@@ -50,6 +55,7 @@ t_object	*create_camera(char **info)
 		free(camera);
 		return (NULL);
 	}
+	camera->info.view_distance = 400;
 	camera->info = image_plane(camera);
 	return (camera);
 }

@@ -31,6 +31,7 @@ int     shade_pixel(t_vector P, t_vector light_pos, t_vector sphere_center, int 
 int sphere_collision(t_ray *ray, t_object *sphere)
 {
     double a, b, c, discriminant, t1, t2;
+    t_vector    intersection;
     t_vector oc = vector_substract(ray->start, sphere->location); // Vector from ray start to sphere center
 
     // Coefficients of the quadratic equation
@@ -67,8 +68,10 @@ int sphere_collision(t_ray *ray, t_object *sphere)
     // Update ray properties if the intersection is closer than the current ray distance
     if (fabs(t_closest) < ray->distance)
     {
+        intersection = vector_sum(ray->start, vector_multiply(t_closest, ray->direction));
         ray->distance = fabs(t_closest);
         ray->color = sphere->color;
+        ray->coll_norm = normalize_vector(vector_substract(intersection, sphere->location));
         //printf("Ray hit the sphere!\n");
     }
     //printf("Collision at distance: %f\n", ray->distance);

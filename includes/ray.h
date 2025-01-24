@@ -9,6 +9,7 @@ typedef struct s_ray
 {
     t_vector    start;
     t_vector    direction;
+    t_vector    coll_norm;
     double      distance;
     uint32_t    color;
 }   t_ray;

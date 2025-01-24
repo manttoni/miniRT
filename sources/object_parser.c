@@ -23,7 +23,7 @@ int parse_orientation(char *str, t_vector *orientation)
 	location = parse_location(str, orientation);
 	if (location < 0)
 		return (location);
-	// change
+	// normalize vector for easier testing
 	*orientation = normalize_vector(*orientation);
 	if (vector_len(*orientation) != 1)
 		return (-1);

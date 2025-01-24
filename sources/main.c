@@ -46,7 +46,6 @@ int main(void)
 		free_data(data);
 		return (1);
 	}
-	get_camera(data->objects)->info.view_distance = 400;
 	print_objects(data->objects);
 	printf("---------------\n");
 	raycast(data);

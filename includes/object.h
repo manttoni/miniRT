@@ -23,6 +23,7 @@ typedef struct s_camera_info
 	unsigned int	view_distance;
 	t_vector		u;
 	t_vector		v;
+	t_ray			ray;
 }	t_camera_info;
 
 /* type			ambient	camera	light	sphere	plane	cylinder
@@ -49,7 +50,8 @@ typedef struct	s_object
 	t_camera_info	info;
 }	t_object;
 
-t_object	*get_camera(t_node *objects);
+t_object	*get_object(t_node *objects, t_type type);
+t_camera_info image_plane(t_object *camera);
 int plane_collision(t_ray *ray, t_object *plane);
 double		parse_double(char *str);
 

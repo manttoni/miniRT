@@ -1,13 +1,13 @@
 #include "../includes/minirt.h"
 
-t_object	*get_camera(t_node *objects)
+t_object	*get_object(t_node *objects, t_type type)
 {
 	t_object	*object;
 
 	while (objects)
 	{
 		object = (t_object *) objects->data;
-		if (object->type == CAMERA)
+		if (object->type == type)
 			return (object);
 		objects = objects->next;
 	}

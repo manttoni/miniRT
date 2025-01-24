@@ -7,6 +7,12 @@ int	min(int a, int b)
 	return (b);
 }
 
+int	max(int a, int b)
+{
+	if (a > b)
+		return (a);
+	return (b);
+}
 /* Returns a char pointer with all c
  * removed from start and end */
 char	*trim(char *str, char c)
