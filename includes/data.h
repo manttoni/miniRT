@@ -1,23 +1,17 @@
 #ifndef DATA_H
 # define DATA_H
 
-# include "image.h"
+# include "../MLX42/include/MLX42/MLX42.h"
 
 typedef struct	s_data
 {
 	t_node		*objects;
-	int			x;
-	int			y;
 	mlx_t		*mlx;
-	void		*win;
-	t_image		*image;
+	mlx_image_t		*image;
 }	t_data;
 
 /* Data */
 t_data		*init_data(char *file);
 void		free_data(t_data *data);
-
-/*Image*/
-t_image		*init_image(t_data *data);
 
 #endif

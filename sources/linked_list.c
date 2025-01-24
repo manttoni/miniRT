@@ -25,18 +25,18 @@ int	add_node(t_node **list, t_node *new)
 
 	if (new == NULL)
 	{
-		printf("no node to add\n");
+		// printf("no node to add\n");
 		free_list(*list);
-		return (-1);
+		return (1);
 	}
 	if (*list == NULL)
 	{
 		*list = new;
-		return (1);
+		return (0);
 	}
 	last = last_node(*list);
 	last->next = new;
-	return (1);
+	return (0);
 }
 
 t_node	*create_node(void *data)
@@ -45,7 +45,7 @@ t_node	*create_node(void *data)
 
 	if (data == NULL)
 	{
-		printf("no data\n");
+		// printf("no data\n");
 		return (NULL);
 	}
 	node = malloc(sizeof(t_node));

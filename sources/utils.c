@@ -42,3 +42,22 @@ char	*trim(char *str, char c)
 	// printf("trimmed: %s\n", trimmed);
 	return (trimmed);
 }
+
+void	error_msg(t_data *data)
+{
+	if (!data)
+	{
+		printf("Data structure failed\n");
+		return ;
+	}
+	if (!data->objects)
+	{
+		printf("Failed create data objects\n");
+		return ;
+	}
+	if (!data->mlx)
+		printf("MLX failed to initialize\n");
+	if (!data->image)
+		printf("No image\n");
+	return ;
+}
