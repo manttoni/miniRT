@@ -10,7 +10,7 @@ t_image	*init_image(t_data *data)
 	image->bits_per_pixel = sizeof(uint32_t *);
 	image->size_line = X;
 	image->endian = 0;
-	image->focal_len = 1000;
+	// image->focal_len = 1000;
 	return (image);
 }
 
@@ -20,12 +20,12 @@ t_image	*init_image(t_data *data)
 // 	free(image);
 // }
 
-void	color_pixel(t_image *image, int pixel_color, int x, int y)
+void	color_pixel(t_image *image, uint32_t pixel_color, int x, int y)
 {
 	int	pixel_index;
 
 	// if (x < 0 || x >= X || y < 0 || y >= 0)
 	// 	return ;
 	pixel_index = y * X + x;
-	((uint32_t *)(image->img->pixels))[pixel_index] = (uint32_t)pixel_color;
+	((uint32_t *)(image->img->pixels))[pixel_index] = pixel_color;
 }

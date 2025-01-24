@@ -20,7 +20,6 @@ t_data	*init_data(char *file)
 		printf("mlx init fail\n");
 		return (NULL);
 	}
-	// data->win = mlx_new_window(data->mlx, data->x, data->y, "raytracing test");
 	data->image = init_image(data);
 	if (data->image == NULL || data->objects == NULL)
 	{

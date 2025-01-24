@@ -15,6 +15,6 @@ typedef struct	s_image
 }	t_image;
 
 /* Image */
-void		color_pixel(t_image *image, int pixel_color, int x, int y);
+void		color_pixel(t_image *image, uint32_t pixel_color, int x, int y);
 
 #endif

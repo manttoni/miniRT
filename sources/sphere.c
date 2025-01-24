@@ -34,13 +34,15 @@ int sphere_collision(t_ray *ray, t_object *sphere)
     if (t_closest < 0)
         return (0);
 
+    if (t_closest < 0)
+        return 0;
     // Update ray properties if the intersection is closer than the current ray distance
-    if (t_closest < ray->distance)
+    if (fabs(t_closest) < ray->distance)
     {
-        ray->distance = t_closest;
+        ray->distance = fabs(t_closest);
         ray->color = sphere->color;
         //printf("Ray hit the sphere!\n");
     }
-
+    //printf("Collision at distance: %f\n", ray->distance);
     return (1);
 }
