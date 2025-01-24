@@ -3,7 +3,8 @@ NAME = miniRT
 SRC_DIR = sources/
 
 SRC = $(SRC_DIR)main.c\
-	$(SRC_DIR)camera.c\
+	$(SRC_DIR)color.c\
+	$(SRC_DIR)object_getters.c\
 	$(SRC_DIR)data.c\
 	$(SRC_DIR)file_reader.c\
 	$(SRC_DIR)image.c\

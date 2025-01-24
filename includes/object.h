@@ -18,6 +18,14 @@ typedef enum e_type
 	CYLINDER
 }	t_type;
 
+typedef struct s_camera_info
+{
+	unsigned int	view_distance;
+	t_vector		u;
+	t_vector		v;
+	t_ray			ray;
+}	t_camera_info;
+
 /* type			ambient	camera	light	sphere	plane	cylinder
    color		YES		NO		NO*		YES		YES		YES
    brightness	YES		NO		YES		NO		NO		NO
@@ -30,19 +38,20 @@ typedef enum e_type
    */
 typedef struct	s_object
 {
-	t_type		type;
-	int			color;
-	double		brightness;
-	t_vector	location;
-	t_vector	orientation;
-	int			fov;
-	double		diameter;
-	double		height;
-	int			(*collision)(t_ray *, struct s_object *);
-	int			view_distance; // for camera
+	t_type			type;
+	uint32_t		color;
+	double			brightness;
+	t_vector		location;
+	t_vector		orientation;
+	int				fov;
+	double			diameter;
+	double			height;
+	int				(*collision)(t_ray *, struct s_object *);
+	t_camera_info	info;
 }	t_object;
 
-t_object	*get_camera(t_node *objects);
+t_object	*get_object(t_node *objects, t_type type);
+t_camera_info image_plane(t_object *camera);
 int plane_collision(t_ray *ray, t_object *plane);
 double		parse_double(char *str);
 

@@ -16,15 +16,9 @@
 # include <errno.h>
 # include <fcntl.h>
 
-/* Keyboard */
-# define ESCAPE_KEY 65307
-
-# define BACKGROUND_COLOR 0
-# define BLUE 255
-# define SALMON 0xFA8072
-# define YELLOW 0xDFFF00
-# define X 1000
-# define Y 1000
+# define BACKGROUND_COLOR 0xff000000
+# define X 1500
+# define Y 1500
 
 /* Image */
 void		color_pixel(mlx_image_t *image, uint32_t pixel_color, int x, int y);
@@ -41,8 +35,14 @@ void	keypress(mlx_key_data_t mlx_data, void *param);
 t_node	*read_objects(char *file);
 
 /* Utils */
+<<<<<<< HEAD
+int			min(int a, int b);
+int         max(int a, int b);
+char		*trim(char *str, char c);
+=======
 int		min(int a, int b);
 char	*trim(char *str, char c);
 void	error_msg(t_data *data);
+>>>>>>> master
 
 #endif

@@ -6,6 +6,20 @@ double	vector_len(t_vector v)
 	return (sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
 }
 
+double	vector_angle(t_vector a, t_vector b)
+{
+	double	dot;
+	double	cos_theta;
+
+	dot = dot_product(a, b);
+	cos_theta = dot / (vector_len(a) * vector_len(b));
+	if (cos_theta > 1.0)
+		cos_theta = 1.0;
+    if (cos_theta < -1.0)
+		cos_theta = -1.0;
+	return (acos(cos_theta));
+}
+
 t_vector	normalize_vector(t_vector v)
 {
 	double	len;
@@ -31,7 +45,7 @@ t_vector	cross_product(t_vector v1, t_vector v2)
 
 void	print_vector(t_vector v)
 {
-	printf("x: %f, y: %f, z: %f, len: %f\n", v.x, v.y, v.z, vector_len(v));
+	printf("x: %1.2f, y: %1.2f, z: %1.2f, len: %1.2f\n", v.x, v.y, v.z, vector_len(v));
 }
 
 t_vector	vector(double x, double y, double z)
