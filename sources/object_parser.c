@@ -23,9 +23,9 @@ int parse_orientation(char *str, t_vector *orientation)
 	location = parse_location(str, orientation);
 	if (location < 0)
 		return (location);
-	// change
+
 	*orientation = normalize_vector(*orientation);
-	printf("vector_len: %f\n", vector_len(*orientation));
+
 	if (vector_len(*orientation) != 1)
 		return (-1);
 	return (1);
@@ -52,5 +52,7 @@ int	parse_color(char *str)
 		errno = EINVAL;
 		return (-1);
 	}
-	return (r << 24 | g << 16 | b << 8 | a);
+
+    return (r << 24 | g << 16 | b << 8 | a);
+
 }

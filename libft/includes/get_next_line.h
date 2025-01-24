@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/05 08:56:00 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/01/02 13:36:05 by nzharkev         ###   ########.fr       */
+/*   Created: 2024/05/06 17:40:50 by amaula            #+#    #+#             */
+/*   Updated: 2025/01/24 16:49:45 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,17 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 100
+#  define BUFFER_SIZE 1000
 # endif
 
-# include <unistd.h>
 # include <stdlib.h>
+# include <unistd.h>
 
-typedef struct s_gnl_list
-{
-	char				*l_buffer;
-	struct s_gnl_list	*next;
-}	t_gnl_list;
-
-	/*get_next_line.c*/
-
-char		*get_next_line(int fd);
-void		read_old(t_gnl_list *clean_n, t_gnl_list *last_n);
-int			line_till_nl(t_gnl_list *list);
-void		getting_line(t_gnl_list *list, char **next_l);
-int			find_nl(t_gnl_list *list);
-
-	/*get_next_line_utils.c*/
-
-t_gnl_list	*appender(t_gnl_list **list, char *buffer, int c);
-t_gnl_list	*lstlast(t_gnl_list *list);
-void		create_list(t_gnl_list **list, int fd);
-void		list_emptier(t_gnl_list **list, t_gnl_list **node);
-void		reset_list(t_gnl_list **list);
+char	*get_next_line(int fd);
+// size_t	ft_strlen(char *s);
+char	*gnl_join(char *dst, char *src, size_t len);
+// char	*ft_strchr(char *str, char chr);
+void	gnl_copy(char *dst, char *src);
+// void	ft_bzero(char *buffer, size_t size);
 
 #endif
