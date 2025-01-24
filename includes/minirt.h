@@ -24,8 +24,8 @@
 # define BLUE 255
 # define SALMON 0xFA8072
 # define YELLOW 0xDFFF00
-# define X 1000
-# define Y 1000
+# define X 1500
+# define Y 1500
 
 
 // typedef struct	s_image

@@ -51,5 +51,5 @@ int	parse_color(char *str)
 		errno = EINVAL;
 		return (-1);
 	}
-	return (r << 24 | g << 16 | b << 8 | a);
+	return (a << 24 | r << 16 | g << 8 | b);
 }

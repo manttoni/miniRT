@@ -24,26 +24,22 @@ int cast_ray(t_ray *ray, t_node *objects)
 /*
 	t_vector u, v
 		perpendicular vectors that define the image plane
+	t_object *camera
+		already has precalculated basic vectors u and v
+	t_ray ray
+		always calculates the same things, maybe camera could
+		have a template of a ray with the mandatory calcs done
 */
 t_ray	get_ray(t_object *camera, int x, int y)
 {
 	t_ray		ray;
-	t_vector	u;
-	t_vector	v;
 
-	u = vector(-camera->orientation.y, camera->orientation.x, 0);
-	v = cross_product(camera->orientation, u);
-	//print_vector(u);
-	//print_vector(v);
 	ray.start = camera->location;
-	ray.direction = vector_sum(camera->location, vector_multiply(camera->view_distance, camera->orientation)); // image center
-	//print_vector(ray.direction);
-	ray.direction = vector_sum(ray.direction, vector_multiply((-X / 2 + x + 0.5), u));
-	//print_vector(ray.direction);
-	ray.direction = vector_sum(ray.direction, vector_multiply((-Y / 2 + y + 0.5), v));
-	//print_vector(ray.direction);
+	ray.direction = vector_multiply(camera->info.view_distance, camera->orientation);
+	ray.direction = vector_sum(camera->location, ray.direction);
+	ray.direction = vector_sum(ray.direction, vector_multiply((-X / 2 + x + 0.5), camera->info.u));
+	ray.direction = vector_sum(ray.direction, vector_multiply((-Y / 2 + y + 0.5), camera->info.v));
 	ray.direction = normalize_vector(ray.direction);
-	//print_vector(ray.direction);
 	ray.distance = DBL_MAX;
 	ray.color = (0xFF << 24) | (0x00 << 16) | (0x00 << 8) | 0x00; // Opaque black
 	return (ray);
@@ -64,11 +60,11 @@ void	raycast(t_data *data)
 		while (x < X)
 		{
 			ray = get_ray(camera, x, y);
-			//print_vector(ray.direction);
 			cast_ray(&ray, data->objects);
 			color_pixel(data->image, ray.color, x, y);
 			x++;
 		}
 		y++;
 	}
+	printf("Raycasting completed!\n");
 }

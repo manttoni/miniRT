@@ -18,6 +18,22 @@ t_object	*create_ambient(char **info)
 	return (ambient);
 }
 
+t_camera_info	image_plane(t_object *camera)
+{
+	t_camera_info	info;
+
+	if (camera->orientation.x == 0 && camera->orientation.y == 0)
+		info.u = vector(1, 0, 0);
+	else if (camera->orientation.y == 0 && camera->orientation.z == 0)
+		info.u = vector (0, 1, 0);
+	else if (camera->orientation.z == 0 && camera->orientation.x == 0)
+		info.u = vector (0, 0, 1);
+	else
+		info.u = vector(-camera->orientation.y, camera->orientation.x, 0);
+	info.v = cross_product(camera->orientation, info.u);
+	return (info);
+}
+
 t_object	*create_camera(char **info)
 {
 	t_object	*camera;
@@ -34,6 +50,7 @@ t_object	*create_camera(char **info)
 		free(camera);
 		return (NULL);
 	}
+	camera->info = image_plane(camera);
 	return (camera);
 }
 

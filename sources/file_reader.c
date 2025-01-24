@@ -25,7 +25,7 @@ t_node	*read_objects(char	*file)
 	{
 		line = trim(line, '\n');
 		//printf("line: %s\n", line);
-		if (add_node(&list, create_node(parse_object(line))) < 0)
+		if (*line != '#' && add_node(&list, create_node(parse_object(line))) < 0)
 		{
 			printf("add node failed\n");
 			close(fd);

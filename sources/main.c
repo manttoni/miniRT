@@ -14,14 +14,14 @@ void print_objects(t_node *objects)
 			print_vector(o->location);
 			printf("Orientation: ");
 			print_vector(o->orientation);
-			printf("FOV: %d\n", o->fov);
+			printf("Image plane distance: %d\n", o->info.view_distance);
 		}
 		else if (o->type == SPHERE)
 		{
 			printf("---------------\n");
 			printf("Sphere: ⚪\nLocation: ");
 			print_vector(o->location);
-			printf("Diameter: %f\n", o->diameter);
+			printf("Diameter: %1.2f\n", o->diameter);
 			printf("Color: %x\n", o->color);
 		}
 		else if (o->type == PLANE)
@@ -46,7 +46,7 @@ int main(void)
 		free_data(data);
 		return (1);
 	}
-	get_camera(data->objects)->view_distance = 1000;
+	get_camera(data->objects)->info.view_distance = 400;
 	print_objects(data->objects);
 	printf("---------------\n");
 	raycast(data);
