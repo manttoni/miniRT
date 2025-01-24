@@ -1,5 +1,6 @@
 #include "../includes/minirt.h"
 
+
 int sphere_collision(t_ray *ray, t_object *sphere)
 {
     double a, b, c, discriminant, t1, t2;
@@ -45,4 +46,5 @@ int sphere_collision(t_ray *ray, t_object *sphere)
     }
     //printf("Collision at distance: %f\n", ray->distance);
     return (1);
+
 }
