@@ -33,7 +33,7 @@ t_node	*read_objects(char	*file)
 	while (line)
 	{
 		line = trim(line, '\n');
-		if (add_to_list(&list, line))
+		if (*line != '#' && add_to_list(&list, line))
 			break ;
 		free(line);
 		line = get_next_line(fd);

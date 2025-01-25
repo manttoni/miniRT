@@ -1,4 +1,6 @@
-#include "../includes/minirt.h"
+#include "../includes/defines.h"
+#include "../includes/object.h"
+#include <stdlib.h>
 
 t_object	*create_ambient(char **info)
 {
@@ -34,8 +36,9 @@ t_camera_info	image_plane(t_object *camera)
 	info.ray.start = camera->location;
 	info.ray.direction = vector_multiply(camera->info.view_distance, camera->orientation);
 	info.ray.direction = vector_sum(camera->location, info.ray.direction);
-	info.ray.distance = DBL_MAX;
+	info.ray.distance = 0;
 	info.ray.color = BACKGROUND_COLOR;
+	info.ray.location = camera->location;
 	return (info);
 }
 

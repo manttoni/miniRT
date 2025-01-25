@@ -1,4 +1,5 @@
 #include "../includes/minirt.h"
+#include "../includes/color.h"
 
 uint32_t    recompose_color(t_color color)
 {

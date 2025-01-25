@@ -3,6 +3,7 @@ NAME = miniRT
 SRC_DIR = sources/
 
 SRC = $(SRC_DIR)main.c\
+	$(SRC_DIR)distance.c\
 	$(SRC_DIR)color.c\
 	$(SRC_DIR)object_getters.c\
 	$(SRC_DIR)data.c\

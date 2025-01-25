@@ -16,12 +16,10 @@
 # include <errno.h>
 # include <fcntl.h>
 
-# define BACKGROUND_COLOR 0xff000000
-# define X 1500
-# define Y 1500
+
 
 /* Image */
-void		color_pixel(mlx_image_t *image, uint32_t pixel_color, int x, int y);
+
 
 /* Keyhandler */
 int		handle_close(void *param);
@@ -35,14 +33,9 @@ void	keypress(mlx_key_data_t mlx_data, void *param);
 t_node	*read_objects(char *file);
 
 /* Utils */
-<<<<<<< HEAD
 int			min(int a, int b);
 int         max(int a, int b);
-char		*trim(char *str, char c);
-=======
-int		min(int a, int b);
 char	*trim(char *str, char c);
 void	error_msg(t_data *data);
->>>>>>> master
 
 #endif

@@ -87,7 +87,6 @@ int main(int argc, char **argv)
 		t_data	*data = init_data(argv[1]);
 		if (data == NULL)
 			return (1);
-		get_camera(data->objects)->view_distance = 1000;
 		// print_objects(data->objects);
 		// printf("---------------\n");
 		raycast(data);
