@@ -87,8 +87,8 @@ int main(int argc, char **argv)
 		t_data	*data = init_data(argv[1]);
 		if (data == NULL)
 			return (1);
-		// print_objects(data->objects);
-		// printf("---------------\n");
+		print_objects(data->objects);
+		printf("---------------\n");
 		raycast(data);
 		mlx_key_hook(data->mlx, &keypress, data);
 		mlx_image_to_window(data->mlx, data->image , 0, 0);

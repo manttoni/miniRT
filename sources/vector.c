@@ -88,6 +88,11 @@ t_vector	vector_sum(t_vector v1, t_vector v2)
 	return (sum);
 }
 
+double	vector_dist(t_vector a, t_vector b)
+{
+	return (vector_len(vector_substract(a, b)));
+}
+
 /*
 int main(void)
 {

@@ -26,22 +26,34 @@ t_ray	get_ray(t_object *camera, int x, int y)
 	return (ray);
 }
 
-int	cast_ray(t_ray *ray, t_node *objects)
+int	cast_ray(t_ray *ray, t_node *objects, double render_distance)
 {
 	double	closest_dist;
 
-	while (ray->distance < RENDER_DISTANCE)
+	while (ray->distance < render_distance)
 	{
 		closest_dist = closest(ray, objects);
-		if (closest_dist > 1.0)
-		{
-			ray->distance += closest_dist;
-			ray->location = vector_multiply(ray->distance, ray->direction);
-			continue ;
-		}
-		break;
+		if (closest_dist < 0.01)
+			break ;
+		ray->distance += closest_dist;
+		ray->location = vector_multiply(ray->distance, ray->direction);
 	}
-	return 1;
+	return ray->distance < render_distance;
+}
+
+int	light_obstructed(t_ray *ray, t_node *objects)
+{
+	t_ray	light_ray;
+	t_object *light;
+
+	light_ray = *ray;
+	light = get_object(objects, LIGHT);
+	light_ray.direction = vector_substract(light->location, light_ray.location);
+	light_ray.direction = normalize_vector(light_ray.direction);
+	light_ray.distance = 0;
+	light_ray.location = vector_sum(light_ray.location, light_ray.direction);
+	light_ray.location = vector_sum(light_ray.location, light_ray.direction);
+	return (cast_ray(&light_ray, objects, vector_dist(light_ray.location, light->location)));
 }
 
 void	raycast(t_data *data)
@@ -59,8 +71,9 @@ void	raycast(t_data *data)
 		while (x < X)
 		{
 			ray = get_ray(camera, x, y);
-			cast_ray(&ray, data->objects);
-			color_pixel(data->image, ray.color, x, y);
+			if (cast_ray(&ray, data->objects, RENDER_DISTANCE) == 1)
+				if (light_obstructed(&ray, data->objects) == 0)
+					color_pixel(data->image, ray.color, x, y);
 			x++;
 		}
 		printf("%d%%\r", (((y * X) + x) * 100) / (Y * X));
