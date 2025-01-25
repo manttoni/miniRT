@@ -4,7 +4,7 @@
 
 double  sphere_distance(t_vector point, t_object *sphere)
 {
-    return (vector_len(vector_substract(sphere->location, point)) - sphere->diameter / 2);
+    return (v_dist(sphere->location, point) - sphere->diameter / 2);
 }
 
 double  plane_distance(t_vector point, t_object *plane)
