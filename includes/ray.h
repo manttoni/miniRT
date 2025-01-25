@@ -4,10 +4,8 @@
 # include "./data.h"
 # include "./vector.h"
 
-
 typedef struct s_ray
 {
-    t_vector    start;
     t_vector    direction;
     t_vector    coll_norm;
     double      distance;

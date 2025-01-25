@@ -11,7 +11,7 @@ double  plane_distance(t_vector point, t_object *plane)
 {
     double d;
     
-    d = -dot_product(plane->orientation, plane->location);
+    d = dot_product(plane->orientation, plane->location);
     return (fabs(dot_product(plane->orientation, point) + d));
 }
 
