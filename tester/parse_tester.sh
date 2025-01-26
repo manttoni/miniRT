@@ -1,26 +1,26 @@
 #!/bin/bash
 
-# Check if a file was provided as an argument
 if [[ -z "$1" ]]; then
     echo "Usage: $0 <input_file>"
     exit 1
 fi
 
-# Assign the input file from the first argument
 tests="$1"
 
-# Ensure the input file exists
 if [[ ! -f "$tests" ]]; then
     echo "Error: File '$tests' not found."
     exit 1
 fi
 
-# Ensure the input file ends with a newline
+# file has to end with a newline, otherwise last line can't be read
 if [[ $(tail -c1 "$tests") != "" ]]; then
     echo "" >> "$tests"
 fi
 
+# make a program that tries to parse an object specified by a line in the file
 make
+
+# it sorts the inputs into these files
 >valid.txt
 >invalid.txt
 
