@@ -24,7 +24,7 @@ make
 >valid.txt
 >invalid.txt
 
-valgrind_log=valgrind_log.txt
+valgrind_log=valgrind.log
 
 while read line; do
     echo "------------------------"
