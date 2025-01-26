@@ -22,8 +22,7 @@
 
 
 /* Keyhandler */
-int		handle_close(void *param);
-void	keypress(mlx_key_data_t mlx_data, void *param);
+
 
 /* Memory */
 // void		free_array(char **ar);

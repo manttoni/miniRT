@@ -57,7 +57,7 @@ t_object	*create_camera(char **info)
 		free(camera);
 		return (NULL);
 	}
-	camera->info.view_distance = 400;
+	camera->info.view_distance = 600;
 	camera->info = image_plane(camera);
 	return (camera);
 }

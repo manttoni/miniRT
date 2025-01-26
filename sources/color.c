@@ -15,3 +15,14 @@ t_color     decompose_color(uint32_t color)
     decomposed.b = color & 0xFF;
     return (decomposed);
 }
+
+uint32_t    color_intensity(uint32_t color, double intensity)
+{
+    t_color decomposed;
+
+    decomposed = decompose_color(color);
+    decomposed.r *= intensity;
+    decomposed.g *= intensity;
+    decomposed.b *= intensity;
+    return (recompose_color(decomposed));
+}

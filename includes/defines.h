@@ -5,6 +5,6 @@
 # define WHITE 0xffffffff
 # define X 1200
 # define Y 1200
-# define RENDER_DISTANCE 10000
+# define RENDER_DISTANCE 2750
 
 #endif

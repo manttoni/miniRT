@@ -20,7 +20,7 @@ SRC = $(SRC_DIR)main.c\
 	$(SRC_DIR)utils.c\
 	$(SRC_DIR)vector.c\
 
-FLAGS = -Wall -Werror -Wextra -g
+FLAGS = -Wall -Werror -Wextra -g -O2
 OFLAGS = -ldl -lglfw -pthread -lm
 MAKEFLAGS += --no-print-directory
 HEADS = -I. $(MLX_HEAD) -I$(LIBFT_DIR)
