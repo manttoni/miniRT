@@ -4,21 +4,21 @@ make
 >valid.txt
 >invalid.txt
 man_tests=input.txt
+valgrind_log=valgrind_log.txt
 #gen_tests=generated.txt
 
 while read -r line; do
-    input=$(echo -e "$line") # if line ends with '\n' (written out like that), it is now part of the input
 
     echo "------------------------"
-    echo "test input: $input"
-    echo "------------------------"
+    echo "test input: $line"
+    echo ""
 
-    valgrind -q --leak-check=full ./testmain "$input"
+    valgrind -q --leak-check=full --log-file=$valgrind_log ./testmain "$line"
     exit_code=$?
     if [[ $exit_code -eq 0 ]]; then
-        echo "$input" >> valid.txt 
+        echo "$line" >> valid.txt 
     else
-        echo "$input" >> invalid.txt
+        echo "$line" >> invalid.txt
     fi
 done < $man_tests
 

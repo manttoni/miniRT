@@ -10,7 +10,7 @@ SRC = test.c\
 	../sources/utils.c
 
 all:
-	cc -g -Wall -Werror -Wextra $(SRC) ../libft/libft.a -lm -o $(NAME)
+	@cc -g -Wall -Werror -Wextra $(SRC) ../libft/libft.a -lm -o $(NAME)
 
 clean:
-	rm -f $(NAME)
+	@rm -f $(NAME)
