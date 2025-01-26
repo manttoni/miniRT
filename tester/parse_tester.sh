@@ -1,17 +1,34 @@
 #!/bin/bash
 
+# Check if a file was provided as an argument
+if [[ -z "$1" ]]; then
+    echo "Usage: $0 <input_file>"
+    exit 1
+fi
+
+# Assign the input file from the first argument
+tests="$1"
+
+# Ensure the input file exists
+if [[ ! -f "$tests" ]]; then
+    echo "Error: File '$tests' not found."
+    exit 1
+fi
+
+# Ensure the input file ends with a newline
+if [[ $(tail -c1 "$tests") != "" ]]; then
+    echo "" >> "$tests"
+fi
+
 make
 >valid.txt
 >invalid.txt
-man_tests=input.txt
+
 valgrind_log=valgrind_log.txt
-#gen_tests=generated.txt
 
-while read -r line; do
-
+while read line; do
     echo "------------------------"
-    echo "test input: $line"
-    echo ""
+    echo -e "test input: $line\n"
 
     valgrind -q --leak-check=full --log-file=$valgrind_log ./testmain "$line"
     exit_code=$?
@@ -20,7 +37,7 @@ while read -r line; do
     else
         echo "$line" >> invalid.txt
     fi
-done < $man_tests
+done < "$tests"
 
 echo "------------------------"
 

@@ -1,0 +1,23 @@
+==33863== Invalid read of size 1
+==33863==    at 0x10B1FF: ft_strlen (ft_strlen.c:28)
+==33863==    by 0x10A332: valid_double (parser.c:37)
+==33863==    by 0x10A37F: parse_double (parser.c:52)
+==33863==    by 0x109E21: create_sphere (object_shape.c:11)
+==33863==    by 0x10A1AD: parse_object (object.c:24)
+==33863==    by 0x10926E: main (test.c:7)
+==33863==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==33863== 
+==33863== 
+==33863== Process terminating with default action of signal 11 (SIGSEGV)
+==33863==  Access not within mapped region at address 0x0
+==33863==    at 0x10B1FF: ft_strlen (ft_strlen.c:28)
+==33863==    by 0x10A332: valid_double (parser.c:37)
+==33863==    by 0x10A37F: parse_double (parser.c:52)
+==33863==    by 0x109E21: create_sphere (object_shape.c:11)
+==33863==    by 0x10A1AD: parse_object (object.c:24)
+==33863==    by 0x10926E: main (test.c:7)
+==33863==  If you believe this happened as a result of a stack
+==33863==  overflow in your program's main thread (unlikely but
+==33863==  possible), you can try to increase the size of the
+==33863==  main thread stack using the --main-stacksize= flag.
+==33863==  The main thread stack size used in this run was 8388608.
