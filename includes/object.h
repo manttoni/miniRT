@@ -50,6 +50,7 @@ typedef struct	s_object
 	t_camera_info	info;
 }	t_object;
 
+void		print_object(t_object *o);
 t_object	*get_object(t_node *objects, t_type type);
 t_camera_info image_plane(t_object *camera);
 int plane_collision(t_ray *ray, t_object *plane);
