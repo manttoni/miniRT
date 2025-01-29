@@ -1,5 +1,4 @@
-#include "../libft/includes/libft.h"
-#include <stdio.h>
+#include "../includes/minirt.h"
 
 int is_double(char *ptr)
 {

@@ -1,6 +1,5 @@
-#include "../includes/vector.h"
-#include "../includes/object.h"
-#include "../includes/defines.h"
+
+#include "../includes/minirt.h"
 
 double  sphere_distance(t_vector point, t_object *sphere)
 {
@@ -10,21 +9,21 @@ double  sphere_distance(t_vector point, t_object *sphere)
 double  plane_distance(t_vector point, t_object *plane)
 {
     double d;
-    
+
     d = dot_product(plane->orientation, plane->location);
     return (fabs(dot_product(plane->orientation, point) + d));
 }
 
-double  closest(t_ray *ray, t_node *objects)
+double  closest(t_ray *ray, t_object *objects)
 {
     double  dist;
     double  closest_dist;
     t_object    *o;
 
     closest_dist = RENDER_DISTANCE;
-    while (objects)
+    o = objects;
+    while (o)
     {
-        o = (t_object *) objects->data;
         if (o->type == SPHERE)
             dist = sphere_distance(ray->location, o);
         else if (o->type == PLANE)

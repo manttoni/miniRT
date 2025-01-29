@@ -1,5 +1,4 @@
-#include "../libft/includes/libft.h"
-#include "../includes/validation.h"
+#include "../includes/minirt.h"
 
 static void add_shapes(char **shapes)
 {

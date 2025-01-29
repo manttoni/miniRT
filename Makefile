@@ -8,9 +8,8 @@ SRC = $(SRC_DIR)main.c\
 	$(SRC_DIR)object_getters.c\
 	$(SRC_DIR)data.c\
 	$(SRC_DIR)file_reader.c\
-	$(SRC_DIR)image.c\
 	$(SRC_DIR)keyhandler.c\
-	$(SRC_DIR)linked_list.c\
+	$(SRC_DIR)object_list.c\
 	$(SRC_DIR)object_noshape.c\
 	$(SRC_DIR)object_parser.c\
 	$(SRC_DIR)object_shape.c\
@@ -18,6 +17,7 @@ SRC = $(SRC_DIR)main.c\
 	$(SRC_DIR)parser.c\
 	$(SRC_DIR)ray.c\
 	$(SRC_DIR)utils.c\
+	$(SRC_DIR)validation_utils.c\
 	$(SRC_DIR)vector.c\
 
 FLAGS = -Wall -Werror -Wextra -g -O2
