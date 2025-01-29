@@ -1,10 +1,8 @@
 #ifndef OBJECT_H
 # define OBJECT_H
 
-# include "./vector.h"
-# include "./linked_list.h"
-# include "./ray.h"
-
+# include "vector.h"
+# include "ray.h"
 # include <stdlib.h>
 # include <errno.h>
 
@@ -37,6 +35,7 @@ typedef struct s_camera_info
    height		NO		NO		NO		NO		NO		YES
    *) light has color in bonus
    */
+
 typedef struct	s_object
 {
 	t_type			type;
@@ -49,28 +48,35 @@ typedef struct	s_object
 	double			height;
 	int				(*collision)(t_ray *, struct s_object *);
 	t_camera_info	info;
+	struct s_object *next;
 }	t_object;
 
+t_object	*last_object(t_object *list);
+int			add_node(t_object **list, t_object *new);
+void		free_list(t_object *list);
+t_object	*create_node(char *line);
+double  closest(t_ray *ray, t_object *objects);
+
 void			print_object(t_object *o);
-t_object		*get_object(t_node *objects, t_type type);
+t_object		*get_object(t_object *objects, t_type type);
 t_camera_info 	image_plane(t_object *camera);
-int 			plane_collision(t_ray *ray, t_object *plane);
+// int 			plane_collision(t_ray *ray, t_object *plane);
 double			parse_double(char *str);
 
 /* Object parsers */
-t_object	*parse_object(char *line);
+void		parse_object(t_object	*object, char *line);
 int			parse_orientation(char *str, t_vector *orientation);
 int			parse_location(char *str, t_vector *location);
 int			parse_color(char *str);
 
 /* Shaped object creators */
-t_object	*create_sphere(char **info);
-t_object	*create_plane(char **info);
-t_object	*create_cylinder(char **info);
+void	create_sphere(t_object *object, char **info);
+void	create_plane(t_object *object, char **info);
+void	create_cylinder(t_object *object, char **info);
 
 /* Non-shaped object creators */
-t_object	*create_ambient(char **info);
-t_object	*create_camera(char **info);
-t_object	*create_light(char **info);
+void	create_ambient(t_object *object, char **info);
+void	create_camera(t_object *object, char **info);
+void	create_light(t_object *object, char **info);
 
 #endif

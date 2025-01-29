@@ -1,8 +1,10 @@
 #ifndef RAY_H
 # define RAY_H
 
-# include "./data.h"
-# include "./vector.h"
+# include "data.h"
+# include "vector.h"
+// # include "object.h"
+# include <stdint.h>
 
 typedef struct s_ray
 {
@@ -13,7 +15,7 @@ typedef struct s_ray
     t_vector    location;
 }   t_ray;
 
-void		raycast(t_data *data);
-double      closest(t_ray *ray, t_node *objects);
+void    raycast(t_data *data);
+
 
 #endif

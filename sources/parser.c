@@ -1,8 +1,4 @@
-// #include "../lib/libft/libft.h"
 #include "../includes/minirt.h"
-#include <errno.h>
-#include <math.h>
-#include <stdio.h>
 
 size_t	doublelen(char *str)
 {

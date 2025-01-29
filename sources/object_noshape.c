@@ -1,23 +1,17 @@
-#include "../includes/defines.h"
-#include "../includes/object.h"
-#include <stdlib.h>
 
-t_object	*create_ambient(char **info)
+#include "../includes/minirt.h"
+
+void	create_ambient(t_object *object, char **info)
 {
-	t_object	*ambient;
-
-	ambient = ft_calloc(1, sizeof(t_object));
-	if (ambient == NULL)
-		return (NULL);
-	ambient->type = AMBIENT_LIGHT;
-	ambient->brightness = parse_double(info[1]);
-	ambient->color = parse_color(info[2]);
-	if (ambient->brightness < -1 || ambient->brightness > 1 || errno == EINVAL)
+	object->type = AMBIENT;
+	object->brightness = parse_double(info[1]);
+	object->color = parse_color(info[2]);
+	if (object->brightness < -1 || object->brightness > 1 || errno == EINVAL)
 	{
-		free(ambient);
-		return(NULL);
+		free(object);
+		return ;
 	}
-	return (ambient);
+	return ;
 }
 
 t_camera_info	image_plane(t_object *camera)
@@ -41,47 +35,38 @@ t_camera_info	image_plane(t_object *camera)
 	return (info);
 }
 
-t_object	*create_camera(char **info)
+void	create_camera(t_object *object, char **info)
 {
-	t_object	*camera;
-
-	camera = ft_calloc(1, sizeof(t_object));
-	if (camera == NULL)
-		return (NULL);
-	camera->type = CAMERA;
-	camera->fov = ft_atoi(info[3]);
-	if (parse_location(info[1], &(camera->location)) < 0
-		|| parse_orientation(info[2], &(camera->orientation)) < 0
-		|| camera->fov < 0 || camera->fov > 180)
+	object->type = CAMERA;
+	object->fov = ft_atoi(info[3]);
+	if (parse_location(info[1], &(object->location)) < 0
+		|| parse_orientation(info[2], &(object->orientation)) < 0
+		|| object->fov < 0 || object->fov > 180)
 	{
-		free(camera);
-		return (NULL);
+		free(object);
+		return ;
 	}
-	camera->info.view_distance = 600;
-	camera->info = image_plane(camera);
-	return (camera);
+	object->info.view_distance = 600;
+	object->info = image_plane(object);
+	return ;
 }
 
-t_object	*create_light(char **info)
+void	create_light(t_object *object, char **info)
 {
-	t_object	*light;
-
-	light = ft_calloc(1, sizeof(t_object));
-	if (light == NULL)
-		return (NULL);
-	light->type = LIGHT;
-	light->brightness = parse_double(info[2]);
-	if (parse_location(info[1], &(light->location)) < 0
-		|| light->brightness < -1 || light->brightness > 1)
+	object->type = LIGHT;
+	object->brightness = parse_double(info[2]);
+	if (parse_location(info[1], &(object->location)) < 0
+		|| object->brightness < -1 || object->brightness > 1)
 	{
 		printf("light creation failed\n");
 		printf("--------\ninfo about light\n");
-		printf("brightness: %f\n", light->brightness);
-		print_vector(light->location);
+		printf("brightness: %f\n", object->brightness);
+		print_vector(object->location);
 		printf("errno: %d\n", errno);
 		printf("----------\n");
-		free(light);
-		return (NULL);
+		free(object);
+		return ;
 	}
-	return (light);
+	return ;
 }
+

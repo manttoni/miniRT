@@ -1,4 +1,4 @@
-#include "../libft/includes/libft.h"
+#include "../includes/minirt.h"
 
 /*
     delimit is f.e. ' ' or ','
@@ -32,7 +32,7 @@ int is_color(char *ptr)
     values = 0;
     while (!ft_isspace(*ptr) && *ptr != '\0')
     {
-        if (is_digit(*ptr) || ft_atoi(*ptr) / 256 == 0)
+        if (ft_isdigit(*ptr) || ft_atoi(*ptr) / 256 == 0)
             values++;
         while (ft_isdigit(*ptr))
             ptr++;

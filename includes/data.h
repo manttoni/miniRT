@@ -2,13 +2,13 @@
 # define DATA_H
 
 # include "../MLX42/include/MLX42/MLX42.h"
-# include "../includes/linked_list.h"
+# include "object.h"
 
 typedef struct	s_data
 {
-	t_node		*objects;
+	t_object	*objects;
 	mlx_t		*mlx;
-	mlx_image_t		*image;
+	mlx_image_t	*image;
 }	t_data;
 
 /* Data */
