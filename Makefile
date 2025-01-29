@@ -3,6 +3,7 @@ NAME = miniRT
 SRC_DIR = sources/
 
 SRC = $(SRC_DIR)main.c\
+	$(SRC_DIR)distance.c\
 	$(SRC_DIR)color.c\
 	$(SRC_DIR)object_getters.c\
 	$(SRC_DIR)data.c\
@@ -15,13 +16,11 @@ SRC = $(SRC_DIR)main.c\
 	$(SRC_DIR)object_shape.c\
 	$(SRC_DIR)object.c\
 	$(SRC_DIR)parser.c\
-	$(SRC_DIR)plane.c\
 	$(SRC_DIR)ray.c\
-	$(SRC_DIR)sphere.c\
 	$(SRC_DIR)utils.c\
 	$(SRC_DIR)vector.c\
 
-FLAGS = -Wall -Werror -Wextra -g
+FLAGS = -Wall -Werror -Wextra -g -O2
 OFLAGS = -ldl -lglfw -pthread -lm
 MAKEFLAGS += --no-print-directory
 HEADS = -I. $(MLX_HEAD) -I$(LIBFT_DIR)

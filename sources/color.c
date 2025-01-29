@@ -1,4 +1,5 @@
 #include "../includes/minirt.h"
+#include "../includes/color.h"
 
 uint32_t    recompose_color(t_color color)
 {
@@ -13,4 +14,15 @@ t_color     decompose_color(uint32_t color)
     decomposed.g = color >> 8 & 0xFF;
     decomposed.b = color & 0xFF;
     return (decomposed);
+}
+
+uint32_t    color_intensity(uint32_t color, double intensity)
+{
+    t_color decomposed;
+
+    decomposed = decompose_color(color);
+    decomposed.r *= intensity;
+    decomposed.g *= intensity;
+    decomposed.b *= intensity;
+    return (recompose_color(decomposed));
 }

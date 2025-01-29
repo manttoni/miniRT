@@ -17,7 +17,6 @@ t_object	*create_sphere(char **info)
 		free(sphere);
 		return (NULL);
 	}
-	sphere->collision = &sphere_collision;
 	return (sphere);
 }
 
@@ -37,7 +36,6 @@ t_object	*create_plane(char **info)
 		free(plane);
 		return (NULL);
 	}
-	plane->collision = &plane_collision;
 	return (plane);
 }
 

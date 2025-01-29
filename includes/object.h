@@ -10,12 +10,13 @@
 
 typedef enum e_type
 {
-	AMBIENT_LIGHT,
 	CAMERA,
 	LIGHT,
+	AMBIENT,
 	SPHERE,
 	PLANE,
-	CYLINDER
+	CYLINDER,
+	NONE
 }	t_type;
 
 typedef struct s_camera_info
@@ -50,25 +51,17 @@ typedef struct	s_object
 	t_camera_info	info;
 }	t_object;
 
-t_object	*get_object(t_node *objects, t_type type);
-t_camera_info image_plane(t_object *camera);
-int plane_collision(t_ray *ray, t_object *plane);
-double		parse_double(char *str);
+void			print_object(t_object *o);
+t_object		*get_object(t_node *objects, t_type type);
+t_camera_info 	image_plane(t_object *camera);
+int 			plane_collision(t_ray *ray, t_object *plane);
+double			parse_double(char *str);
 
 /* Object parsers */
 t_object	*parse_object(char *line);
 int			parse_orientation(char *str, t_vector *orientation);
 int			parse_location(char *str, t_vector *location);
 int			parse_color(char *str);
-
-/* Collision detectors
- * 	Parameters:
- * 		-ray as a direction vector (normalized? might not matter)
- * 		-shape itself
- * 		-distance pointer
- * 	Returns: color of visible point (final color?) */
-
-int			sphere_collision(t_ray *ray, t_object *sphere);
 
 /* Shaped object creators */
 t_object	*create_sphere(char **info);

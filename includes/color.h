@@ -22,8 +22,9 @@ typedef struct	s_image
 }	t_image;
 
 /* Image */
-void		color_pixel(t_image *image, uint32_t pixel_color, int x, int y);
+void		color_pixel(mlx_image_t *image, uint32_t pixel_color, int x, int y);
 t_color		decompose_color(uint32_t color);
 uint32_t	recompose_color(t_color color);
+uint32_t	color_intensity(uint32_t color, double instensity);
 
 #endif

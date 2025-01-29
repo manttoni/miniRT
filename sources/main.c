@@ -1,5 +1,10 @@
-
-#include "../includes/minirt.h"
+#include <stdio.h>
+#include "../includes/data.h"
+#include "../includes/vector.h"
+#include "../includes/object.h"
+#include "../MLX42/include/MLX42/MLX42.h"
+#include "../includes/keyhandler.h"
+#include "../includes/ray.h"
 
 void print_objects(t_node *objects)
 {
@@ -7,59 +12,7 @@ void print_objects(t_node *objects)
 	while (objects)
 	{
 		o = (t_object *) objects->data;
-		if (o->type == CAMERA)
-		{
-			printf("---------------\n");
-			printf("Camera: 📷\nLocation: ");
-			print_vector(o->location);
-			printf("Orientation: ");
-			print_vector(o->orientation);
-			printf("FOV: %d\n", o->fov);
-		}
-		else if (o->type == SPHERE)
-		{
-			printf("---------------\n");
-			printf("Sphere: ⚪\nLocation: ");
-			print_vector(o->location);
-			printf("Diameter: %f\n", o->diameter);
-			printf("Color: %x\n", o->color);
-		}
-		else if (o->type == PLANE)
-		{
-			printf("---------------\n");
-			printf("Plane: ✈️\nLocation: ");
-			print_vector(o->location);
-			printf("Normal: ");
-			print_vector(o->orientation);
-			printf("Color: %x\n", o->color);
-		}
-		else if (o->type == AMBIENT_LIGHT)
-		{
-			printf("---------------\n");
-			printf("Ambient light: 💡\nLocation: ");
-			print_vector(o->location);
-			printf("Normal: ");
-			print_vector(o->orientation);
-			printf("Color: %x\n", o->color);
-		}
-		else if (o->type == LIGHT)
-		{
-			printf("---------------\n");
-			printf("Light: 💡\nLocation: ");
-			print_vector(o->location);
-			printf("Normal: ");
-			print_vector(o->orientation);
-			printf("Color: %x\n", o->color);
-		}
-		else if (o->type == CYLINDER)
-		{
-			printf("---------------\n");
-			printf("Cylinder: 🛢\nLocation: ");
-			print_vector(o->location);
-			printf("Normal: ");
-			print_vector(o->orientation);
-			printf("Color: %x\n", o->color);
-		}
+		print_object(o);
 		objects = objects->next;
 	}
 }
@@ -87,9 +40,8 @@ int main(int argc, char **argv)
 		t_data	*data = init_data(argv[1]);
 		if (data == NULL)
 			return (1);
-		get_camera(data->objects)->view_distance = 1000;
-		// print_objects(data->objects);
-		// printf("---------------\n");
+		print_objects(data->objects);
+		printf("---------------\n");
 		raycast(data);
 		mlx_key_hook(data->mlx, &keypress, data);
 		mlx_image_to_window(data->mlx, data->image , 0, 0);

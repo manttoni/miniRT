@@ -2,3 +2,6 @@
 *.o
 *.swp
 a.out
+miniRT
+MLX42
+*.log

@@ -2,6 +2,7 @@
 # define DATA_H
 
 # include "../MLX42/include/MLX42/MLX42.h"
+# include "../includes/linked_list.h"
 
 typedef struct	s_data
 {
