@@ -1,4 +1,4 @@
-#include "../includes/minirt.h"
+#include "../includes/object.h"
 #include <stdio.h>
 
 t_node	*last_node(t_node *list)
@@ -41,7 +41,5 @@ int	add_node(t_node **list, t_node *new)
 
 t_object	*create_node(char *line)
 {
-	if (validate(line) == NULL)
-		return (NULL);
-	return (parse_object(line));
+	return (parse_object(validate(line)));
 }

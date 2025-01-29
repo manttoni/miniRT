@@ -3,6 +3,7 @@
 
 # include <stdlib.h>
 # include "../libft/includes/libft.h"
+# include "object.h"
 
 typedef struct	s_node
 {
@@ -13,6 +14,6 @@ typedef struct	s_node
 t_node	*last_node(t_node *list);
 int		add_node(t_node **list, t_node *new);
 void	free_list(t_node *list);
-t_node	*create_node(void *data);
+t_object	*create_node(char *line);
 
 #endif

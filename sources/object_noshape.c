@@ -9,7 +9,7 @@ t_object	*create_ambient(char **info)
 	ambient = ft_calloc(1, sizeof(t_object));
 	if (ambient == NULL)
 		return (NULL);
-	ambient->type = AMBIENT_LIGHT;
+	ambient->type = AMBIENT;
 	ambient->brightness = parse_double(info[1]);
 	ambient->color = parse_color(info[2]);
 	if (ambient->brightness < -1 || ambient->brightness > 1 || errno == EINVAL)

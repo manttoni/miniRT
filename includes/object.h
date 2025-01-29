@@ -2,7 +2,7 @@
 # define OBJECT_H
 
 # include "./vector.h"
-# include "./linked_list.h"
+// # include "./linked_list.h"
 # include "./ray.h"
 
 # include <stdlib.h>
@@ -39,6 +39,7 @@ typedef struct s_camera_info
    */
 typedef struct	s_object
 {
+	struct s_object	*next;
 	t_type			type;
 	uint32_t		color;
 	double			brightness;
@@ -52,7 +53,7 @@ typedef struct	s_object
 }	t_object;
 
 void			print_object(t_object *o);
-t_object		*get_object(t_node *objects, t_type type);
+t_object		*get_object(t_object *objects, t_type type);
 t_camera_info 	image_plane(t_object *camera);
 int 			plane_collision(t_ray *ray, t_object *plane);
 double			parse_double(char *str);

@@ -1,7 +1,7 @@
 #include "../libft/includes/libft.h"
-#include "../includes/object.h"
+#include "../includes/validation.h"
 
-static void addShapes(char **shapes)
+static void add_shapes(char **shapes)
 {
     shapes[CAMERA] = "C ";
     shapes[LIGHT] = "L ";
@@ -12,20 +12,104 @@ static void addShapes(char **shapes)
     shapes[NONE] = NULL;
 }
 
-t_type  getType(char *line)
+t_type  get_type(char *line)
 {
-    char    *shapes[NONE + 1];
+    char    *shapes[7];
     int     i;
 
-    addShapes(shapes);
+    add_shapes(shapes);
     i = 0;
     while (shapes[i] != NULL)
     {
-        if (ft_strncmp(*shapes, line, ft_strlen(*shapes)) == 0)
+        if (ft_strncmp(shapes[i], line, ft_strlen(shapes[i])) == 0)
             return (i);
         i++;
     }
     return (NONE);
+}
+
+#include <stdio.h>
+/*t_validate  *get_checks(t_type type)
+{
+    printf("type: %d\n", type);
+    if (type == AMBIENT)
+        return (AMBIENT_VALID);
+    if (type == CAMERA)
+        return (CAMERA_VALID);
+    if (type == LIGHT)
+        return (LIGHT_VALID);
+    if (type == SPHERE)
+        return (SPHERE_VALID);
+    if (type == PLANE)
+        return (PLANE_VALID);
+    if (type == CYLINDER)
+        return (CYLINDER_VALID);
+    return (NULL);
+}*/
+
+int (**get_checks(t_type type, int (**checks)(char *)))(char *)
+{
+    if (type == AMBIENT)
+    {
+        checks[0] = &is_double;
+        checks[1] = &is_color;
+        checks[2] = NULL;
+    }
+    else if (type == CAMERA)
+    {
+        checks[0] = &is_vector;
+        checks[1] = &is_vector;
+        checks[2] = &is_int;
+        checks[3] = NULL;
+    }
+    else if (type == LIGHT)
+    {
+        checks[0] = &is_vector;
+        checks[1] = &is_double;
+        // checks[2] = &is_color; BONUS FEATURE
+        checks[3] = NULL;
+    }
+    else if (type == SPHERE)
+    {
+        checks[0] = &is_vector;
+        checks[1] = &is_double;
+        checks[2] = &is_color;
+        checks[3] = NULL;
+    }
+    else if (type == PLANE)
+    {
+        checks[0] = &is_vector;
+        checks[1] = &is_vector;
+        checks[2] = &is_color;
+        checks[3] = NULL;
+    }
+    else if (type == CYLINDER)
+    {
+        checks[0] = &is_vector;
+        checks[1] = &is_vector;
+        checks[2] = &is_double;
+        checks[3] = &is_double;
+        checks[4] = &is_color;
+        checks[5] = NULL;
+    }
+    else
+        checks = NULL;
+    return (checks);
+}
+
+char    *skip_spaces(char *str)
+{
+    if (str == NULL)
+        return (NULL);
+    while (ft_isspace(*str))
+        str++;
+    return (str);
+}
+
+static char *next_value(char *ptr)
+{
+    ptr = ft_strchr(ptr, ' ');
+    return (skip_spaces(ptr));
 }
 
 /*
@@ -38,11 +122,28 @@ t_type  getType(char *line)
 */
 char    *validate(char *line)
 {
-    t_type  type;
+    int  	(*checks[6])(char *);
+    char 	*ptr;
+    int  	i;
+	t_type	type;
 
-    type = getType(line);
-    if (ft_isspace(*line) || ft_strlen(line) == 0 || type == NONE)
+    if (line == NULL || ft_isspace(*line) || *line == '\0')
         return (NULL);
-    
+
+type = get_type(line);
+	if (type == NONE)
+		return (NULL);
+	get_checks(type, checks);
+    ptr = line;
+	i = 0;
+    while(checks[i] != NULL)
+    {
+        ptr = next_value(ptr);
+		if (ptr == NULL)
+			return (NULL);
+        if ((checks[i])(ptr) == 0)
+            return (NULL);
+        i++;
+    }
     return (line);
 }
