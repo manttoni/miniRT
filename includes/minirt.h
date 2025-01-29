@@ -12,10 +12,12 @@
 # include <error.h>
 
 /* Defines */
+# define EPSILON 0.001
 # define BACKGROUND_COLOR 0xff000000
+# define SHADOW_COLOR 0xff111111
 # define WHITE 0xffffffff
-# define X 1200
-# define Y 1200
+# define X 500
+# define Y 500
 # define RENDER_DISTANCE 2750
 
 /* Enums */

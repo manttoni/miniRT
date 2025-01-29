@@ -90,7 +90,7 @@ void	raycast(t_data *data)
 			if (cast_ray(&ray, data->objects, RENDER_DISTANCE) == 1)
 			{
 				if (light_obstructed(&ray, data->objects) == 1)
-					ray.color = BACKGROUND_COLOR; //SHADOW_COLOR;
+					ray.color = SHADOW_COLOR;
 			}
 			else
 				ray.color = BACKGROUND_COLOR;

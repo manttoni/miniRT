@@ -1,6 +1,6 @@
 #include "../includes/minirt.h"
 
-void    get_checks(t_type type, int (**checks)(char *))
+void    assign_checks(t_type type, int (**checks)(char *))
 {
     if (type == AMBIENT)
     {
@@ -63,21 +63,16 @@ char    *validate(char *line)
     int  	i;
 	t_type	type;
 
-    if (line == NULL || ft_isspace(*line) || *line == '\0')
-        return (NULL);
-
     type = get_type(line);
-	if (type == NONE)
-		return (NULL);
-	get_checks(type, checks);
+    if (line == NULL || ft_isspace(*line) || *line == '\0' || type == NONE)
+        return (NULL);
+assign_checks(type, checks);
     ptr = line;
 	i = 0;
     while(checks[i] != NULL)
     {
         ptr = next_value(ptr);
-		if (ptr == NULL)
-			return (NULL);
-        if ((checks[i])(ptr) == 0)
+		if (ptr == NULL || (checks[i])(ptr) == 0)
             return (NULL);
         i++;
     }
