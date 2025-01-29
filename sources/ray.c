@@ -1,9 +1,4 @@
-
-#include "../includes/defines.h"
-#include "../includes/vector.h"
-#include "../includes/object.h"
-#include "../includes/ray.h"
-#include "../includes/color.h"
+#include "../includes/minirt.h"
 
 /*	Returns a ray that is pointing towards pixel(x,y) of the image plane
 	Camera holds precalculated data

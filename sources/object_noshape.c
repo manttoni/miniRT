@@ -1,6 +1,5 @@
 
-#include "../includes/object.h"
-#include "../includes/defines.h"
+#include "../includes/minirt.h"
 
 void	create_ambient(t_object *object, char **info)
 {
@@ -45,7 +44,7 @@ void	create_camera(t_object *object, char **info)
 		|| object->fov < 0 || object->fov > 180)
 	{
 		free(object);
-		return (NULL);
+		return ;
 	}
 	object->info.view_distance = 600;
 	object->info = image_plane(object);
@@ -66,7 +65,7 @@ void	create_light(t_object *object, char **info)
 		printf("errno: %d\n", errno);
 		printf("----------\n");
 		free(object);
-		return (NULL);
+		return ;
 	}
 	return ;
 }

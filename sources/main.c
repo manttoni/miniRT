@@ -1,9 +1,4 @@
-#include "../MLX42/include/MLX42/MLX42.h"
-#include "../libft/includes/libft.h"
-#include "../includes/data.h"
-#include "../includes/object.h"
-#include "../includes/keyhandler.h"
-#include <stdio.h>
+#include "../includes/minirt.h"
 
 void print_objects(t_object *objects)
 {

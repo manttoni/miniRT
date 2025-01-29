@@ -1,7 +1,5 @@
 
-#include "../includes/vector.h"
-#include "../includes/object.h"
-#include "../includes/defines.h"
+#include "../includes/minirt.h"
 
 double  sphere_distance(t_vector point, t_object *sphere)
 {

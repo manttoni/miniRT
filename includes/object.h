@@ -55,6 +55,7 @@ t_object	*last_object(t_object *list);
 int			add_node(t_object **list, t_object *new);
 void		free_list(t_object *list);
 t_object	*create_node(char *line);
+double  closest(t_ray *ray, t_object *objects);
 
 void			print_object(t_object *o);
 t_object		*get_object(t_object *objects, t_type type);

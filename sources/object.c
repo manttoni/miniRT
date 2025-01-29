@@ -1,5 +1,4 @@
-#include "../includes/object.h"
-#include <stdio.h>
+#include "../includes/minirt.h"
 
 void print_object(t_object *o)
 {
@@ -69,7 +68,7 @@ void	parse_object(t_object	*object, char *line)
 
 	info = ft_split(line, ' ');
 	if (info == NULL)
-		return (NULL);
+		return ;
 	if (ft_strcmp(info[0], "A") == 0)
 		create_ambient(object, info);
 	else if (ft_strcmp(info[0], "C") == 0)

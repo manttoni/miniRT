@@ -1,7 +1,5 @@
 
-#include "../includes/color.h"
-#include "../includes/defines.h"
-#include "../MLX42/include/MLX42/MLX42.h"
+#include "../includes/minirt.h"
 
 void	color_pixel(mlx_image_t *image, uint32_t pixel_color, int x, int y)
 {

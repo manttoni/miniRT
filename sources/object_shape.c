@@ -1,4 +1,4 @@
-#include "../includes/object.h"
+#include "../includes/minirt.h"
 
 void	create_sphere(t_object *object, char **info)
 {

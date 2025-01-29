@@ -1,6 +1,4 @@
-#include "../includes/object.h"
-#include "../libft/includes/libft.h"
-#include <stdio.h>
+#include "../includes/minirt.h"
 
 t_object	*last_object(t_object *list)
 {

@@ -1,17 +1,16 @@
 
-#include "../includes/object.h"
-#include <fcntl.h>
+#include "../includes/minirt.h"
 
 int	add_to_list(t_object **list, char *info)
 {
-	t_object *object;
+	// t_object *object;
 
 	// object = parse_object(info);
 	// if (!object)
 	// 	return (1);
-	if (add_node(list, create_node(object)))
+	if (add_node(list, create_node(info)))
 	{
-		free(object);
+		// free(object);
 		free_list(*list);
 		*list = NULL;
 		return (1);

@@ -1,4 +1,4 @@
-#include "../includes/utils.h"
+#include "../includes/minirt.h"
 
 int	min(int a, int b)
 {

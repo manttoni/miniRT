@@ -1,5 +1,4 @@
-#include "../libft/includes/libft.h"
-#include "../includes/object.h"
+#include "../includes/minirt.h"
 
 static void addShapes(char **shapes)
 {

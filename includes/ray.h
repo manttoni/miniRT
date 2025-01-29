@@ -3,7 +3,7 @@
 
 # include "data.h"
 # include "vector.h"
-# include "object.h"
+// # include "object.h"
 # include <stdint.h>
 
 typedef struct s_ray
@@ -16,6 +16,6 @@ typedef struct s_ray
 }   t_ray;
 
 void    raycast(t_data *data);
-double  closest(t_ray *ray, t_object *objects);
+
 
 #endif

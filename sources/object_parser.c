@@ -1,5 +1,4 @@
-#include "../includes/object.h"
-#include "../libft/includes/libft.h"
+#include "../includes/minirt.h"
 
 int	parse_location(char *str, t_vector *location)
 {
