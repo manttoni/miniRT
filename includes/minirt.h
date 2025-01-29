@@ -103,6 +103,7 @@ typedef struct	s_data
 	mlx_image_t	*image;
 }	t_data;
 
+char    *validate(char *line);
 /* Data */
 t_data		*init_data(char *file);
 void		free_data(t_data *data);
@@ -164,6 +165,9 @@ t_vector	vector(double x, double y, double z);
 double		v_dist(t_vector a, t_vector b);
 
 t_object	*read_objects(char	*file);
-char    *validate(char *line);
+int		is_double(char *ptr);
+int		is_int(char *ptr);
+int		is_color(char *ptr);
+int		is_vector(char *ptr);
 
 #endif
