@@ -10,24 +10,26 @@
 # include <fcntl.h>
 # include <stdio.h>
 
+/* Defines */
 # define BACKGROUND_COLOR 0xff000000
 # define WHITE 0xffffffff
 # define X 1200
 # define Y 1200
 # define RENDER_DISTANCE 2750
 
-/* type			ambient	camera	light	sphere	plane	cylinder
-   color		YES		NO		NO*		YES		YES		YES
-   brightness	Y#include "../includes/object.h"
-#include <fcntl.h>ES		NO		YES		NO		NO		NO
-   location		NO		YES		YES		YES		YES		YES
-   orientation	NO		YES		NO		NO		YES		YES
-   fov			NO		YES		NO		NO		NO		NO
-   diameter		NO		NO		NO		YES		NO		YES
-   height		NO		NO		NO		NO		NO		YES
-   *) light has color in bonus
-   */
+/* Enums */
+typedef enum e_type
+{
+	CAMERA,
+	LIGHT,
+	AMBIENT,
+	SPHERE,
+	PLANE,
+	CYLINDER,
+	NONE
+}	t_type;
 
+/* Structs */
 typedef struct s_vector
 {
 	double	x;
@@ -44,16 +46,6 @@ typedef struct s_ray
     t_vector    location;
 }   t_ray;
 
-typedef enum e_type
-{
-	CAMERA,
-	LIGHT,
-	AMBIENT,
-	SPHERE,
-	PLANE,
-	CYLINDER,
-	NONE
-}	t_type;
 
 typedef struct s_camera_info
 {
@@ -92,10 +84,10 @@ typedef struct	s_object
 	double			height;
 	int				(*collision)(t_ray *, struct s_object *);
 	t_camera_info	info;
+	double			d;
 	struct s_object *next;
 }	t_object;
 
-/* Main struct*/
 typedef struct	s_data
 {
 	t_object	*objects;
@@ -103,71 +95,81 @@ typedef struct	s_data
 	mlx_image_t	*image;
 }	t_data;
 
-char    *validate(char *line);
+/* Validation */
+char    		*validate(char *line);
+int				is_double(char *ptr);
+int				is_int(char *ptr);
+int				is_color(char *ptr);
+int				is_vector(char *ptr);
+
 /* Data */
-t_data		*init_data(char *file);
-void		free_data(t_data *data);
+t_data			*init_data(char *file);
+void			free_data(t_data *data);
 
-/* Image */
-void		color_pixel(mlx_image_t *image, uint32_t pixel_color, int x, int y);
-t_color		decompose_color(uint32_t color);
-uint32_t	recompose_color(t_color color);
-uint32_t	color_intensity(uint32_t color, double instensity);
+/* Image & Color */
+void			color_pixel(mlx_image_t *image, uint32_t pixel_color, int x, int y);
+t_color			decompose_color(uint32_t color);
+uint32_t		recompose_color(t_color color);
+uint32_t		color_intensity(uint32_t color, double instensity);
 
-int		handle_close(void *param);
-void	keypress(mlx_key_data_t mlx_data, void *param);
+/* Keyhandlers */
+int				handle_close(void *param);
+void			keypress(mlx_key_data_t mlx_data, void *param);
 
-t_object	*last_object(t_object *list);
-int			add_node(t_object **list, t_object *new);
-void		free_list(t_object *list);
-t_object	*create_node(char *line);
-double  closest(t_ray *ray, t_object *objects);
+/* Object list */
+t_object		*last_object(t_object *list);
+int				add_node(t_object **list, t_object *new);
+void			free_list(t_object *list);
+t_object		*create_node(char *line);
+t_object		*read_objects(char	*file);
+void			print_list(t_object *list);
 
+/* Raytracing */
+double  		closest(t_ray *ray, t_object *objects);
+void    		raycast(t_data *data);
+
+/* Objects */
 void			print_object(t_object *o);
 t_object		*get_object(t_object *objects, t_type type);
 t_camera_info 	image_plane(t_object *camera);
-// int 			plane_collision(t_ray *ray, t_object *plane);
-double			parse_double(char *str);
 
 /* Object parsers */
-int			parse_object(t_object	*object, char *line);
-int			parse_orientation(char *str, t_vector *orientation);
-int			parse_location(char *str, t_vector *location);
-int			parse_color(char *str);
+int				parse_object(t_object	*object, char *line);
+int				parse_orientation(char *str, t_vector *orientation);
+int				parse_location(char *str, t_vector *location);
+int				parse_color(char *str);
+t_type			get_type(char *line);
 
 /* Shaped object creators */
-void	create_sphere(t_object *object, char **info);
-void	create_plane(t_object *object, char **info);
-void	create_cylinder(t_object *object, char **info);
+void			create_sphere(t_object *object, char **info);
+void			create_plane(t_object *object, char **info);
+void			create_cylinder(t_object *object, char **info);
 
 /* Non-shaped object creators */
-void	create_ambient(t_object *object, char **info);
-void	create_camera(t_object *object, char **info);
-void	create_light(t_object *object, char **info);
+void			create_ambient(t_object *object, char **info);
+void			create_camera(t_object *object, char **info);
+void			create_light(t_object *object, char **info);
 
-void    raycast(t_data *data);
+/* Utils */
+double			parse_double(char *str);
+int				min(int a, int b);
+int				max(int a, int b);
+char			*trim(char *str, char c);
 
-int		min(int a, int b);
-int		max(int a, int b);
-char	*trim(char *str, char c);
-void	error_msg(t_data *data);
+/* Errors */
+void			error_msg(t_data *data);
 
-double		v_angle(t_vector a, t_vector b);
-double		v_len(t_vector v);
-t_vector	normalize_vector(t_vector v);
-t_vector	cross_product(t_vector v1, t_vector v2);
-double		dot_product(t_vector v1, t_vector v2);
-t_vector	v_sum(t_vector v1, t_vector v2);
-t_vector	v_sub(t_vector v1, t_vector v2);
-t_vector	v_mul(double t, t_vector v);
-void		print_vector(t_vector v);
-t_vector	vector(double x, double y, double z);
-double		v_dist(t_vector a, t_vector b);
-
-t_object	*read_objects(char	*file);
-int		is_double(char *ptr);
-int		is_int(char *ptr);
-int		is_color(char *ptr);
-int		is_vector(char *ptr);
+/* Vectors */
+double			v_angle(t_vector a, t_vector b);
+double			v_len(t_vector v);
+t_vector		normalize_vector(t_vector v);
+t_vector		cross_product(t_vector v1, t_vector v2);
+double			dot_product(t_vector v1, t_vector v2);
+t_vector		v_sum(t_vector v1, t_vector v2);
+t_vector		v_sub(t_vector v1, t_vector v2);
+t_vector		v_mul(double t, t_vector v);
+void			print_vector(t_vector v);
+t_vector		vector(double x, double y, double z);
+double			v_dist(t_vector a, t_vector b);
 
 #endif

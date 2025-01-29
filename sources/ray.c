@@ -28,17 +28,22 @@ int	cast_ray(t_ray *ray, t_object *objects, double render_distance)
 {
 	double	closest_dist;
 	double	close_enough;
+	int		i;
 
-	close_enough = 0.0001;
+	i = 0;
+	close_enough = 0.001;
 	while (ray->distance < render_distance)
 	{
 		closest_dist = closest(ray, objects);
-		if (closest_dist < close_enough)
+		if (closest_dist < close_enough || i > 100)
 			return 1;
+		if (closest_dist > 100)
+			return 0;
 		// ray "jumps" forward to a point where it might collide
 		ray->distance += closest_dist;
 		// updates location so that a new closest_dist can be calculated
 		ray->location = v_sum(ray->location, v_mul(closest_dist, ray->direction));
+		i++;
 	}
 	return 0;
 }
@@ -92,7 +97,7 @@ void	raycast(t_data *data)
 			color_pixel(data->image, ray.color, x, y);
 			x++;
 		}
-		printf("%d%%\r", (((y * X) + x) * 100) / (Y * X));
+		printf("%d%%\r", ((y * 100) / Y));
 		y++;
 	}
 	printf("Raycasting completed\n");

@@ -8,10 +8,7 @@ double  sphere_distance(t_vector point, t_object *sphere)
 
 double  plane_distance(t_vector point, t_object *plane)
 {
-    double d;
-
-    d = dot_product(plane->orientation, plane->location);
-    return (fabs(dot_product(plane->orientation, point) + d));
+    return (fabs(dot_product(plane->orientation, point) + plane->d));
 }
 
 double  closest(t_ray *ray, t_object *objects)

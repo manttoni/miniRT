@@ -1,5 +1,19 @@
 #include "../includes/minirt.h"
 
+void	print_list(t_object *list)
+{
+	if (list == NULL)
+	{
+		printf("List is empty\n");
+		return ;
+	}
+	while (list)
+	{
+		print_object(list);
+		list = list->next;
+	}
+}
+
 t_object	*last_object(t_object *list)
 {
 	if (list == NULL)
@@ -26,6 +40,7 @@ int	add_node(t_object **list, t_object *new)
 		free_list(*list);
 		return (1);
 	}
+	print_object(new);
 	if (*list == NULL)
 	{
 		*list = new;

@@ -18,6 +18,7 @@ int	add_to_list(t_object **list, char *info)
 		*list = NULL;
 		return (1);
 	}
+	print_list(*list);
 	return (0);
 }
 
