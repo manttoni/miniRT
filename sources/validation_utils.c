@@ -1,16 +1,38 @@
 #include "../includes/minirt.h"
 
-/*
-    delimit is f.e. ' ' or ','
-*/
-int is_double(char *ptr, char delimit)
+int is_double(char *ptr)
 {
     int periods;
     int digits;
 
     periods = 0;
     digits = 0;
-    while (!ft_isspace(*ptr) && *ptr != delimit && *ptr != '\0')
+    if (*ptr == '-')
+        ptr++;
+    while (!ft_isspace(*ptr) && *ptr != '\0')
+    {
+        if (ft_isdigit(*ptr))
+            digits++;
+        else if (*ptr == '.')
+            periods++;
+        else
+            return (0);
+        ptr++;
+    }
+    return (periods <= 1 && digits >= 1);
+}
+
+// comma separated double
+int is_cs_double(char *ptr)
+{
+    int periods;
+    int digits;
+
+    periods = 0;
+    digits = 0;
+    if (*ptr == '-')
+        ptr++;
+    while (!ft_isspace(*ptr) && *ptr != '\0' && *ptr != ',')
     {
         if (ft_isdigit(*ptr))
             digits++;
@@ -30,9 +52,10 @@ int is_color(char *ptr)
 
     commas = 0;
     values = 0;
+    printf("ptr: %s\n", ptr);
     while (!ft_isspace(*ptr) && *ptr != '\0')
     {
-        if (ft_isdigit(*ptr) || ft_atoi(*ptr) / 256 == 0)
+        if (ft_isdigit(*ptr) && ft_atoi(ptr) / 256 == 0)
             values++;
         while (ft_isdigit(*ptr))
             ptr++;
@@ -53,9 +76,9 @@ int is_vector(char *ptr)
     doubles = 0;
     while (!ft_isspace(*ptr) && *ptr != '.')
     {
-        if (is_double(*ptr, ','))
+        if (is_cs_double(ptr))
             doubles++;
-        while (ft_isdigit(*ptr) || *ptr == '.')
+        while (ft_isdigit(*ptr) || *ptr == '.' || *ptr == '-')
             ptr++;
         if (*ptr != ',')
             break;
