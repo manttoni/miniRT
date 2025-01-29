@@ -39,19 +39,9 @@ int	add_node(t_node **list, t_node *new)
 	return (0);
 }
 
-t_node	*create_node(void *data)
+t_object	*create_node(char *line)
 {
-	t_node	*node;
-
-	if (data == NULL)
-	{
-		// printf("no data\n");
+	if (validate(line) == NULL)
 		return (NULL);
-	}
-	node = malloc(sizeof(t_node));
-	if (node == NULL)
-		return (NULL);
-	node->data = data;
-	node->next = NULL;
-	return (node);
+	return (parse_object(line));
 }
