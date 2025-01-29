@@ -7,60 +7,39 @@ void print_object(t_object *o)
 		printf("Object not found!\n");
 		return ;
 	}
+	printf("---------------\n");
 	if (o->type == CAMERA)
+		printf("Camera: 📷\n");
+	else if (o->type == SPHERE)
+		printf("Sphere: ⚪\n");
+	else if (o->type == PLANE)
+		printf("Plane: ✈️\n");
+	else if (o->type == AMBIENT)
+		printf("Ambient light: 💡\n");
+	else if (o->type == LIGHT)
+		printf("Light: 💡\n");
+	else if (o->type == CYLINDER)
+		printf("Cylinder: 🛢\n");
+	if (o->type != AMBIENT)
 	{
-		printf("---------------\n");
-		printf("Camera: 📷\nLocation: ");
+		printf("Location: ");
 		print_vector(o->location);
+	}
+	if (o->type == CAMERA || o->type == PLANE || o->type == CYLINDER)
+	{
 		printf("Orientation: ");
 		print_vector(o->orientation);
+	}
+	if (o->type == CAMERA)
 		printf("FOV: %d\n", o->fov);
-	}
-	else if (o->type == SPHERE)
-	{
-		printf("---------------\n");
-		printf("Sphere: ⚪\nLocation: ");
-		print_vector(o->location);
+	if (o->type == SPHERE || o->type == CYLINDER)
 		printf("Diameter: %f\n", o->diameter);
-		printf("Color: %x\n", o->color);
-	}
-	else if (o->type == PLANE)
+	if (o->type != CAMERA && o->type != LIGHT)
 	{
-		printf("---------------\n");
-		printf("Plane: ✈️\nLocation: ");
-		print_vector(o->location);
-		printf("Normal: ");
-		print_vector(o->orientation);
-		printf("Color: %x\n", o->color);
+		printf("Color: \033[38;2;%d;%d;%dm%06X\033[0m\n",
+           (o->color >> 16) & 0xFF, (o->color >> 8) & 0xFF,
+           o->color & 0xFF, o->color); 
 	}
-	else if (o->type == AMBIENT)
-	{
-		printf("---------------\n");
-		printf("Ambient light: 💡\nLocation: ");
-		print_vector(o->location);
-		printf("Normal: ");
-		print_vector(o->orientation);
-		printf("Color: %x\n", o->color);
-	}
-	else if (o->type == LIGHT)
-	{
-		printf("---------------\n");
-		printf("Light: 💡\nLocation: ");
-		print_vector(o->location);
-		printf("Normal: ");
-		print_vector(o->orientation);
-		printf("Color: %x\n", o->color);
-	}
-	else if (o->type == CYLINDER)
-	{
-		printf("---------------\n");
-		printf("Cylinder: 🛢\nLocation: ");
-		print_vector(o->location);
-		printf("Normal: ");
-		print_vector(o->orientation);
-		printf("Color: %x\n", o->color);
-	}
-	printf("---------------\n");
 }
 
 t_type  get_type(char *line)

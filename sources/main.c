@@ -10,8 +10,8 @@ void print_objects(t_object *objects)
 		print_object(o);
 		o = o->next;
 	}
+	printf("---------------\n");
 }
-
 
 static int	format_validation(char *str)
 {
@@ -38,7 +38,7 @@ int main(int argc, char **argv)
 	t_data	*data = init_data(argv[1]);
 	if (data == NULL)
 		return (1);
-	//print_objects(data->objects);
+	print_objects(data->objects);
 	raycast(data);
 	mlx_key_hook(data->mlx, &keypress, data);
 	mlx_image_to_window(data->mlx, data->image , 0, 0);

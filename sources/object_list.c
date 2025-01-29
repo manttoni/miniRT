@@ -40,7 +40,6 @@ int	add_node(t_object **list, t_object *new)
 		free_list(*list);
 		return (1);
 	}
-	print_object(new);
 	if (*list == NULL)
 	{
 		*list = new;

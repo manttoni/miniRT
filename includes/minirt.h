@@ -9,6 +9,7 @@
 # include <math.h>
 # include <fcntl.h>
 # include <stdio.h>
+# include <error.h>
 
 /* Defines */
 # define BACKGROUND_COLOR 0xff000000

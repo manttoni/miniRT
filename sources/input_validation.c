@@ -81,6 +81,5 @@ char    *validate(char *line)
             return (NULL);
         i++;
     }
-    printf("Validation success: %s\n", line);
     return (line);
 }
