@@ -1,5 +1,6 @@
-#include "../includes/minirt.h"
+
 #include "../includes/defines.h"
+#include "../includes/data.h"
 
 int	mlx_and_image(t_data *data)
 {

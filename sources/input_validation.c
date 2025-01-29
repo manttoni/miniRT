@@ -43,6 +43,6 @@ char    *validate(char *line)
     type = getType(line);
     if (ft_isspace(*line) || ft_strlen(line) == 0 || type == NONE)
         return (NULL);
-    
+
     return (line);
 }

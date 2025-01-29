@@ -1,4 +1,4 @@
-#include "../includes/minirt.h"
+#include "../includes/object.h"
 
 t_object	*get_object(t_object *objects, t_type type)
 {

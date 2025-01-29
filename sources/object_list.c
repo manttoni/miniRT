@@ -1,7 +1,8 @@
-#include "../includes/minirt.h"
+#include "../includes/object.h"
+#include "../libft/includes/libft.h"
 #include <stdio.h>
 
-t_node	*last_node(t_node *list)
+t_object	*last_object(t_object *list)
 {
 	if (list == NULL)
 		return (NULL);
@@ -10,22 +11,20 @@ t_node	*last_node(t_node *list)
 	return (list);
 }
 
-void	free_list(t_node *list)
+void	free_list(t_object *list)
 {
 	if (list == NULL)
 		return ;
 	free_list(list->next);
-	free(list->data);
 	free(list);
 }
 
-int	add_node(t_node **list, t_node *new)
+int	add_node(t_object **list, t_object *new)
 {
-	t_node	*last;
+	t_object	*last;
 
 	if (new == NULL)
 	{
-		// printf("no node to add\n");
 		free_list(*list);
 		return (1);
 	}
@@ -34,14 +33,18 @@ int	add_node(t_node **list, t_node *new)
 		*list = new;
 		return (0);
 	}
-	last = last_node(*list);
+	last = last_object(*list);
 	last->next = new;
 	return (0);
 }
 
 t_object	*create_node(char *line)
 {
-	if (validate(line) == NULL)
+	t_object	*node;
+
+	node = ft_calloc(1, sizeof(t_object));
+	if (node == NULL)
 		return (NULL);
-	return (parse_object(line));
+	parse_object(node, validate(line));
+	return (node);
 }

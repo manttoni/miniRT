@@ -1,5 +1,6 @@
 
-#include "../includes/minirt.h"
+#include "../MLX42/include/MLX42/MLX42.h"
+#include "../includes/object.h"
 
 int	handle_close(void *param)
 {
@@ -7,21 +8,21 @@ int	handle_close(void *param)
 	exit(0);
 }
 
-static t_object *select_next_object(t_object *selected, t_node *objects)
+static t_object *select_next_object(t_object *selected, t_object *objects)
 {
-	t_node	*current;
+	t_object	*current;
 
 	if (selected == NULL)
-		return ((t_object *) objects->data);
+		return (objects);
 	current = objects;
 	while (current)
 	{
-		if ((t_object *)current->data == selected)
+		if (current == selected)
 		{
 			if (current->next == NULL)
-				return ((t_object *)objects->data);
+				return (objects);
 			else
-				return ((t_object *)current->next->data);
+				return (current->next);
 		}
 		current = current->next;
 	}

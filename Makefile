@@ -8,7 +8,6 @@ SRC = $(SRC_DIR)main.c\
 	$(SRC_DIR)object_getters.c\
 	$(SRC_DIR)data.c\
 	$(SRC_DIR)file_reader.c\
-	$(SRC_DIR)image.c\
 	$(SRC_DIR)keyhandler.c\
 	$(SRC_DIR)linked_list.c\
 	$(SRC_DIR)object_noshape.c\

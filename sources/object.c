@@ -1,4 +1,5 @@
 #include "../includes/object.h"
+#include <stdio.h>
 
 void print_object(t_object *o)
 {
@@ -33,7 +34,7 @@ void print_object(t_object *o)
 		print_vector(o->orientation);
 		printf("Color: %x\n", o->color);
 	}
-	else if (o->type == AMBIENT_LIGHT)
+	else if (o->type == AMBIENT)
 	{
 		printf("---------------\n");
 		printf("Ambient light: 💡\nLocation: ");
@@ -62,35 +63,26 @@ void print_object(t_object *o)
 	}
 }
 
-t_object	*parse_object(char *line)
+void	parse_object(t_object	*object, char *line)
 {
 	char		**info;
-	t_object	*object;
 
-	if (line == NULL)
-	{
-		printf("line is null\n");
-		return (NULL);
-	}
-	object = NULL;
 	info = ft_split(line, ' ');
 	if (info == NULL)
 		return (NULL);
 	if (ft_strcmp(info[0], "A") == 0)
-		object = create_ambient(info);
+		create_ambient(object, info);
 	else if (ft_strcmp(info[0], "C") == 0)
-		object = create_camera(info);
+		create_camera(object, info);
 	else if (ft_strcmp(info[0], "L") == 0)
-		object = create_light(info);
+		create_light(object, info);
 	else if (ft_strcmp(info[0], "sp") == 0)
-		object = create_sphere(info);
+		create_sphere(object, info);
 	else if (ft_strcmp(info[0], "pl") == 0)
-		object = create_plane(info);
+		create_plane(object, info);
 	else if (ft_strcmp(info[0], "cy") == 0)
-		object = create_cylinder(info);
-	else
-		printf("Wrong identifier!\n");
+		create_cylinder(object, info);
 	ft_free_array(info);
 	// printf("line: {%s} created object: {%p}\n", line, object);
-	return (object);
+	return ;
 }

@@ -29,7 +29,7 @@ t_ray	get_ray(t_object *camera, int x, int y)
 /*	Calculates collisions based on distance to the closest object
 	If it is less than close_enough, it is a collision
 	Otherwise moves ray to its direction by that amount	*/
-int	cast_ray(t_ray *ray, t_node *objects, double render_distance)
+int	cast_ray(t_ray *ray, t_object *objects, double render_distance)
 {
 	double	closest_dist;
 	double	close_enough;
@@ -41,7 +41,7 @@ int	cast_ray(t_ray *ray, t_node *objects, double render_distance)
 		if (closest_dist < close_enough)
 			return 1;
 		// ray "jumps" forward to a point where it might collide
-		ray->distance += closest_dist; 
+		ray->distance += closest_dist;
 		// updates location so that a new closest_dist can be calculated
 		ray->location = v_sum(ray->location, v_mul(closest_dist, ray->direction));
 	}
@@ -50,7 +50,7 @@ int	cast_ray(t_ray *ray, t_node *objects, double render_distance)
 
 /*	A new ray will check if there is an object between the collision point and the light source
 	The ray gets a headstart towards the light byt the amount of self_collision_avoid */
-int	light_obstructed(t_ray *ray, t_node *objects)
+int	light_obstructed(t_ray *ray, t_object *objects)
 {
 	t_ray	light_ray;
 	t_object *light;

@@ -1,5 +1,4 @@
-// #include "../lib/libft/libft.h"
-#include "../includes/minirt.h"
+#include "../libft/includes/libft.h"
 #include <errno.h>
 #include <math.h>
 #include <stdio.h>

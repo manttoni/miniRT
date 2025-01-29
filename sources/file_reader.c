@@ -1,11 +1,14 @@
-#include "../includes/minirt.h"
 
-int	add_to_list(t_node **list, char *info)
+#include "../includes/object.h"
+#include <fcntl.h>
+
+int	add_to_list(t_object **list, char *info)
 {
 	t_object *object;
-	object = parse_object(info);
-	if (!object)
-		return (1);
+
+	// object = parse_object(info);
+	// if (!object)
+	// 	return (1);
 	if (add_node(list, create_node(object)))
 	{
 		free(object);
@@ -16,11 +19,11 @@ int	add_to_list(t_node **list, char *info)
 	return (0);
 }
 
-t_node	*read_objects(char	*file)
+t_object	*read_objects(char	*file)
 {
 	char		*line;
 	int			fd;
-	t_node		*list;
+	t_object		*list;
 
 	fd = open(file, O_RDONLY);
 	if (fd < 0)

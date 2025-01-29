@@ -1,19 +1,19 @@
-#include <stdio.h>
-#include "../includes/data.h"
-#include "../includes/vector.h"
-#include "../includes/object.h"
 #include "../MLX42/include/MLX42/MLX42.h"
+#include "../libft/includes/libft.h"
+#include "../includes/data.h"
+#include "../includes/object.h"
 #include "../includes/keyhandler.h"
-#include "../includes/ray.h"
+#include <stdio.h>
 
-void print_objects(t_node *objects)
+void print_objects(t_object *objects)
 {
 	t_object *o;
-	while (objects)
+
+	o = objects;
+	while (o)
 	{
-		o = (t_object *) objects->data;
 		print_object(o);
-		objects = objects->next;
+		o = o->next;
 	}
 }
 
