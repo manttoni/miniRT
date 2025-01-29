@@ -130,7 +130,7 @@ char    *validate(char *line)
     if (line == NULL || ft_isspace(*line) || *line == '\0')
         return (NULL);
 
-type = get_type(line);
+    type = get_type(line);
 	if (type == NONE)
 		return (NULL);
 	get_checks(type, checks);
