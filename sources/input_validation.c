@@ -46,7 +46,7 @@ t_type  get_type(char *line)
     return (NULL);
 }*/
 
-int (**get_checks(t_type type, int (**checks)(char *)))(char *)
+void    get_checks(t_type type, int (**checks)(char *))
 {
     if (type == AMBIENT)
     {
@@ -92,7 +92,6 @@ int (**get_checks(t_type type, int (**checks)(char *)))(char *)
     }
     else
         checks = NULL;
-    return (checks);
 }
 
 char    *skip_spaces(char *str)
