@@ -65,8 +65,7 @@ int (**get_checks(t_type type, int (**checks)(char *)))(char *)
     {
         checks[0] = &is_vector;
         checks[1] = &is_double;
-        // checks[2] = &is_color; BONUS FEATURE
-        checks[3] = NULL;
+        checks[2] = NULL;
     }
     else if (type == SPHERE)
     {
@@ -142,7 +141,10 @@ char    *validate(char *line)
 			return (NULL);
         if ((checks[i])(ptr) == 0)
             return (NULL);
+        else
+            printf("Check %d success\n", i);
         i++;
     }
+    printf("Validate success\n");
     return (line);
 }

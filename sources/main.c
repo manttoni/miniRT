@@ -35,6 +35,7 @@ int main(int argc, char **argv)
 		t_data	*data = init_data(argv[1]);
 		if (data == NULL)
 			return (1);
+		printf("Data initialized\n");
 		print_objects(data->objects);
 		printf("---------------\n");
 		raycast(data);

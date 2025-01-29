@@ -43,6 +43,7 @@ t_object	*create_node(char *line)
 	node = ft_calloc(1, sizeof(t_object));
 	if (node == NULL)
 		return (NULL);
-	parse_object(node, validate(line));
+	if (parse_object(node, validate(line)) == 1)
+		return (NULL);
 	return (node);
 }

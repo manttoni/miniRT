@@ -8,7 +8,10 @@ int	add_to_list(t_object **list, char *info)
 	// object = parse_object(info);
 	// if (!object)
 	// 	return (1);
-	if (add_node(list, create_node(info)))
+	t_object *object;
+
+	object = create_node(info);
+	if (object == NULL || add_node(list, object))
 	{
 		// free(object);
 		free_list(*list);

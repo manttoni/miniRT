@@ -62,13 +62,14 @@ void print_object(t_object *o)
 	}
 }
 
-void	parse_object(t_object	*object, char *line)
+int	parse_object(t_object	*object, char *line)
 {
 	char		**info;
 
+	printf("parse objects line: %s\n", line);
 	info = ft_split(line, ' ');
 	if (info == NULL)
-		return ;
+		return 1;
 	if (ft_strcmp(info[0], "A") == 0)
 		create_ambient(object, info);
 	else if (ft_strcmp(info[0], "C") == 0)
@@ -83,5 +84,5 @@ void	parse_object(t_object	*object, char *line)
 		create_cylinder(object, info);
 	ft_free_array(info);
 	// printf("line: {%s} created object: {%p}\n", line, object);
-	return ;
+	return 0;
 }

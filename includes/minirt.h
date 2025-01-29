@@ -130,7 +130,7 @@ t_camera_info 	image_plane(t_object *camera);
 double			parse_double(char *str);
 
 /* Object parsers */
-void		parse_object(t_object	*object, char *line);
+int			parse_object(t_object	*object, char *line);
 int			parse_orientation(char *str, t_vector *orientation);
 int			parse_location(char *str, t_vector *location);
 int			parse_color(char *str);

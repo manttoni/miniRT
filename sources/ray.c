@@ -69,6 +69,12 @@ void	raycast(t_data *data)
 	t_object *camera;
 
 	camera = get_object(data->objects, CAMERA);
+	if (camera == NULL)
+	{
+		printf("Camera not found\n");
+		return ;
+	}
+	printf("Raycasting started\n");
 	y = 0;
 	while (y < Y)
 	{

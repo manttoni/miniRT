@@ -52,7 +52,6 @@ int is_color(char *ptr)
 
     commas = 0;
     values = 0;
-    printf("ptr: %s\n", ptr);
     while (!ft_isspace(*ptr) && *ptr != '\0')
     {
         if (ft_isdigit(*ptr) && ft_atoi(ptr) / 256 == 0)

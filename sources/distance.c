@@ -18,21 +18,19 @@ double  closest(t_ray *ray, t_object *objects)
 {
     double  dist;
     double  closest_dist;
-    t_object    *o;
 
     closest_dist = RENDER_DISTANCE;
-    o = objects;
-    while (o)
+    while (objects)
     {
-        if (o->type == SPHERE)
-            dist = sphere_distance(ray->location, o);
-        else if (o->type == PLANE)
-            dist = plane_distance(ray->location, o);
+        if (objects->type == SPHERE)
+            dist = sphere_distance(ray->location, objects);
+        else if (objects->type == PLANE)
+            dist = plane_distance(ray->location, objects);
         else
             dist = closest_dist + 1;
         if (dist < closest_dist)
         {
-            ray->color = o->color;
+            ray->color = objects->color;
             closest_dist = dist;
         }
         objects = objects->next;
