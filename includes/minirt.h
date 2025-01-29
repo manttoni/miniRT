@@ -14,11 +14,11 @@
 /* Defines */
 # define EPSILON 0.001
 # define BACKGROUND_COLOR 0xff000000
-# define SHADOW_COLOR 0xff111111
+# define SHADOW_COLOR 0xffffffff
 # define WHITE 0xffffffff
-# define X 500
-# define Y 500
-# define RENDER_DISTANCE 2750
+# define X 750
+# define Y 750
+# define RENDER_DISTANCE 150
 
 /* Enums */
 typedef enum e_type

@@ -37,7 +37,7 @@ int	cast_ray(t_ray *ray, t_object *objects, double render_distance)
 		closest_dist = closest(ray, objects);
 		if (closest_dist < close_enough || i > 100)
 			return 1;
-		if (closest_dist > 100)
+		if (closest_dist >= RENDER_DISTANCE)
 			return 0;
 		// ray "jumps" forward to a point where it might collide
 		ray->distance += closest_dist;
@@ -87,10 +87,12 @@ void	raycast(t_data *data)
 		while (x < X)
 		{
 			ray = get_ray(camera, x, y);
-			if (cast_ray(&ray, data->objects, RENDER_DISTANCE) == 1)
+			if (cast_ray(&ray, data->objects, RENDER_DISTANCE) == 1
+				&& ray.distance < RENDER_DISTANCE)
 			{
+				ray.color = color_intensity(ray.color, 1.0 - (ray.distance / RENDER_DISTANCE));
 				if (light_obstructed(&ray, data->objects) == 1)
-					ray.color = SHADOW_COLOR;
+					ray.color = color_intensity(ray.color, 0.5);
 			}
 			else
 				ray.color = BACKGROUND_COLOR;
