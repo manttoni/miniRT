@@ -37,8 +37,8 @@ void print_object(t_object *o)
 	if (o->type != CAMERA && o->type != LIGHT)
 	{
 		printf("Color: \033[38;2;%d;%d;%dm%06X\033[0m\n",
-           (o->color >> 24) & 0xFF, (o->color >> 16) & 0xFF,
-           (o->color >> 8) & 0xFF, o->color); 
+           (o->color >> 16) & 0xFF, (o->color >> 8) & 0xFF,
+           (o->color) & 0xFF, o->color); 
 	}
 }
 
@@ -91,7 +91,7 @@ t_camera_info	image_plane(t_object *camera)
 	info.ray.direction = v_mul(camera->info.view_distance, camera->orientation);
 	info.ray.direction = v_sum(camera->location, info.ray.direction);
 	info.ray.distance = 0;
-	info.ray.color = 0xffff00ff;
+	info.ray.color = BACKGROUND_COLOR;
 	return (info);
 }
 
@@ -125,7 +125,6 @@ int	assign_sphere(t_object *sphere, char **info)
 {
 	sphere->location = parse_vector(info[1]);
 	sphere->diameter = parse_double(info[2]);
-	printf("%s\n", info[3]);
 	sphere->color = parse_color(info[3]);
 	sphere->sdf = &sphere_distance;
 	return (SUCCESS);

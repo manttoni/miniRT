@@ -31,11 +31,11 @@ int	cast_ray(t_ray *ray, t_object **arr, double render_distance)
 	int		i;
 
 	i = 0;
-	close_enough = 0.1;
+	close_enough = 0.001;
 	while (ray->distance < render_distance)
 	{
 		closest_dist = closest(ray, arr);
-		if (closest_dist < close_enough || i > 100)
+		if (closest_dist < close_enough || i > 80)
 			return (1);
 		if (closest_dist >= RENDER_DISTANCE)
 			return 0;
@@ -90,9 +90,9 @@ void	raycast(t_data *data)
 			if (cast_ray(&ray, data->objects->arr, RENDER_DISTANCE) == 1
 				&& ray.distance < RENDER_DISTANCE)
 			{
-				// ray.color = color_intensity(ray.color, 1.0 - (ray.distance / RENDER_DISTANCE));
-				// if (light_obstructed(&ray, data->objects->arr) == 1)
-				// 	ray.color = color_intensity(ray.color, 0.5);
+				ray.color = color_intensity(ray.color, 1.0 - (ray.distance / RENDER_DISTANCE));
+				if (light_obstructed(&ray, data->objects->arr) == 1)
+					ray.color = color_intensity(ray.color, 0.5);
 			}
 			else
 				ray.color = BACKGROUND_COLOR;
