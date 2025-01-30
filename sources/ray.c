@@ -46,21 +46,43 @@ t_ray	get_ray(t_object *camera, int x, int y)
  */
 int	cast_ray(t_ray *ray, t_object *objects, double render_distance)
 {
+	// double	closest_dist;
+	// double	close_enough;
+	// int		i;
+
+	// i = 0;
+	// close_enough = 0.001;
+	// while (ray->distance < render_distance)
+	// {
+	// 	closest_dist = closest(ray, objects);
+	// 	if (closest_dist < close_enough  || i < 100)
+	// 		return (1);
+	// 	if (closest_dist >= RENDER_DISTANCE)
+	// 		return (0);
+	// 	ray->location = v_sum(ray->location, v_mul(closest_dist, ray->direction));
+	// 	i++;
+	// }
+	// return (0);
 	double	closest_dist;
 	double	close_enough;
+	// double step;
 	int		i;
 
 	i = 0;
-	close_enough = 0.001;
+	close_enough = 0.0001;
+	// step = 1.0;
 	while (ray->distance < render_distance)
 	{
 		closest_dist = closest(ray, objects);
-		if (closest_dist < close_enough  || i < 100)
+		if (closest_dist < close_enough)
 			return (1);
-		if (closest_dist >= RENDER_DISTANCE)
-			return (0);
+		// step = fmax(0.1, closest_dist * 0.5);
+		if (closest_dist < 0.1)
+			closest_dist = 0.1;
+		// ray->distance += step;
 		ray->location = v_sum(ray->location, v_mul(closest_dist, ray->direction));
-		i++;
+		if (i++ > 80)
+			return (0);
 	}
 	return (0);
 }
@@ -134,7 +156,7 @@ void	raycast(t_data *data)
 		{
 			ray = get_ray(camera, x, y);
 
-			if (cast_ray(&ray, data->objects, RENDER_DISTANCE) == 1
+			if (cast_ray(&ray, data->objects, RENDER_DISTANCE)
 				&& ray.distance < RENDER_DISTANCE)
 			{
 				ray.color = color_intensity(ray.color, 1.0 - (ray.distance / RENDER_DISTANCE));
