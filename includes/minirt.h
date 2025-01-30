@@ -65,16 +65,6 @@ typedef struct s_color
 	int b;
 }	t_color;
 
-typedef struct	s_image
-{
-	mlx_image_t	*img;
-	char	*img_data;
-	int		bits_per_pixel;
-	int		size_line;
-	int		endian;
-	int		focal_len;
-}	t_image;
-
 typedef struct	s_object
 {
 	t_type			type;

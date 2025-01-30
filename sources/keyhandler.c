@@ -1,12 +1,42 @@
 
 #include "../includes/minirt.h"
 
+/**
+ * handle_close - Cleans up memory and exits the program when the window closes.
+ * @param: A pointer to the `t_data` structure (passed as `param`).
+ *
+ * This function:
+ * - Calls `free_data(param)` to release all allocated memory.
+ * - Exits the program with `exit(0)`.
+ *
+ * This function is used as a **callback** when the window is closed.
+ *
+ * Return: Always exits the program (no return value).
+ */
 int	handle_close(void *param)
 {
 	free_data(param);
 	exit(0);
 }
 
+/**
+ * select_next_object - Selects the next object in the linked list.
+ * @selected: The currently selected object.
+ * @objects: The head of the object list.
+ *
+ * This function:
+ * - If `selected` is `NULL`, it returns the first object in `objects`.
+ * - If `selected` is found in the list:
+ *   - Returns the next object if available.
+ *   - Otherwise, wraps around and returns the first object.
+ * - If `selected` is not found in `objects`, it returns `NULL`.
+ *
+ * This function allows cycling through all objects using the `TAB` key.
+ *
+ * Return:
+ * - Pointer to the next selected object.
+ * - NULL if the list is empty.
+ */
 static t_object *select_next_object(t_object *selected, t_object *objects)
 {
 	t_object	*current;
@@ -28,12 +58,34 @@ static t_object *select_next_object(t_object *selected, t_object *objects)
 	return (NULL);
 }
 
+/**
+ * redraw - Rerenders the scene after object transformations.
+ * @data: Pointer to the `t_data` structure.
+ *
+ * This function:
+ * - Calls `raycast(data)` to recalculate the image.
+ * - Displays the updated image using `mlx_image_to_window`.
+ *
+ * It is triggered when the `ENTER` key is pressed.
+ */
 static void redraw(t_data *data)
 {
 	raycast(data);
 	mlx_image_to_window(data->mlx, data->image, 0, 0);
 }
 
+/**
+ * keypress - Handles keyboard input for object selection and transformations.
+ * @mlx_data: The MLX42 key event structure.
+ * @param: A pointer to the `t_data` structure.
+ *
+ * This function:
+ * - Closes the window when `ESC` is pressed.
+ * - Selects the next object when `TAB` is pressed.
+ * - Changes the movement axis when `X`, `Y`, or `Z` is pressed.
+ * - Moves the selected object along the chosen axis using `KP_ADD` and `KP_SUBTRACT`.
+ * - Redraws the scene when `ENTER` is pressed.
+ */
 void	keypress(mlx_key_data_t mlx_data, void *param)
 {
 	t_data	*data;

@@ -1,5 +1,17 @@
 #include "../includes/minirt.h"
 
+/**
+ * print_object - Prints details of a scene object.
+ * @o: Pointer to the `t_object` structure.
+ *
+ * This function:
+ * - Displays the **type of the object** using emojis.
+ * - Prints the **location** if applicable.
+ * - Prints the **orientation** for applicable objects.
+ * - Displays **FOV** for cameras.
+ * - Displays **diameter** for spheres and cylinders.
+ * - Prints the **color** in RGB format with ANSI escape codes.
+ */
 void print_object(t_object *o)
 {
 	if (o == NULL)
@@ -38,10 +50,22 @@ void print_object(t_object *o)
 	{
 		printf("Color: \033[38;2;%d;%d;%dm%06X\033[0m\n",
            (o->color >> 16) & 0xFF, (o->color >> 8) & 0xFF,
-           o->color & 0xFF, o->color); 
+           o->color & 0xFF, o->color);
 	}
 }
 
+/**
+ * get_type - Determines the type of object from a scene line.
+ * @line: The input line from the scene file.
+ *
+ * This function:
+ * - Compares the first word of the line with predefined object identifiers.
+ * - Uses a lookup array to check object types efficiently.
+ *
+ * Return:
+ * - The corresponding `t_type` value (`CAMERA`, `SPHERE`, `PLANE`, etc.).
+ * - `NONE` if no valid type is found.
+ */
 t_type  get_type(char *line)
 {
     char    *shapes[7];
@@ -64,6 +88,21 @@ t_type  get_type(char *line)
     return (NONE);
 }
 
+/**
+ * parse_object - Parses a scene object from a line.
+ * @object: Pointer to the `t_object` to be initialized.
+ * @line: The input line from the scene file.
+ *
+ * This function:
+ * - Splits the line into an array of words.
+ * - Determines the object type using `get_type()`.
+ * - Calls the corresponding creation function (`create_sphere`, `create_plane`, etc.).
+ * - Frees the allocated array after parsing.
+ *
+ * Return:
+ * - `0` on success.
+ * - `1` if parsing fails.
+ */
 int	parse_object(t_object	*object, char *line)
 {
 	char		**info;

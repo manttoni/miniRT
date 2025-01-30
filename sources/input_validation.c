@@ -1,5 +1,25 @@
 #include "../includes/minirt.h"
 
+/**
+ * assign_checks - Assigns validation functions based on object type.
+ * @type: The type of the object being validated.
+ * @checks: Array of function pointers for validation checks.
+ *
+ * This function assigns a **set of validation functions** (`is_double`, `is_vector`, etc.)
+ * to an array of function pointers based on the object's type.
+ *
+ * - Each `checks[i]` function validates a specific **property** of the object.
+ * - The list ends with `NULL`, marking the **end of the validation sequence**.
+ *
+ * Example:
+ * - A **camera** requires three checks:
+ *   - Position → `is_vector`
+ *   - Orientation → `is_vector`
+ *   - Field of View → `is_int`
+ *   - Termination → `NULL`
+ *
+ * The function dynamically sets up the validation rules, ensuring **correct format checking**.
+ */
 void    assign_checks(t_type type, int (**checks)(char *))
 {
     if (type == AMBIENT)
@@ -46,6 +66,21 @@ void    assign_checks(t_type type, int (**checks)(char *))
     }
 }
 
+/**
+ * next_value - Moves the pointer to the next value in the string.
+ * @ptr: Current position in the string.
+ *
+ * This function:
+ * - Finds the next **whitespace-separated value** in the string.
+ * - Returns a pointer to the start of the next value.
+ * - Skips any additional spaces after the delimiter.
+ *
+ * If no next value is found, it returns `NULL`.
+ *
+ * Return:
+ * - Pointer to the next value in the string.
+ * - NULL if no next value exists.
+ */
 static char *next_value(char *ptr)
 {
     ptr = ft_strchr(ptr, ' ');
@@ -56,6 +91,29 @@ static char *next_value(char *ptr)
     return (ptr);
 }
 
+/**
+ * validate - Validates a line from the scene file.
+ * @line: The line containing object data.
+ *
+ * This function:
+ * - **Identifies the object type** from the first token.
+ * - **Assigns appropriate validation functions** based on object type.
+ * - Iterates through all expected values and **validates them** using assigned functions.
+ * - If any validation check fails, the function returns `NULL`.
+ *
+ * Example:
+ * ```
+ * L -40.0,50.0,0.0 0.6
+ * ```
+ * - `L` → Light object
+ * - Checks:
+ *   1. Position `(-40.0,50.0,0.0)` → `is_vector`
+ *   2. Brightness `(0.6)` → `is_double`
+ *
+ * Return:
+ * - The **original line** if it is valid.
+ * - `NULL` if any value is **missing or invalid**.
+ */
 char    *validate(char *line)
 {
     int  	(*checks[6])(char *);
