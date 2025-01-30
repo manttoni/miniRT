@@ -45,6 +45,6 @@ void	free_data(t_data *data)
 {
 	if (data == NULL)
 		return ;
-	free_list(data->objects);
+	free_objarr(data->objects);
 	free(data);
 }

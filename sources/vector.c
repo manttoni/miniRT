@@ -92,6 +92,11 @@ double	v_dist(t_vector a, t_vector b)
 	return (v_len(v_sub(a, b)));
 }
 
+int	is_normalized_vector(t_vector v)
+{
+	return (v_len(v) > 1 + EPSILON || v_len(v) < 1 - EPSILON);
+}
+
 /*
 int main(void)
 {

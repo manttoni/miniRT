@@ -66,15 +66,21 @@ char    *validate(char *line)
     type = get_type(line);
     if (line == NULL || ft_isspace(*line) || *line == '\0' || type == NONE)
         return (NULL);
-assign_checks(type, checks);
+    assign_checks(type, checks);
     ptr = line;
 	i = 0;
+
     while(checks[i] != NULL)
     {
         ptr = next_value(ptr);
 		if (ptr == NULL || (checks[i])(ptr) == 0)
+        {
+            if (type == PLANE)
+                printf("Failed at check: %d\n", i);
             return (NULL);
+        }
         i++;
     }
+    printf("Validation success: %s\n", line);
     return (line);
 }

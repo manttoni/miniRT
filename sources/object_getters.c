@@ -1,12 +1,15 @@
 #include "../includes/minirt.h"
 
-t_object	*get_object(t_object *objects, t_type type)
+t_object	*get_object(t_object **arr, t_type type)
 {
-	while (objects)
+	size_t	i;
+
+	i = 0;
+	while (arr[i] != NULL)
 	{
-		if (objects->type == type)
-			return (objects);
-		objects = objects->next;
+		if (arr[i]->type == type)
+			return (arr[i]);
+		i++;
 	}
 	return (NULL);
 }

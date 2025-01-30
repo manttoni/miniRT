@@ -24,19 +24,19 @@ t_ray	get_ray(t_object *camera, int x, int y)
 /*	Calculates collisions based on distance to the closest object
 	If it is less than close_enough, it is a collision
 	Otherwise moves ray to its direction by that amount	*/
-int	cast_ray(t_ray *ray, t_object *objects, double render_distance)
+int	cast_ray(t_ray *ray, t_object **arr, double render_distance)
 {
 	double	closest_dist;
 	double	close_enough;
 	int		i;
 
 	i = 0;
-	close_enough = 0.001;
+	close_enough = 0.1;
 	while (ray->distance < render_distance)
 	{
-		closest_dist = closest(ray, objects);
+		closest_dist = closest(ray, arr);
 		if (closest_dist < close_enough || i > 100)
-			return 1;
+			return (1);
 		if (closest_dist >= RENDER_DISTANCE)
 			return 0;
 		// ray "jumps" forward to a point where it might collide
@@ -50,7 +50,7 @@ int	cast_ray(t_ray *ray, t_object *objects, double render_distance)
 
 /*	A new ray will check if there is an object between the collision point and the light source
 	The ray gets a headstart towards the light byt the amount of self_collision_avoid */
-int	light_obstructed(t_ray *ray, t_object *objects)
+int	light_obstructed(t_ray *ray, t_object **arr)
 {
 	t_ray	light_ray;
 	t_object *light;
@@ -58,12 +58,12 @@ int	light_obstructed(t_ray *ray, t_object *objects)
 
 	// copies location
 	light_ray = *ray;
-	light = get_object(objects, LIGHT);
+	light = get_object(arr, LIGHT);
 	light_ray.direction = v_sub(light->location, light_ray.location);
 	light_ray.direction = normalize_vector(light_ray.direction);
 	light_ray.distance = self_collision_avoid;
 	light_ray.location = v_sum(light_ray.location, v_mul(self_collision_avoid, light_ray.direction));
-	return (cast_ray(&light_ray, objects, v_dist(light_ray.location, light->location) - self_collision_avoid));
+	return (cast_ray(&light_ray, arr, v_dist(light_ray.location, light->location) - self_collision_avoid));
 }
 
 void	raycast(t_data *data)
@@ -73,7 +73,7 @@ void	raycast(t_data *data)
 	t_ray ray;
 	t_object *camera;
 
-	camera = get_object(data->objects, CAMERA);
+	camera = get_object(data->objects->arr, CAMERA);
 	if (camera == NULL)
 	{
 		printf("Camera not found\n");
@@ -87,12 +87,12 @@ void	raycast(t_data *data)
 		while (x < X)
 		{
 			ray = get_ray(camera, x, y);
-			if (cast_ray(&ray, data->objects, RENDER_DISTANCE) == 1
+			if (cast_ray(&ray, data->objects->arr, RENDER_DISTANCE) == 1
 				&& ray.distance < RENDER_DISTANCE)
 			{
 				ray.color = color_intensity(ray.color, 1.0 - (ray.distance / RENDER_DISTANCE));
-				if (light_obstructed(&ray, data->objects) == 1)
-					ray.color = color_intensity(ray.color, 0.5);
+				//if (light_obstructed(&ray, data->objects->arr) == 1)
+				//	ray.color = color_intensity(ray.color, 0.5);
 			}
 			else
 				ray.color = BACKGROUND_COLOR;

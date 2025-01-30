@@ -1,14 +1,14 @@
 #include "../includes/minirt.h"
 
-void print_objects(t_object *objects)
+void print_objects(t_objarr *objects)
 {
-	t_object *o;
+	int	i;
 
-	o = objects;
-	while (o)
+	i = 0;
+	while (objects->arr[i] != NULL)
 	{
-		print_object(o);
-		o = o->next;
+		print_object(objects->arr[i]);
+		i++;
 	}
 	printf("---------------\n");
 }

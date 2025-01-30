@@ -11,26 +11,30 @@ double  plane_distance(t_vector point, t_object *plane)
     return (fabs(dot_product(plane->orientation, point) + plane->d));
 }
 
-double  closest(t_ray *ray, t_object *objects)
+double  closest(t_ray *ray, t_object **arr)
 {
     double  dist;
     double  closest_dist;
+    size_t  i;
 
+    i = 0;
     closest_dist = RENDER_DISTANCE;
-    while (objects)
+    while (arr[i] != NULL)
     {
-        if (objects->type == SPHERE)
-            dist = sphere_distance(ray->location, objects);
-        else if (objects->type == PLANE)
-            dist = plane_distance(ray->location, objects);
+        if (arr[i]->sdf != NULL)
+            dist = (*arr[i]->sdf)(ray->location, arr[i]);
+        // if (arr[i]->type == SPHERE)
+        //     dist = sphere_distance(ray->location, arr[i]);
+        // else if (arr[i]->type == PLANE)
+        //     dist = plane_distance(ray->location, arr[i]);
         else
             dist = closest_dist + 1;
         if (dist < closest_dist)
         {
-            ray->color = objects->color;
+            ray->color = arr[i]->color;
             closest_dist = dist;
         }
-        objects = objects->next;
+        i++;
     }
-    return closest_dist;
+    return (closest_dist);
 }

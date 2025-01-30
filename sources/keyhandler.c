@@ -6,7 +6,7 @@ int	handle_close(void *param)
 	free_data(param);
 	exit(0);
 }
-
+/*
 static t_object *select_next_object(t_object *selected, t_object *objects)
 {
 	t_object	*current;
@@ -33,13 +33,13 @@ static void redraw(t_data *data)
 	raycast(data);
 	mlx_image_to_window(data->mlx, data->image, 0, 0);
 }
-
+*/
 void	keypress(mlx_key_data_t mlx_data, void *param)
 {
 	t_data	*data;
-	static t_object *selected;
+	/*static t_object *selected;
 	static t_vector axis;
-
+*/
 	data = (t_data *)param;
 	if (mlx_data.action == MLX_PRESS)
 	{
@@ -48,7 +48,7 @@ void	keypress(mlx_key_data_t mlx_data, void *param)
 			mlx_close_window(data->mlx);
 			return ;
 		}
-		if (mlx_data.key == MLX_KEY_TAB)
+		/*if (mlx_data.key == MLX_KEY_TAB)
 		{
 			selected = select_next_object(selected, data->objects);
 			print_object(selected);
@@ -79,6 +79,6 @@ void	keypress(mlx_key_data_t mlx_data, void *param)
 			print_vector(selected->location);
 		}
 		if (mlx_data.key == MLX_KEY_ENTER)
-			redraw(data);
+			redraw(data);*/
 	}
 }
