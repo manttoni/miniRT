@@ -22,7 +22,7 @@ SRC = $(SRC_DIR)main.c\
 	$(SRC_DIR)input_validation.c
 
 FLAGS = -Wall -Werror -Wextra -g -O2
-OFLAGS = -ldl -lglfw -pthread -lm
+OFLAGS = -Iinclude -ldl -lglfw -pthread -lm
 MAKEFLAGS += --no-print-directory
 HEADS = -I. $(MLX_HEAD) -I$(LIBFT_DIR)
 

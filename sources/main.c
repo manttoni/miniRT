@@ -10,8 +10,8 @@ void print_objects(t_object *objects)
 		print_object(o);
 		o = o->next;
 	}
+	printf("---------------\n");
 }
-
 
 static int	format_validation(char *str)
 {
@@ -25,27 +25,25 @@ static int	format_validation(char *str)
 
 int main(int argc, char **argv)
 {
-	if (argc == 2)
+	if (argc != 2)
 	{
-		if (format_validation(argv[1]))
-		{
-			printf("Wrong type of file\n");
-			return (1);
-		}
-		t_data	*data = init_data(argv[1]);
-		if (data == NULL)
-			return (1);
-		printf("Data initialized\n");
-		print_objects(data->objects);
-		printf("---------------\n");
-		raycast(data);
-		mlx_key_hook(data->mlx, &keypress, data);
-		mlx_image_to_window(data->mlx, data->image , 0, 0);
-		mlx_loop(data->mlx);
-		mlx_terminate(data->mlx);
-		free_data(data);
+		printf("Wrong amount of arguments!\n");
+		return (1);
 	}
-	else
-		printf("Too many arguments\n");
+	if (format_validation(argv[1]))
+	{
+		printf("Wrong type of file\n");
+		return (1);
+	}
+	t_data	*data = init_data(argv[1]);
+	if (data == NULL)
+		return (1);
+	print_objects(data->objects);
+	raycast(data);
+	mlx_key_hook(data->mlx, &keypress, data);
+	mlx_image_to_window(data->mlx, data->image , 0, 0);
+	mlx_loop(data->mlx);
+	mlx_terminate(data->mlx);
+	free_data(data);
 	return (0);
 }

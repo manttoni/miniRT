@@ -26,6 +26,7 @@ void	create_plane(t_object *object, char **info)
 		free(object);
 		return ;
 	}
+	object->d = dot_product(object->orientation, object->location); // precalculation
 	return ;
 }
 
