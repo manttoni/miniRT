@@ -48,24 +48,19 @@ int	cast_ray(t_ray *ray, t_object *objects, double render_distance)
 {
 	double	closest_dist;
 	double	close_enough;
-	// int		i;
-	double	step;
+	int		i;
 
-	// i = 0;
-	step = 1.;
+	i = 0;
 	close_enough = 0.001;
 	while (ray->distance < render_distance)
 	{
 		closest_dist = closest(ray, objects);
-		if (closest_dist < close_enough)
+		if (closest_dist < close_enough  || i < 100)
 			return (1);
-		// if (closest_dist >= RENDER_DISTANCE)
-		// 	return (0);
-		step = fmax(0.1, closest_dist * 0.5);
-		ray->distance += step;
-		ray->location = v_sum(ray->location, v_mul(step, ray->direction));
-		// ray->location = v_sum(ray->location, v_mul(closest_dist, ray->direction));
-		// i++;
+		if (closest_dist >= RENDER_DISTANCE)
+			return (0);
+		ray->location = v_sum(ray->location, v_mul(closest_dist, ray->direction));
+		i++;
 	}
 	return (0);
 }
