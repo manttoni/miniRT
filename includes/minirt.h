@@ -19,6 +19,8 @@
 # define X 750
 # define Y 750
 # define RENDER_DISTANCE 150
+# define FAILURE 1
+# define SUCCESS 0
 
 /* Enums */
 typedef enum e_type
@@ -31,6 +33,7 @@ typedef enum e_type
 	CYLINDER,
 	NONE
 }	t_type;
+
 
 /* Structs */
 typedef struct s_vector
@@ -49,7 +52,6 @@ typedef struct s_ray
     t_vector    location;
 }   t_ray;
 
-
 typedef struct s_camera_info
 {
 	unsigned int	view_distance;
@@ -65,28 +67,58 @@ typedef struct s_color
 	int b;
 }	t_color;
 
+typedef struct	s_image
+{
+	mlx_image_t	*img;
+	char	*img_data;
+	int		bits_per_pixel;
+	int		size_line;
+	int		endian;
+	int		focal_len;
+}	t_image;
+
+
 typedef struct	s_object
 {
 	t_type			type;
 	uint32_t		color;
 	double			brightness;
-	t_vector		location;
-	t_vector		orientation;
-	int				fov;
 	double			diameter;
 	double			height;
-	int				(*collision)(t_ray *, struct s_object *);
-	t_camera_info	info;
 	double			d;
-	struct s_object *next;
+	t_vector		location;
+	t_vector		orientation;
+	double			(*sdf)(t_vector, struct s_object *);
+	int				fov;
+	t_camera_info	info;
+
 }	t_object;
+
+/*
+	arr is malloced array of pointers to objects
+	capacity is amount of memory allocated
+	objects is amount of objects
+*/
+typedef struct s_objarr
+{
+	t_object	**arr;
+	size_t		capacity;
+	size_t		objects;
+}	t_objarr;
 
 typedef struct	s_data
 {
-	t_object	*objects;
+	t_objarr	*objects;
 	mlx_t		*mlx;
 	mlx_image_t	*image;
 }	t_data;
+
+/* Parsers */
+t_objarr		*read_objects(char	*file);
+t_vector		parse_vector(char *str);
+uint32_t		parse_color(char *str);
+t_object		*parse_object(char *line);
+t_type			get_type(char *line);
 
 /* Validation */
 char    		*validate(char *line);
@@ -109,29 +141,33 @@ uint32_t		color_intensity(uint32_t color, double instensity);
 int				handle_close(void *param);
 void			keypress(mlx_key_data_t mlx_data, void *param);
 
-/* Object list */
+/* Object array */
+t_objarr	*init_objarr(size_t capacity);
+int			add(t_objarr *objarr, t_object *to_add);
+void		free_objarr(t_objarr *s_objarr);
+
+/* Object list
 t_object		*last_object(t_object *list);
 int				add_node(t_object **list, t_object *new);
 void			free_list(t_object *list);
 t_object		*create_node(char *line);
-t_object		*read_objects(char	*file);
 void			print_list(t_object *list);
+*/
+
+/* SDF */
+double  		closest(t_ray *ray, t_object **arr);
+double			sphere_distance(t_vector point, t_object *sphere);
+double			plane_distance(t_vector point, t_object *plane);
 
 /* Raytracing */
-double  		closest(t_ray *ray, t_object *objects);
 void    		raycast(t_data *data);
 
 /* Objects */
 void			print_object(t_object *o);
-t_object		*get_object(t_object *objects, t_type type);
+t_object		*get_object(t_object **arr, t_type type);
 t_camera_info 	image_plane(t_object *camera);
 
 /* Object parsers */
-int				parse_object(t_object	*object, char *line);
-int				parse_orientation(char *str, t_vector *orientation);
-int				parse_location(char *str, t_vector *location);
-int				parse_color(char *str);
-t_type			get_type(char *line);
 
 /* Shaped object creators */
 void			create_sphere(t_object *object, char **info);
@@ -151,6 +187,7 @@ char			*trim(char *str, char c);
 
 /* Errors */
 void			error_msg(t_data *data);
+int				failure(char *message);
 
 /* Vectors */
 double			v_angle(t_vector a, t_vector b);
@@ -164,5 +201,6 @@ t_vector		v_mul(double t, t_vector v);
 void			print_vector(t_vector v);
 t_vector		vector(double x, double y, double z);
 double			v_dist(t_vector a, t_vector b);
+int				is_normalized_vector(t_vector v);
 
 #endif

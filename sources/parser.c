@@ -1,108 +1,36 @@
 #include "../includes/minirt.h"
 
-/**
- * doublelen - Determines the valid length of a floating-point number in a string.
- * @str: The input string containing a potential floating-point number.
- *
- * This function:
- * - Iterates through `str` and counts valid characters (digits, `.` for decimals, and `-` for negative).
- * - Ensures:
- *   - Only one `.` (decimal point) is allowed.
- *   - Only one `-` (negative sign) is allowed and must be at the **beginning**.
- *   - If `.` is the first character or `-` follows `.`, it returns `0` (invalid).
- *
- * Return:
- * - The length of a valid double in `str`.
- * - `0` if the format is invalid.
- */
-size_t	doublelen(char *str)
+size_t	fract_len(char *ptr)
 {
 	size_t	len;
-	int	periods;
-	int	minus;
 
 	len = 0;
-	periods = 0;
-	minus = 0;
-	while (ft_isdigit(str[len])
-		|| (str[len] == '.' && periods <= 1)
-		|| (str[len] == '-' && minus <= 1))
-	{
-		if (str[len] == '.')
-			periods++;
-		if (str[len] == '-')
-		{
-			if (periods == 1)
-				return (0);
-			minus++;
-		}
+	while (ft_isdigit(ptr[len]))
 		len++;
-	}
-	if (len == 1 && (str[0] == '.' || str[0] == '-'))
-		return (0);
 	return (len);
 }
 
-/**
- * valid_double - Checks if a string represents a valid floating-point number.
- * @str: The input string.
- *
- * This function:
- * - Calls `doublelen(str)` to determine how much of `str` is a valid floating-point number.
- * - If `ft_strlen(str) != doublelen(str)`, it means `str` contains **extra invalid characters**.
- * - If invalid, sets `errno = EINVAL` (error handling).
- *
- * Return:
- * - `1` if `str` is a valid floating-point number.
- * - `0` if `str` contains **invalid characters** or incorrect format.
- */
-int	valid_double(char *str)
-{
-	if (ft_strlen(str) != doublelen(str))
-	{
-		errno = EINVAL;
-		return (0);
-	}
-	return (1);
-}
-
-/**
- * parse_double - Converts a valid string representation of a double to `double`.
- * @str: The input string (must be validated before calling).
- *
- * This function:
- * - Calls `valid_double(str)`. If invalid, prints an error and returns `0.0`.
- * - Handles **integer part** and **fractional part** separately.
- * - Extracts the **sign** (`-` or `+`).
- * - Finds the `.` decimal point using `ft_strchr()`.
- * - Uses `pow(10, len)` to divide the fractional part correctly.
- * - Returns the computed `double` value.
- *
- * Return:
- * - The **double** representation of `str`.
- * - `0.0` if `str` is invalid.
- */
 double	parse_double(char *str)
 {
-	char	*period;
-	double	int_part;
-	double	fract_part;
+	int		int_part;
+	int		fract_part;
 	int		sign;
+	char	*dot;
 
-	if (valid_double(str) == 0)
-	{
-		printf("%s is not a valid double\n", str);
-		return (0);
-	}
 	sign = 1;
 	if (*str == '-')
+	{
+		str++;
 		sign = -1;
-	int_part = (double) ft_atoi(str);
-	period = ft_strchr(str, '.');
-	if (period == NULL)
-		return (int_part);
-	fract_part = (double) ft_atoi(period + 1);
-	return (int_part + sign * fract_part / pow(10, ft_strlen(period + 1)));
+	}
+	int_part = 0;
+	dot = ft_strchr(str, '.');
+	if (*str != '.')
+		int_part = ft_atoi(str);
+	if (dot == NULL)
+		return (sign * (double)int_part);
+	fract_part = ft_atoi(dot + 1);
+	return ((sign * int_part) + (sign * fract_part / pow(10, fract_len(dot + 1))));
 }
 /*
 #include <stdio.h>

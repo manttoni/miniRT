@@ -44,47 +44,28 @@ t_ray	get_ray(t_object *camera, int x, int y)
  * - `1` if the ray **hits an object**.
  * - `0` if the ray **does not intersect anything**.
  */
-int	cast_ray(t_ray *ray, t_object *objects, double render_distance)
+int	cast_ray(t_ray *ray, t_object **arr, double render_distance)
 {
-	// double	closest_dist;
-	// double	close_enough;
-	// int		i;
-
-	// i = 0;
-	// close_enough = 0.001;
-	// while (ray->distance < render_distance)
-	// {
-	// 	closest_dist = closest(ray, objects);
-	// 	if (closest_dist < close_enough  || i < 100)
-	// 		return (1);
-	// 	if (closest_dist >= RENDER_DISTANCE)
-	// 		return (0);
-	// 	ray->location = v_sum(ray->location, v_mul(closest_dist, ray->direction));
-	// 	i++;
-	// }
-	// return (0);
 	double	closest_dist;
 	double	close_enough;
-	// double step;
 	int		i;
 
 	i = 0;
-	close_enough = 0.0001;
-	// step = 1.0;
+	close_enough = 0.1;
 	while (ray->distance < render_distance)
 	{
-		closest_dist = closest(ray, objects);
-		if (closest_dist < close_enough)
+		closest_dist = closest(ray, arr);
+		if (closest_dist < close_enough || i > 100)
 			return (1);
-		// step = fmax(0.1, closest_dist * 0.5);
-		if (closest_dist < 0.1)
-			closest_dist = 0.1;
-		// ray->distance += step;
+		if (closest_dist >= RENDER_DISTANCE)
+			return 0;
+		// ray "jumps" forward to a point where it might collide
+		ray->distance += closest_dist;
+		// updates location so that a new closest_dist can be calculated
 		ray->location = v_sum(ray->location, v_mul(closest_dist, ray->direction));
-		if (i++ > 80)
-			return (0);
+		i++;
 	}
-	return (0);
+	return 0;
 }
 
 /**
@@ -103,7 +84,7 @@ int	cast_ray(t_ray *ray, t_object *objects, double render_distance)
  * - `1` if **shadow is present**.
  * - `0` if **light reaches the point**.
  */
-int	light_obstructed(t_ray *ray, t_object *objects)
+int	light_obstructed(t_ray *ray, t_object **arr)
 {
 	t_ray	light_ray;
 	t_object *light;
@@ -111,12 +92,12 @@ int	light_obstructed(t_ray *ray, t_object *objects)
 
 	// copies location
 	light_ray = *ray;
-	light = get_object(objects, LIGHT);
+	light = get_object(arr, LIGHT);
 	light_ray.direction = v_sub(light->location, light_ray.location);
 	light_ray.direction = normalize_vector(light_ray.direction);
 	light_ray.distance = self_collision_avoid;
 	light_ray.location = v_sum(light_ray.location, v_mul(self_collision_avoid, light_ray.direction));
-	return (cast_ray(&light_ray, objects, v_dist(light_ray.location, light->location) - self_collision_avoid));
+	return (cast_ray(&light_ray, arr, v_dist(light_ray.location, light->location) - self_collision_avoid));
 }
 
 /**
@@ -133,18 +114,15 @@ int	light_obstructed(t_ray *ray, t_object *objects)
  */
 void	raycast(t_data *data)
 {
-	int			x;
-	int			y;
-	t_ray		ray;
-	t_object	*camera;
-	// t_object	*light;
-	// t_object	*hit;
+	int	x;
+	int	y;
+	t_ray ray;
+	t_object *camera;
 
-	camera = get_object(data->objects, CAMERA);
-	// light = get_object(data->objects, LIGHT);
-	if (!camera)
+	camera = get_object(data->objects->arr, CAMERA);
+	if (camera == NULL)
 	{
-		printf("Camera or light not found\n");
+		printf("Camera not found\n");
 		return ;
 	}
 	printf("Raycasting started\n");
@@ -155,13 +133,12 @@ void	raycast(t_data *data)
 		while (x < X)
 		{
 			ray = get_ray(camera, x, y);
-
-			if (cast_ray(&ray, data->objects, RENDER_DISTANCE)
+			if (cast_ray(&ray, data->objects->arr, RENDER_DISTANCE) == 1
 				&& ray.distance < RENDER_DISTANCE)
 			{
-				ray.color = color_intensity(ray.color, 1.0 - (ray.distance / RENDER_DISTANCE));
-				if (light_obstructed(&ray, data->objects) == 1)
-					ray.color = color_intensity(ray.color, 0.5);
+				// ray.color = color_intensity(ray.color, 1.0 - (ray.distance / RENDER_DISTANCE));
+				// if (light_obstructed(&ray, data->objects->arr) == 1)
+				// 	ray.color = color_intensity(ray.color, 0.5);
 			}
 			else
 				ray.color = BACKGROUND_COLOR;
