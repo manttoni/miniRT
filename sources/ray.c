@@ -90,9 +90,9 @@ void	raycast(t_data *data)
 			if (cast_ray(&ray, data->objects->arr, RENDER_DISTANCE) == 1
 				&& ray.distance < RENDER_DISTANCE)
 			{
-				ray.color = color_intensity(ray.color, 1.0 - (ray.distance / RENDER_DISTANCE));
-				//if (light_obstructed(&ray, data->objects->arr) == 1)
-				//	ray.color = color_intensity(ray.color, 0.5);
+				// ray.color = color_intensity(ray.color, 1.0 - (ray.distance / RENDER_DISTANCE));
+				// if (light_obstructed(&ray, data->objects->arr) == 1)
+				// 	ray.color = color_intensity(ray.color, 0.5);
 			}
 			else
 				ray.color = BACKGROUND_COLOR;

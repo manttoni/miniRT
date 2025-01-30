@@ -37,8 +37,8 @@ void print_object(t_object *o)
 	if (o->type != CAMERA && o->type != LIGHT)
 	{
 		printf("Color: \033[38;2;%d;%d;%dm%06X\033[0m\n",
-           (o->color >> 16) & 0xFF, (o->color >> 8) & 0xFF,
-           o->color & 0xFF, o->color); 
+           (o->color >> 24) & 0xFF, (o->color >> 16) & 0xFF,
+           (o->color >> 8) & 0xFF, o->color); 
 	}
 }
 
@@ -56,7 +56,6 @@ t_type  get_type(char *line)
     i = 0;
     while (shapes[i] != NULL)
     {
-		printf("comparing %s %s len: %zu\n", shapes[i], line, ft_strlen(shapes[i]));
         if (ft_strncmp(shapes[i], line, ft_strlen(shapes[i])) == 0)
 		{
             return (i);
@@ -126,6 +125,7 @@ int	assign_sphere(t_object *sphere, char **info)
 {
 	sphere->location = parse_vector(info[1]);
 	sphere->diameter = parse_double(info[2]);
+	printf("%s\n", info[3]);
 	sphere->color = parse_color(info[3]);
 	sphere->sdf = &sphere_distance;
 	return (SUCCESS);
@@ -186,7 +186,6 @@ t_object	*parse_object(char *line)
 	if (object != NULL && line != NULL)
 	{
 		ft_memset(object, 0, sizeof(t_object));
-		printf("line\n");
 		object->type = get_type(line);
 	}
 	info = ft_split(line, ' ');

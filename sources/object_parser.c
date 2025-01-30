@@ -21,5 +21,5 @@ uint32_t	parse_color(char *str)
 	r = ft_atoi(str);
 	g = ft_atoi(ft_strchr(str, ',') + 1);
 	b = ft_atoi(ft_strrchr(str, ',') + 1);
-	return (255 << 24 | r << 16 | g << 8 | b);
+	return (r << 24 | g << 16 | b << 8 | 255);
 }

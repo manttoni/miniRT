@@ -63,7 +63,6 @@ int is_color(char *ptr)
         commas++;
         ptr++;
     }
-    printf("%d %d\n", values, commas);
     return (values == 3 && commas == 2);
 }
 
