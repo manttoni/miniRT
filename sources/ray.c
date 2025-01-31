@@ -1,117 +1,42 @@
 #include "../includes/minirt.h"
 
-/**
- * get_ray - Computes a ray for a given pixel on the image plane.
- * @camera: Pointer to the camera object.
- * @x: The horizontal pixel coordinate.
- * @y: The vertical pixel coordinate.
- *
- * This function:
- * - Uses the camera's **precomputed image plane vectors** (`u`, `v`).
- * - Adjusts the ray direction based on the **pixel position**.
- * - Normalizes the ray direction.
- *
- * Return:
- * - A `t_ray` struct representing the ray for pixel `(x, y)`.
- */
+/*	Returns a ray that is pointing towards pixel(x,y) of the image plane
+	Camera holds precalculated data
+		Basic vectors (u and v) of the image plane. Used for finding pixels
+		All rays share some information like starting point and general direction
+		aka camera direction	*/
 t_ray	get_ray(t_object *camera, int x, int y)
 {
 	t_ray		ray;
 
+	// precalculated part of the ray
+	// ray location is the camera
+	// ray direction is the center of the image plane
 	ray = camera->info.ray;
 
+	// this tilts the ray direction towards a pixel on the image plane
 	ray.direction = v_sum(ray.direction, v_mul((-X / 2 + x + 0.5), camera->info.u));
 	ray.direction = v_sum(ray.direction, v_mul((-Y / 2 + y + 0.5), camera->info.v));
 	ray.direction = normalize_vector(ray.direction);
 	return (ray);
 }
 
-/**
- * cast_ray - Performs ray marching to find intersections.
- * @ray: Pointer to the ray being cast.
- * @objects: List of objects in the scene.
- * @render_distance: The maximum distance for rendering.
- *
- * This function:
- * - Iterates forward along the ray's direction.
- * - Checks the **closest object distance** at each step.
- * - Stops if an object is **close enough** (`close_enough` threshold).
- * - Limits iterations to prevent **infinite loops**.
- * - Returns `1` if the ray **hits an object**.
- * - Returns `0` if the ray **misses all objects**.
- *
- * Return:
- * - `1` if the ray **hits an object**.
- * - `0` if the ray **does not intersect anything**.
- */
-int	cast_ray(t_ray *ray, t_object **arr, double render_distance)
+int	cast_ray(t_ray *ray, t_object **arr)
 {
-	double	closest_dist;
-	double	close_enough;
-	int		i;
+	size_t	i;
+	int		is_collision;
 
+	is_collision = 0;
 	i = 0;
-	close_enough = 0.1;
-	while (ray->distance < render_distance)
+	while (arr[i] != NULL)
 	{
-		closest_dist = closest(ray, arr);
-		if (closest_dist < close_enough || i > 100)
-			return (1);
-		if (closest_dist >= RENDER_DISTANCE)
-			return 0;
-		// ray "jumps" forward to a point where it might collide
-		ray->distance += closest_dist;
-		// updates location so that a new closest_dist can be calculated
-		ray->location = v_sum(ray->location, v_mul(closest_dist, ray->direction));
+		if (arr[i]->collisionf != NULL)
+			is_collision = max(is_collision, (*arr[i]->collisionf)(ray, arr[i]));
 		i++;
 	}
-	return 0;
+	return is_collision;
 }
 
-/**
- * light_obstructed - Determines if an object is blocking the light.
- * @ray: Pointer to the ray hitting an object.
- * @objects: List of objects in the scene.
- *
- * This function:
- * - Creates a **shadow ray** from the hit point **toward the light**.
- * - Checks if any object **blocks the path** to the light.
- * - Uses a small `self_collision_avoid` offset to prevent **self-shadowing**.
- * - Returns `1` if light is **obstructed** (in shadow).
- * - Returns `0` if light **reaches the point**.
- *
- * Return:
- * - `1` if **shadow is present**.
- * - `0` if **light reaches the point**.
- */
-int	light_obstructed(t_ray *ray, t_object **arr)
-{
-	t_ray	light_ray;
-	t_object *light;
-	double self_collision_avoid = 0.01;
-
-	// copies location
-	light_ray = *ray;
-	light = get_object(arr, LIGHT);
-	light_ray.direction = v_sub(light->location, light_ray.location);
-	light_ray.direction = normalize_vector(light_ray.direction);
-	light_ray.distance = self_collision_avoid;
-	light_ray.location = v_sum(light_ray.location, v_mul(self_collision_avoid, light_ray.direction));
-	return (cast_ray(&light_ray, arr, v_dist(light_ray.location, light->location) - self_collision_avoid));
-}
-
-/**
- * raycast - Traces rays for each pixel and renders the scene.
- * @data: Pointer to the scene data structure.
- *
- * This function:
- * - Iterates over all pixels `(x, y)`.
- * - Computes the corresponding **camera ray**.
- * - Calls `cast_ray()` to check for intersections.
- * - Applies **lighting intensity based on distance**.
- * - Checks if the object is in **shadow**.
- * - Colors the pixel accordingly.
- */
 void	raycast(t_data *data)
 {
 	int	x;
@@ -133,15 +58,8 @@ void	raycast(t_data *data)
 		while (x < X)
 		{
 			ray = get_ray(camera, x, y);
-			if (cast_ray(&ray, data->objects->arr, RENDER_DISTANCE) == 1
-				&& ray.distance < RENDER_DISTANCE)
-			{
-				// ray.color = color_intensity(ray.color, 1.0 - (ray.distance / RENDER_DISTANCE));
-				// if (light_obstructed(&ray, data->objects->arr) == 1)
-				// 	ray.color = color_intensity(ray.color, 0.5);
-			}
-			else
-				ray.color = BACKGROUND_COLOR;
+			cast_ray(&ray, data->objects->arr);
+			ray.color = set_lights(&ray, ray.end, ray.coll_norm, data->objects->arr);
 			color_pixel(data->image, ray.color, x, y);
 			x++;
 		}
@@ -150,3 +68,5 @@ void	raycast(t_data *data)
 	}
 	printf("Raycasting completed\n");
 }
+
+

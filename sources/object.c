@@ -31,15 +31,17 @@ void print_object(t_object *o)
 		print_vector(o->orientation);
 	}
 	if (o->type == CAMERA)
-		printf("FOV: %d\n", o->fov);
+		printf("FOV: %d\nView distance: %1.2f\n", o->fov, o->info.view_distance);
 	if (o->type == SPHERE || o->type == CYLINDER)
 		printf("Diameter: %f\n", o->diameter);
 	if (o->type != CAMERA && o->type != LIGHT)
 	{
 		printf("Color: \033[38;2;%d;%d;%dm%06X\033[0m\n",
-           (o->color >> 24) & 0xFF, (o->color >> 16) & 0xFF,
-           (o->color >> 8) & 0xFF, o->color);
+           (o->color) & 0xFF, (o->color >> 8) & 0xFF,
+           (o->color >> 16) & 0xFF, o->color);
 	}
+	if (o->type == LIGHT || o->type == AMBIENT)
+		printf("Brightness: %f\n", o->brightness);
 }
 
 t_type  get_type(char *line)
@@ -74,10 +76,19 @@ int assign_ambient(t_object *ambient, char **info)
 	return (SUCCESS);
 }
 
+double	calc_view_distance(int fov)
+{
+	double	fov_rad;
+
+	fov_rad = fov * M_PI / 180;
+	return ((X / 2) / tan(fov_rad / 2));
+}
+
 t_camera_info	image_plane(t_object *camera)
 {
 	t_camera_info	info;
 
+	info.view_distance = calc_view_distance(camera->fov);
 	if (camera->orientation.x == 0 && camera->orientation.y == 0)
 		info.u = vector(1, 0, 0);
 	else if (camera->orientation.y == 0 && camera->orientation.z == 0)
@@ -87,11 +98,12 @@ t_camera_info	image_plane(t_object *camera)
 	else
 		info.u = vector(-camera->orientation.y, camera->orientation.x, 0);
 	info.v = cross_product(camera->orientation, info.u);
-	info.ray.location = camera->location;
-	info.ray.direction = v_mul(camera->info.view_distance, camera->orientation);
+	info.ray.start = camera->location;
+	info.ray.end = camera->location;
+	info.ray.direction = v_mul(info.view_distance, camera->orientation);
 	info.ray.direction = v_sum(camera->location, info.ray.direction);
-	info.ray.distance = 0;
-	info.ray.color = 0xffff00ff;
+	info.ray.color = BACKGROUND_COLOR;
+	info.ray.distance = DBL_MAX;
 	return (info);
 }
 
@@ -103,7 +115,6 @@ int assign_camera(t_object *camera, char **info)
 	camera->orientation = normalize_vector(camera->orientation);
 	if (camera->fov < 0 || camera->fov > 180)
 		return (failure("FOV not valid"));
-	camera->info.view_distance = 600;
 	camera->info = image_plane(camera);
 	return (SUCCESS);
 }
@@ -125,9 +136,8 @@ int	assign_sphere(t_object *sphere, char **info)
 {
 	sphere->location = parse_vector(info[1]);
 	sphere->diameter = parse_double(info[2]);
-	printf("%s\n", info[3]);
 	sphere->color = parse_color(info[3]);
-	sphere->sdf = &sphere_distance;
+	sphere->collisionf = &sphere_collision;
 	return (SUCCESS);
 }
 
@@ -140,7 +150,7 @@ int	assign_plane(t_object *plane, char **info)
 	//if (!is_normalized_vector(plane->orientation))
 	//	return (failure("Plane orientation not normalized"));
 	plane->d = dot_product(plane->orientation, plane->location); // precalculation
-	plane->sdf = &plane_distance;
+	plane->collisionf = &plane_collision;
 	return (SUCCESS);
 }
 

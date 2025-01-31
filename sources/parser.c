@@ -10,6 +10,7 @@ size_t	fract_len(char *ptr)
 	return (len);
 }
 
+
 double	parse_double(char *str)
 {
 	int		int_part;

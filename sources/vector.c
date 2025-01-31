@@ -1,35 +1,10 @@
 #include "../includes/minirt.h"
 
-/**
- * v_len - Computes the magnitude (length) of a vector.
- * @v: The input vector.
- *
- * This function:
- * - Uses the Euclidean norm formula:
- *   \f$ |v| = \sqrt{x^2 + y^2 + z^2} \f$
- *
- * Return:
- * - The **length** (magnitude) of the vector.
- */
 double	v_len(t_vector v)
 {
 	return (sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
 }
 
-/**
- * v_angle - Computes the angle (in radians) between two vectors.
- * @a: First vector.
- * @b: Second vector.
- *
- * This function:
- * - Uses the **dot product formula** to compute the cosine of the angle:
- *   \f$ \cos(\theta) = \frac{a \cdot b}{|a| |b|} \f$
- * - Uses `acos()` to get the actual angle in **radians**.
- * - Clamps values to **avoid floating-point errors**.
- *
- * Return:
- * - The **angle in radians** between the vectors.
- */
 double	v_angle(t_vector a, t_vector b)
 {
 	double	dot;
@@ -44,18 +19,6 @@ double	v_angle(t_vector a, t_vector b)
 	return (acos(cos_theta));
 }
 
-/**
- * normalize_vector - Returns a unit vector (length = 1) in the same direction.
- * @v: The input vector.
- *
- * This function:
- * - Computes the **normalized unit vector** using:
- *   \f$ v_{normalized} = \frac{v}{|v|} \f$
- * - Prevents division by zero.
- *
- * Return:
- * - A **unit vector** pointing in the same direction as `v`.
- */
 t_vector	normalize_vector(t_vector v)
 {
 	double	len;
@@ -64,36 +27,11 @@ t_vector	normalize_vector(t_vector v)
 	return (t_vector){v.x / len, v.y / len, v.z / len};
 }
 
-/**
- * dot_product - Computes the dot product of two vectors.
- * @v1: First vector.
- * @v2: Second vector.
- *
- * This function:
- * - Uses the **dot product formula**:
- *   \f$ v_1 \cdot v_2 = x_1x_2 + y_1y_2 + z_1z_2 \f$
- *
- * Return:
- * - The **dot product value**.
- */
 double	dot_product(t_vector v1, t_vector v2)
 {
 	return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
 }
 
-/**
- * cross_product - Computes the cross product of two vectors.
- * @v1: First vector.
- * @v2: Second vector.
- *
- * This function:
- * - Uses the **cross product formula**:
- *   \f$ v_1 \times v_2 = (y_1z_2 - z_1y_2, z_1x_2 - x_1z_2, x_1y_2 - y_1x_2) \f$
- * - Returns a **vector perpendicular** to both input vectors.
- *
- * Return:
- * - The **cross product vector**.
- */
 t_vector	cross_product(t_vector v1, t_vector v2)
 {
 	t_vector	product;
@@ -113,15 +51,6 @@ void	print_vector(t_vector v)
 	printf("x: %1.2f, y: %1.2f, z: %1.2f, len: %1.2f\n", v.x, v.y, v.z, v_len(v));
 }
 
-/**
- * vector - Creates a vector with given coordinates.
- * @x: X component.
- * @y: Y component.
- * @z: Z component.
- *
- * Return:
- * - A `t_vector` structure.
- */
 t_vector	vector(double x, double y, double z)
 {
 	t_vector	v;
@@ -132,11 +61,6 @@ t_vector	vector(double x, double y, double z)
 	return (v);
 }
 
-/**
- * v_mul - Multiplies a vector by a scalar.
- * @t: The scalar value.
- * @v: The vector.
- */
 t_vector	v_mul(double t, t_vector v)
 {
 	t_vector	product;
@@ -147,11 +71,6 @@ t_vector	v_mul(double t, t_vector v)
 	return (product);
 }
 
-/**
- * v_sub - Computes the difference of two vectors.
- * @v1: First vector.
- * @v2: Second vector.
- */
 t_vector	v_sub(t_vector v1, t_vector v2)
 {
 	t_vector	difference;
@@ -162,11 +81,6 @@ t_vector	v_sub(t_vector v1, t_vector v2)
 	return (difference);
 }
 
-/**
- * v_sum - Computes the sum of two vectors.
- * @v1: First vector.
- * @v2: Second vector.
- */
 t_vector	v_sum(t_vector v1, t_vector v2)
 {
 	t_vector	sum;
@@ -177,22 +91,6 @@ t_vector	v_sum(t_vector v1, t_vector v2)
 	return (sum);
 }
 
-/**
- * v_dist - Computes the Euclidean distance between two points (vectors).
- * @a: The first vector (point A).
- * @b: The second vector (point B).
- *
- * This function:
- * - Computes the **difference vector** between `a` and `b` using `v_sub(a, b)`.
- * - Computes the **length (magnitude)** of this difference vector using `v_len()`.
- * - Uses the **Euclidean distance formula**:
- *   \[
- *   d = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2 + (z_2 - z_1)^2}
- *   \]
- *
- * Return:
- * - The **distance** between the two points.
- */
 double	v_dist(t_vector a, t_vector b)
 {
 	return (v_len(v_sub(a, b)));
@@ -201,6 +99,11 @@ double	v_dist(t_vector a, t_vector b)
 int	is_normalized_vector(t_vector v)
 {
 	return (v_len(v) > 1 + EPSILON || v_len(v) < 1 - EPSILON);
+}
+
+t_vector reflect_vector(t_vector light_dir, t_vector normal)
+{
+	return v_sub(v_mul(2 * dot_product(normal, light_dir), normal), light_dir);
 }
 
 
