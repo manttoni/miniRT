@@ -3,7 +3,7 @@ NAME = miniRT
 SRC_DIR = sources/
 
 SRC = $(SRC_DIR)main.c \
-	$(SRC_DIR)distance.c \
+	$(SRC_DIR)collision.c \
 	$(SRC_DIR)color.c \
 	$(SRC_DIR)object_getters.c \
 	$(SRC_DIR)data.c \
@@ -17,7 +17,7 @@ SRC = $(SRC_DIR)main.c \
 	$(SRC_DIR)utils.c \
 	$(SRC_DIR)validation_utils.c \
 	$(SRC_DIR)vector.c \
-	$(SRC_DIR)input_validation.c \
+	$(SRC_DIR)validation.c \
 	$(SRC_DIR)errors.c \
 	$(SRC_DIR)vector_math.c \
 	$(SRC_DIR)vector_geometry.c
