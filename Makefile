@@ -2,23 +2,25 @@ NAME = miniRT
 
 SRC_DIR = sources/
 
-SRC = $(SRC_DIR)main.c\
-	$(SRC_DIR)distance.c\
-	$(SRC_DIR)color.c\
-	$(SRC_DIR)object_getters.c\
-	$(SRC_DIR)data.c\
-	$(SRC_DIR)file_reader.c\
-	$(SRC_DIR)keyhandler.c\
-	$(SRC_DIR)object_array.c\
-	$(SRC_DIR)object_parser.c\
-	$(SRC_DIR)object.c\
-	$(SRC_DIR)parser.c\
-	$(SRC_DIR)ray.c\
-	$(SRC_DIR)utils.c\
-	$(SRC_DIR)validation_utils.c\
-	$(SRC_DIR)vector.c\
-	$(SRC_DIR)input_validation.c\
-	$(SRC_DIR)errors.c
+SRC = $(SRC_DIR)main.c \
+	$(SRC_DIR)distance.c \
+	$(SRC_DIR)color.c \
+	$(SRC_DIR)object_getters.c \
+	$(SRC_DIR)data.c \
+	$(SRC_DIR)file_reader.c \
+	$(SRC_DIR)keyhandler.c \
+	$(SRC_DIR)object_array.c \
+	$(SRC_DIR)object_parser.c \
+	$(SRC_DIR)object.c \
+	$(SRC_DIR)parser.c \
+	$(SRC_DIR)ray.c \
+	$(SRC_DIR)utils.c \
+	$(SRC_DIR)validation_utils.c \
+	$(SRC_DIR)vector.c \
+	$(SRC_DIR)input_validation.c \
+	$(SRC_DIR)errors.c \
+	$(SRC_DIR)vector_math.c \
+	$(SRC_DIR)vector_geometry.c
 
 FLAGS = -Wall -Werror -Wextra -g -O2
 OFLAGS = -Iinclude -ldl -lglfw -pthread -lm
