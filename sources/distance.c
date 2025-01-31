@@ -11,6 +11,14 @@ double  plane_distance(t_vector point, t_object *plane)
     return (fabs(dot_product(plane->orientation, point) + plane->d));
 }
 
+static void    set_coll_norm(t_ray *ray, t_object *object)
+{
+    if (object->type == SPHERE)
+        ray->coll_norm = normalize_vector(v_sub(object->location, ray->location));
+    else if (object->type == PLANE)
+        ray->coll_norm = object->orientation;
+}
+
 double  closest(t_ray *ray, t_object **arr)
 {
     double  dist;
@@ -33,6 +41,7 @@ double  closest(t_ray *ray, t_object **arr)
         {
             ray->color = arr[i]->color;
             closest_dist = dist;
+            set_coll_norm(ray, arr[i]);
         }
         i++;
     }
