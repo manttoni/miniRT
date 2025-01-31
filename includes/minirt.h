@@ -54,7 +54,7 @@ typedef struct s_ray
 
 typedef struct s_camera_info
 {
-	unsigned int	view_distance;
+	double			view_distance;
 	t_vector		u;
 	t_vector		v;
 	t_ray			ray;

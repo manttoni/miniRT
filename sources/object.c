@@ -31,7 +31,7 @@ void print_object(t_object *o)
 		print_vector(o->orientation);
 	}
 	if (o->type == CAMERA)
-		printf("FOV: %d\n", o->fov);
+		printf("FOV: %d\nView distance: %1.2f\n", o->fov, o->info.view_distance);
 	if (o->type == SPHERE || o->type == CYLINDER)
 		printf("Diameter: %f\n", o->diameter);
 	if (o->type != CAMERA && o->type != LIGHT)
@@ -74,10 +74,19 @@ int assign_ambient(t_object *ambient, char **info)
 	return (SUCCESS);
 }
 
+double	calc_view_distance(int fov)
+{
+	double	fov_rad;
+
+	fov_rad = fov * M_PI / 180;
+	return ((X / 2) / tan(fov_rad / 2));
+}
+
 t_camera_info	image_plane(t_object *camera)
 {
 	t_camera_info	info;
 
+	info.view_distance = calc_view_distance(camera->fov);
 	if (camera->orientation.x == 0 && camera->orientation.y == 0)
 		info.u = vector(1, 0, 0);
 	else if (camera->orientation.y == 0 && camera->orientation.z == 0)
@@ -88,7 +97,7 @@ t_camera_info	image_plane(t_object *camera)
 		info.u = vector(-camera->orientation.y, camera->orientation.x, 0);
 	info.v = cross_product(camera->orientation, info.u);
 	info.ray.location = camera->location;
-	info.ray.direction = v_mul(camera->info.view_distance, camera->orientation);
+	info.ray.direction = v_mul(info.view_distance, camera->orientation);
 	info.ray.direction = v_sum(camera->location, info.ray.direction);
 	info.ray.distance = 0;
 	info.ray.color = BACKGROUND_COLOR;
@@ -103,7 +112,6 @@ int assign_camera(t_object *camera, char **info)
 	camera->orientation = normalize_vector(camera->orientation);
 	if (camera->fov < 0 || camera->fov > 180)
 		return (failure("FOV not valid"));
-	camera->info.view_distance = 600;
 	camera->info = image_plane(camera);
 	return (SUCCESS);
 }
