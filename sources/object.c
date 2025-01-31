@@ -40,6 +40,8 @@ void print_object(t_object *o)
            (o->color) & 0xFF, (o->color >> 8) & 0xFF,
            (o->color >> 16) & 0xFF, o->color); 
 	}
+	if (o->type == LIGHT || o->type == AMBIENT)
+		printf("Brightness: %f\n", o->brightness);
 }
 
 t_type  get_type(char *line)

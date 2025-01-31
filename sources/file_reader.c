@@ -15,10 +15,10 @@ t_objarr	*read_objects(char *file)
 		free_objarr(objarr);
 		return (NULL);
 	}
-	line = trim(get_next_line(fd), '\n');
+	line = trim_newline(get_next_line(fd));
 	while (line)
 	{
-		if (*line != '#' && add(objarr, parse_object(line)) == FAILURE)
+		if (*line != '\0' && *line != '#' && add(objarr, parse_object(line)) == FAILURE)
 		{
 			free_objarr(objarr);
 			free(line);
@@ -26,7 +26,7 @@ t_objarr	*read_objects(char *file)
 			return (NULL);
 		}
 		free(line);
-		line = trim(get_next_line(fd), '\n');
+		line = trim_newline(get_next_line(fd));
 	}
 	close(fd);
 	return (objarr);
