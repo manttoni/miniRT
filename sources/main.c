@@ -13,31 +13,27 @@ void print_objects(t_objarr *objects)
 	printf("---------------\n");
 }
 
-static int	format_validation(char *str)
+static int	format_validation(int argc, char **argv)
 {
-	int	len;
+	int		len;
+	char	*str;
 
+	if (argc != 2)
+		return (failure("Wrong amount of arguments"));
+	str = argv[1];
 	len = ft_strlen(str);
 	if (ft_strncmp(&str[len - 3], ".rt", 3) != 0)
-		return (1);
+		return (failure("Wrong filetype"));
 	return (0);
 }
 
 int main(int argc, char **argv)
 {
-	if (argc != 2)
-	{
-		printf("Wrong amount of arguments!\n");
+	if (format_validation(argc, argv) == 1)
 		return (1);
-	}
-	if (format_validation(argv[1]))
-	{
-		printf("Wrong type of file\n");
-		return (1);
-	}
 	t_data	*data = init_data(argv[1]);
 	if (data == NULL)
-		return (1);
+		return (failure("data initialization failed"));
 	print_objects(data->objects);
 	raycast(data);
 	mlx_key_hook(data->mlx, &keypress, data);

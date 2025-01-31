@@ -54,7 +54,7 @@ typedef struct s_ray
 
 typedef struct s_camera_info
 {
-	unsigned int	view_distance;
+	double			view_distance;
 	t_vector		u;
 	t_vector		v;
 	t_ray			ray;
@@ -183,7 +183,8 @@ void			create_light(t_object *object, char **info);
 double			parse_double(char *str);
 int				min(int a, int b);
 int				max(int a, int b);
-char			*trim(char *str, char c);
+//char			*trim(char *str, char c);
+char			*trim_newline(char *str);
 
 /* Errors */
 void			error_msg(t_data *data);

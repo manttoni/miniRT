@@ -13,8 +13,25 @@ int	max(int a, int b)
 		return (a);
 	return (b);
 }
+
+char	*trim_newline(char *str)
+{
+	char	*trimmed;
+	size_t	len;
+
+	if (str == NULL)
+		return (NULL);
+	len = ft_strlen(str);
+	if (str[len - 1] == '\n')
+		trimmed = ft_substr(str, 0, len - 1);
+	else
+		return (str);
+	free(str);
+	return (trimmed);
+}
+
 /* Returns a char pointer with all c
- * removed from start and end */
+ * removed from start and end 
 char	*trim(char *str, char c)
 {
 	char	*start;
@@ -45,7 +62,7 @@ char	*trim(char *str, char c)
 	free(str);
 	trimmed[i] = '\0';
 	return (trimmed);
-}
+}*/
 
 void	error_msg(t_data *data)
 {
