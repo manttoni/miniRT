@@ -6,26 +6,12 @@ int	handle_close(void *param)
 	free_data(param);
 	exit(0);
 }
-/*
-static t_object *select_next_object(t_object *selected, t_object *objects)
-{
-	t_object	*current;
 
-	if (selected == NULL)
-		return (objects);
-	current = objects;
-	while (current)
-	{
-		if (current == selected)
-		{
-			if (current->next == NULL)
-				return (objects);
-			else
-				return (current->next);
-		}
-		current = current->next;
-	}
-	return (NULL);
+static int	select_next_object(int selected, t_object **arr)
+{
+	if (arr[selected + 1] == NULL)
+		return (0);
+	return (selected + 1);
 }
 
 static void redraw(t_data *data)
@@ -33,14 +19,16 @@ static void redraw(t_data *data)
 	raycast(data);
 	mlx_image_to_window(data->mlx, data->image, 0, 0);
 }
-*/
+
 void	keypress(mlx_key_data_t mlx_data, void *param)
 {
 	t_data	*data;
-	/*static t_object *selected;
+	static int		selected;
 	static t_vector axis;
-*/
+	t_object		**arr;
+
 	data = (t_data *)param;
+	arr = data->objects->arr;
 	if (mlx_data.action == MLX_PRESS)
 	{
 		if (mlx_data.key == MLX_KEY_ESCAPE)
@@ -48,10 +36,10 @@ void	keypress(mlx_key_data_t mlx_data, void *param)
 			mlx_close_window(data->mlx);
 			return ;
 		}
-		/*if (mlx_data.key == MLX_KEY_TAB)
+		if (mlx_data.key == MLX_KEY_TAB)
 		{
-			selected = select_next_object(selected, data->objects);
-			print_object(selected);
+			selected = select_next_object(selected, arr);
+			print_object(arr[selected]);
 		}
 		if (mlx_data.key == MLX_KEY_X)
 		{
@@ -70,15 +58,15 @@ void	keypress(mlx_key_data_t mlx_data, void *param)
 		}
 		if (mlx_data.key == MLX_KEY_KP_ADD)
 		{
-			selected->location = v_sum(selected->location, axis);
-			print_vector(selected->location);
+			arr[selected]->location = v_sum(arr[selected]->location, axis);
+			print_vector(arr[selected]->location);
 		}
 		if (mlx_data.key == MLX_KEY_KP_SUBTRACT)
 		{
-			selected->location = v_sub(selected->location, axis);
-			print_vector(selected->location);
+			arr[selected]->location = v_sub(arr[selected]->location, axis);
+			print_vector(arr[selected]->location);
 		}
 		if (mlx_data.key == MLX_KEY_ENTER)
-			redraw(data);*/
+			redraw(data);
 	}
 }
