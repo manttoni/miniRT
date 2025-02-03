@@ -35,6 +35,13 @@ typedef enum e_type
 	NONE
 }	t_type;
 
+typedef enum e_rgba
+{
+	RED,
+	GREEN,
+	BLUE,
+	ALPHA
+}	t_rgba;
 
 /* Structs */
 typedef struct s_vector
@@ -61,13 +68,6 @@ typedef struct s_camera_info
 	t_vector		v;
 	t_ray			ray;
 }	t_camera_info;
-
-typedef struct s_color
-{
-	int r;
-	int g;
-	int b;
-}	t_color;
 
 typedef struct	s_object
 {
@@ -124,10 +124,11 @@ void		free_data(t_data *data);
 
 /* Image & Color */
 void		color_pixel(mlx_image_t *image, uint32_t pixel_color, int x, int y);
-t_color		decompose_color(uint32_t color);
-uint32_t	recompose_color(t_color color);
-uint32_t	color_intensity(uint32_t color, double instensity);
-uint32_t	mix_colors(uint32_t o_color, uint32_t l_color);
+int			little_big_endian(void);
+// t_color		decompose_color(uint32_t color);
+// uint32_t	recompose_color(t_color color);
+// uint32_t	color_intensity(uint32_t color, double instensity);
+// uint32_t	mix_colors(uint32_t o_color, uint32_t l_color);
 
 /* Keyhandlers */
 int			handle_close(void *param);

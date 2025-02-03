@@ -37,8 +37,8 @@ void print_object(t_object *o)
 	if (o->type != CAMERA && o->type != LIGHT)
 	{
 		printf("Color: \033[38;2;%d;%d;%dm%06X\033[0m\n",
-           (o->color) & 0xFF, (o->color >> 8) & 0xFF,
-           (o->color >> 16) & 0xFF, o->color);
+           (o->color >> 24) & 0xFF, (o->color >> 16) & 0xFF,
+           (o->color >> 8) & 0xFF, o->color);
 	}
 	if (o->type == LIGHT || o->type == AMBIENT)
 		printf("Brightness: %f\n", o->brightness);

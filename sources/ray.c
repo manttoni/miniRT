@@ -59,7 +59,19 @@ void	raycast(t_data *data)
 		{
 			ray = get_ray(camera, x, y);
 			cast_ray(&ray, data->objects->arr);
+			// if (ray.color != BACKGROUND_COLOR)
+			// {
+			// 	printf("Before color: \033[38;2;%d;%d;%dm%06X\033[0m\n",
+			// 	(ray.color) & 0xFF, (ray.color >> 8) & 0xFF,
+			// 	(ray.color >> 16) & 0xFF, ray.color);
+			// }
 			ray.color = set_lights(&ray, ray.end, ray.coll_norm, data->objects->arr);
+			// if (ray.color != BACKGROUND_COLOR)
+			// {
+			// 	printf("After color: \033[38;2;%d;%d;%dm%06X\033[0m\n",
+			// 	(ray.color) & 0xFF, (ray.color >> 8) & 0xFF,
+			// 	(ray.color >> 16) & 0xFF, ray.color);
+			// }
 			color_pixel(data->image, ray.color, x, y);
 			x++;
 		}
