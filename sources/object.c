@@ -32,6 +32,7 @@ void print_object(t_object *o)
 	}
 	if (o->type == CAMERA)
 		printf("FOV: %d\nView distance: %1.2f\n", o->fov, o->info.view_distance);
+		printf("FOV: %d\nView distance: %1.2f\n", o->fov, o->info.view_distance);
 	if (o->type == SPHERE || o->type == CYLINDER)
 		printf("Diameter: %f\n", o->diameter);
 	if (o->type != CAMERA && o->type != LIGHT)
@@ -40,6 +41,8 @@ void print_object(t_object *o)
            (o->color >> 24) & 0xFF, (o->color >> 16) & 0xFF,
            (o->color >> 8) & 0xFF, o->color);
 	}
+	if (o->type == LIGHT || o->type == AMBIENT)
+		printf("Brightness: %f\n", o->brightness);
 	if (o->type == LIGHT || o->type == AMBIENT)
 		printf("Brightness: %f\n", o->brightness);
 }
@@ -60,7 +63,9 @@ t_type  get_type(char *line)
     {
         if (ft_strncmp(shapes[i], line, ft_strlen(shapes[i])) == 0)
 		{
+		{
             return (i);
+		}
 		}
         i++;
     }
@@ -194,6 +199,13 @@ t_object	*parse_object(char *line)
 		ft_memset(object, 0, sizeof(t_object));
 		object->type = get_type(line);
 	}
+	line = validate(line);
+	object = malloc(sizeof(t_object));
+	if (object != NULL && line != NULL)
+	{
+		ft_memset(object, 0, sizeof(t_object));
+		object->type = get_type(line);
+	}
 	info = ft_split(line, ' ');
 	if (assign_values(object, info) == FAILURE)
 	{
@@ -202,4 +214,12 @@ t_object	*parse_object(char *line)
 		return (NULL);
 	}
 	return (object);
+	if (assign_values(object, info) == FAILURE)
+	{
+		free(object);
+		ft_free_array(info);
+		return (NULL);
+	}
+	return (object);
 }
+

@@ -1,6 +1,5 @@
 #include "../includes/minirt.h"
 
-
 t_object	*get_object(t_object **arr, t_type type)
 {
 	size_t	i;

@@ -1,16 +1,22 @@
-
 #include "../includes/minirt.h"
 
+t_objarr	*read_objects(char *file)
 t_objarr	*read_objects(char *file)
 {
 	char		*line;
 	int			fd;
 	t_objarr	*objarr;
+	t_objarr	*objarr;
 
 	fd = open(file, O_RDONLY);
 	objarr = init_objarr(4);
 	if (objarr == NULL || fd < 0)
+	objarr = init_objarr(4);
+	if (objarr == NULL || fd < 0)
 	{
+		if (fd > 2)
+			close(fd);
+		free_objarr(objarr);
 		if (fd > 2)
 			close(fd);
 		free_objarr(objarr);
@@ -31,4 +37,6 @@ t_objarr	*read_objects(char *file)
 	}
 	close(fd);
 	return (objarr);
+	return (objarr);
 }
+

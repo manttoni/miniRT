@@ -1,12 +1,18 @@
 #include "../includes/minirt.h"
 
 void print_objects(t_objarr *objects)
+void print_objects(t_objarr *objects)
 {
+	int	i;
 	int	i;
 
 	i = 0;
 	while (objects->arr[i] != NULL)
+	i = 0;
+	while (objects->arr[i] != NULL)
 	{
+		print_object(objects->arr[i]);
+		i++;
 		print_object(objects->arr[i]);
 		i++;
 	}
@@ -28,7 +34,7 @@ static int	format_validation(char *str)
 
 	len = ft_strlen(str);
 	if (ft_strncmp(&str[len - 3], ".rt", 3) != 0)
-		return (1);
+		return (failure("Wrong filetype"));
 	return (0);
 }
 
@@ -48,7 +54,7 @@ int main(int argc, char **argv)
 	}
 	data = init_data(argv[1]);
 	if (data == NULL)
-		return (1);
+		return (failure("data initialization failed"));
 	print_objects(data->objects);
 	raycast(data);
 	the_image(data);

@@ -11,6 +11,7 @@
 # include <stdio.h>
 # include <error.h>
 # include <float.h>
+# include <float.h>
 
 /* Defines */
 # define EPSILON 0.001
@@ -20,6 +21,8 @@
 # define X 1420
 # define Y 1080
 # define RENDER_DISTANCE 150
+# define FAILURE 1
+# define SUCCESS 0
 # define FAILURE 1
 # define SUCCESS 0
 
@@ -55,6 +58,9 @@ typedef struct s_ray
 {
     t_vector    direction;
     t_vector    coll_norm;
+	t_vector	end;
+    t_vector    start;
+	double		distance;
     uint32_t    color;
     t_vector	end;
 	t_vector	start;
@@ -63,7 +69,7 @@ typedef struct s_ray
 
 typedef struct s_camera_info
 {
-	double	view_distance;
+	double			view_distance;
 	t_vector		u;
 	t_vector		v;
 	t_ray			ray;
@@ -77,11 +83,16 @@ typedef struct	s_object
 	double			diameter;
 	double			height;
 	double			d;
+	double			diameter;
+	double			height;
+	double			d;
 	t_vector		location;
 	t_vector		orientation;
 	int				(*collisionf)(t_ray *, struct s_object *);
+	int				(*collisionf)(t_ray *, struct s_object *);
 	int				fov;
 	t_camera_info	info;
+
 
 }	t_object;
 
@@ -97,8 +108,21 @@ typedef struct s_objarr
 	size_t		objects;
 }	t_objarr;
 
+/*
+	arr is malloced array of pointers to objects
+	capacity is amount of memory allocated
+	objects is amount of objects
+*/
+typedef struct s_objarr
+{
+	t_object	**arr;
+	size_t		capacity;
+	size_t		objects;
+}	t_objarr;
+
 typedef struct	s_data
 {
+	t_objarr	*objects;
 	t_objarr	*objects;
 	mlx_t		*mlx;
 	mlx_image_t	*image;
@@ -144,6 +168,7 @@ int	cast_ray(t_ray *ray, t_object **arr);
 /* Objects */
 void			print_object(t_object *o);
 t_object		*get_object(t_object **arr, t_type type);
+t_object		*get_object(t_object **arr, t_type type);
 t_camera_info 	image_plane(t_object *camera);
 int				sphere_collision(t_ray *ray, t_object *sp);
 int				plane_collision(t_ray *ray, t_object *sp);
@@ -152,10 +177,12 @@ int				plane_collision(t_ray *ray, t_object *sp);
 double			parse_double(char *str);
 int				min(int a, int b);
 int				max(int a, int b);
-char			*trim(char *str, char c);
+//char			*trim(char *str, char c);
+char			*trim_newline(char *str);
 
 /* Errors */
 void			error_msg(t_data *data);
+int				failure(char *message);
 int				failure(char *message);
 
 /* Vectors */

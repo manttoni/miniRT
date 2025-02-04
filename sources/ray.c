@@ -22,18 +22,27 @@ t_ray	get_ray(t_object *camera, int x, int y)
 }
 
 int	cast_ray(t_ray *ray, t_object **arr)
+int	cast_ray(t_ray *ray, t_object **arr)
 {
+	size_t	i;
+	int		is_collision;
 	size_t	i;
 	int		is_collision;
 
 	is_collision = 0;
 	i = 0;
 	while (arr[i] != NULL)
+	is_collision = 0;
+	i = 0;
+	while (arr[i] != NULL)
 	{
+		if (arr[i]->collisionf != NULL)
+			is_collision = max(is_collision, (*arr[i]->collisionf)(ray, arr[i]));
 		if (arr[i]->collisionf != NULL)
 			is_collision = max(is_collision, (*arr[i]->collisionf)(ray, arr[i]));
 		i++;
 	}
+	return is_collision;
 	return is_collision;
 }
 
@@ -44,6 +53,7 @@ void	raycast(t_data *data)
 	t_ray ray;
 	t_object *camera;
 
+	camera = get_object(data->objects->arr, CAMERA);
 	camera = get_object(data->objects->arr, CAMERA);
 	if (camera == NULL)
 	{

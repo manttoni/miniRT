@@ -1,32 +1,5 @@
 #include "../includes/minirt.h"
 
-double	v_len(t_vector v)
-{
-	return (sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
-}
-
-double	v_angle(t_vector a, t_vector b)
-{
-	double	dot;
-	double	cos_theta;
-
-	dot = dot_product(a, b);
-	cos_theta = dot / (v_len(a) * v_len(b));
-	if (cos_theta > 1.0)
-		cos_theta = 1.0;
-    if (cos_theta < -1.0)
-		cos_theta = -1.0;
-	return (acos(cos_theta));
-}
-
-t_vector	normalize_vector(t_vector v)
-{
-	double	len;
-
-	len = v_len(v);
-	return (t_vector){v.x / len, v.y / len, v.z / len};
-}
-
 double	dot_product(t_vector v1, t_vector v2)
 {
 	return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
@@ -61,67 +34,7 @@ t_vector	vector(double x, double y, double z)
 	return (v);
 }
 
-t_vector	v_mul(double t, t_vector v)
-{
-	t_vector	product;
-
-	product.x = v.x * t;
-	product.y = v.y * t;
-	product.z = v.z * t;
-	return (product);
-}
-
-t_vector	v_sub(t_vector v1, t_vector v2)
-{
-	t_vector	difference;
-
-	difference.x = v1.x - v2.x;
-	difference.y = v1.y - v2.y;
-	difference.z = v1.z - v2.z;
-	return (difference);
-}
-
-t_vector	v_sum(t_vector v1, t_vector v2)
-{
-	t_vector	sum;
-
-	sum.x = v1.x + v2.x;
-	sum.y = v1.y + v2.y;
-	sum.z = v1.z + v2.z;
-	return (sum);
-}
-
-double	v_dist(t_vector a, t_vector b)
-{
-	return (v_len(v_sub(a, b)));
-}
-
 int	is_normalized_vector(t_vector v)
 {
 	return (v_len(v) > 1 + EPSILON || v_len(v) < 1 - EPSILON);
 }
-
-t_vector reflect_vector(t_vector light_dir, t_vector normal)
-{
-	return v_sub(v_mul(2 * dot_product(normal, light_dir), normal), light_dir);
-}
-
-
-/*
-int main(void)
-{
-	t_vector v = (t_vector){1, 1, 1};
-	t_vector v2 = (t_vector){-1, 1, 0};
-	t_vector vn = normalize_vector(v);
-	printf("v:\n");
-	print_vector(v);
-	printf("normalized v:\n");
-	print_vector(vn);
-	printf("cross product of\n");
-	print_vector(v);
-	print_vector(v2);
-	print_vector(cross_product(v, v2));
-
-	return (0);
-}
-*/

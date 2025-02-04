@@ -1,4 +1,4 @@
-#include "../includes/validation.h"
+#include "../includes/minirt.h"
 #include <stdlib.h>
 
 int main(int ac, char **av)

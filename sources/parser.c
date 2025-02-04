@@ -1,10 +1,12 @@
 #include "../includes/minirt.h"
 
 size_t	fract_len(char *ptr)
+size_t	fract_len(char *ptr)
 {
 	size_t	len;
 
 	len = 0;
+	while (ft_isdigit(ptr[len]))
 	while (ft_isdigit(ptr[len]))
 		len++;
 	return (len);
@@ -15,11 +17,16 @@ double	parse_double(char *str)
 {
 	int		int_part;
 	int		fract_part;
+	int		int_part;
+	int		fract_part;
 	int		sign;
+	char	*dot;
 	char	*dot;
 
 	sign = 1;
 	if (*str == '-')
+	{
+		str++;
 	{
 		str++;
 		sign = -1;
