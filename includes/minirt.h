@@ -124,11 +124,6 @@ void		free_data(t_data *data);
 
 /* Image & Color */
 void		color_pixel(mlx_image_t *image, uint32_t pixel_color, int x, int y);
-int			little_big_endian(void);
-// t_color		decompose_color(uint32_t color);
-// uint32_t	recompose_color(t_color color);
-// uint32_t	color_intensity(uint32_t color, double instensity);
-// uint32_t	mix_colors(uint32_t o_color, uint32_t l_color);
 
 /* Keyhandlers */
 int			handle_close(void *param);
