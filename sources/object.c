@@ -121,10 +121,6 @@ int assign_camera(t_object *camera, char **info)
 
 int	assign_light(t_object *light, char **info)
 {
-	// for(int i = 0; info[i];++i)
-	// {
-	// 	printf("%s\n", info[i]);
-	// }
 	light->location = parse_vector(info[1]);
 	light->brightness = parse_double(info[2]);
 	if (light->brightness > 1.0 || light->brightness < 0.0)
@@ -149,7 +145,7 @@ int	assign_plane(t_object *plane, char **info)
 	plane->orientation = normalize_vector(plane->orientation);
 	//if (!is_normalized_vector(plane->orientation))
 	//	return (failure("Plane orientation not normalized"));
-	plane->d = dot_product(plane->orientation, plane->location); // precalculation
+	plane->d = dot_product(plane->orientation, plane->location);
 	plane->collisionf = &plane_collision;
 	return (SUCCESS);
 }

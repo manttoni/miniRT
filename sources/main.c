@@ -13,6 +13,15 @@ void print_objects(t_objarr *objects)
 	printf("---------------\n");
 }
 
+static void	the_image(t_data *data)
+{
+	mlx_key_hook(data->mlx, &keypress, data);
+	mlx_image_to_window(data->mlx, data->image , 0, 0);
+	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
+	mlx_loop(data->mlx);
+	mlx_terminate(data->mlx);
+}
+
 static int	format_validation(char *str)
 {
 	int	len;
@@ -25,6 +34,8 @@ static int	format_validation(char *str)
 
 int main(int argc, char **argv)
 {
+	t_data	*data;
+
 	if (argc != 2)
 	{
 		printf("Wrong amount of arguments!\n");
@@ -35,15 +46,12 @@ int main(int argc, char **argv)
 		printf("Wrong type of file\n");
 		return (1);
 	}
-	t_data	*data = init_data(argv[1]);
+	data = init_data(argv[1]);
 	if (data == NULL)
 		return (1);
 	print_objects(data->objects);
 	raycast(data);
-	mlx_key_hook(data->mlx, &keypress, data);
-	mlx_image_to_window(data->mlx, data->image , 0, 0);
-	mlx_loop(data->mlx);
-	mlx_terminate(data->mlx);
+	the_image(data);
 	free_data(data);
 	return (0);
 }
