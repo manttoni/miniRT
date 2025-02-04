@@ -98,11 +98,12 @@ t_camera_info	image_plane(t_object *camera)
 	else
 		info.u = vector(-camera->orientation.y, camera->orientation.x, 0);
 	info.v = cross_product(camera->orientation, info.u);
-	info.ray.location = camera->location;
+	info.ray.start = camera->location;
+	info.ray.end = camera->location;
 	info.ray.direction = v_mul(info.view_distance, camera->orientation);
 	info.ray.direction = v_sum(camera->location, info.ray.direction);
-	info.ray.distance = 0;
 	info.ray.color = BACKGROUND_COLOR;
+	info.ray.distance = DBL_MAX;
 	return (info);
 }
 
@@ -136,7 +137,7 @@ int	assign_sphere(t_object *sphere, char **info)
 	sphere->location = parse_vector(info[1]);
 	sphere->diameter = parse_double(info[2]);
 	sphere->color = parse_color(info[3]);
-	sphere->sdf = &sphere_distance;
+	sphere->collisionf = &sphere_collision;
 	return (SUCCESS);
 }
 
@@ -149,7 +150,7 @@ int	assign_plane(t_object *plane, char **info)
 	//if (!is_normalized_vector(plane->orientation))
 	//	return (failure("Plane orientation not normalized"));
 	plane->d = dot_product(plane->orientation, plane->location); // precalculation
-	plane->sdf = &plane_distance;
+	plane->collisionf = &plane_collision;
 	return (SUCCESS);
 }
 

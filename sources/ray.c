@@ -21,49 +21,20 @@ t_ray	get_ray(t_object *camera, int x, int y)
 	return (ray);
 }
 
-/*	Calculates collisions based on distance to the closest object
-	If it is less than close_enough, it is a collision
-	Otherwise moves ray to its direction by that amount	*/
-int	cast_ray(t_ray *ray, t_object **arr, double render_distance)
+int	cast_ray(t_ray *ray, t_object **arr)
 {
-	double	closest_dist;
-	double	close_enough;
-	int		i;
+	size_t	i;
+	int		is_collision;
 
+	is_collision = 0;
 	i = 0;
-	close_enough = 0.001;
-	while (ray->distance < render_distance)
+	while (arr[i] != NULL)
 	{
-		closest_dist = closest(ray, arr);
-		if (closest_dist < close_enough || i > 80)
-			return (1);
-		if (closest_dist >= RENDER_DISTANCE)
-			return 0;
-		// ray "jumps" forward to a point where it might collide
-		ray->distance += closest_dist;
-		// updates location so that a new closest_dist can be calculated
-		ray->location = v_sum(ray->location, v_mul(closest_dist, ray->direction));
+		if (arr[i]->collisionf != NULL)
+			is_collision = max(is_collision, (*arr[i]->collisionf)(ray, arr[i]));
 		i++;
 	}
-	return 0;
-}
-
-/*	A new ray will check if there is an object between the collision point and the light source
-	The ray gets a headstart towards the light byt the amount of self_collision_avoid */
-int	light_obstructed(t_ray *ray, t_object **arr)
-{
-	t_ray	light_ray;
-	t_object *light;
-	double self_collision_avoid = 0.01;
-
-	// copies location
-	light_ray = *ray;
-	light = get_object(arr, LIGHT);
-	light_ray.direction = v_sub(light->location, light_ray.location);
-	light_ray.direction = normalize_vector(light_ray.direction);
-	light_ray.distance = self_collision_avoid;
-	light_ray.location = v_sum(light_ray.location, v_mul(self_collision_avoid, light_ray.direction));
-	return (cast_ray(&light_ray, arr, v_dist(light_ray.location, light->location) - self_collision_avoid));
+	return is_collision;
 }
 
 void	raycast(t_data *data)
@@ -87,15 +58,7 @@ void	raycast(t_data *data)
 		while (x < X)
 		{
 			ray = get_ray(camera, x, y);
-			if (cast_ray(&ray, data->objects->arr, RENDER_DISTANCE) == 1
-				&& ray.distance < RENDER_DISTANCE)
-			{
-				ray.color = color_intensity(ray.color, 1.0 - (ray.distance / RENDER_DISTANCE));
-				if (light_obstructed(&ray, data->objects->arr) == 1)
-					ray.color = color_intensity(ray.color, 0.5);
-			}
-			else
-				ray.color = BACKGROUND_COLOR;
+			cast_ray(&ray, data->objects->arr);
 			color_pixel(data->image, ray.color, x, y);
 			x++;
 		}

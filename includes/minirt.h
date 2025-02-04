@@ -10,6 +10,7 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <error.h>
+# include <float.h>
 
 /* Defines */
 # define EPSILON 0.001
@@ -47,9 +48,10 @@ typedef struct s_ray
 {
     t_vector    direction;
     t_vector    coll_norm;
-    double      distance;
+	t_vector	end;
+    t_vector    start;
+	double		distance;
     uint32_t    color;
-    t_vector    location;
 }   t_ray;
 
 typedef struct s_camera_info
@@ -88,7 +90,7 @@ typedef struct	s_object
 	double			d;
 	t_vector		location;
 	t_vector		orientation;
-	double			(*sdf)(t_vector, struct s_object *);
+	int				(*collisionf)(t_ray *, struct s_object *);
 	int				fov;
 	t_camera_info	info;
 
@@ -154,10 +156,15 @@ t_object		*create_node(char *line);
 void			print_list(t_object *list);
 */
 
-/* SDF */
+/* SDF 
 double  		closest(t_ray *ray, t_object **arr);
 double			sphere_distance(t_vector point, t_object *sphere);
 double			plane_distance(t_vector point, t_object *plane);
+*/
+
+/* Collision */
+int				sphere_collision(t_ray *ray, t_object *sp);
+int				plane_collision(t_ray *ray, t_object *sp);
 
 /* Raytracing */
 void    		raycast(t_data *data);
