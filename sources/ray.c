@@ -22,18 +22,27 @@ t_ray	get_ray(t_object *camera, int x, int y)
 }
 
 int	cast_ray(t_ray *ray, t_object **arr)
+int	cast_ray(t_ray *ray, t_object **arr)
 {
+	size_t	i;
+	int		is_collision;
 	size_t	i;
 	int		is_collision;
 
 	is_collision = 0;
 	i = 0;
 	while (arr[i] != NULL)
+	is_collision = 0;
+	i = 0;
+	while (arr[i] != NULL)
 	{
+		if (arr[i]->collisionf != NULL)
+			is_collision = max(is_collision, (*arr[i]->collisionf)(ray, arr[i]));
 		if (arr[i]->collisionf != NULL)
 			is_collision = max(is_collision, (*arr[i]->collisionf)(ray, arr[i]));
 		i++;
 	}
+	return is_collision;
 	return is_collision;
 }
 
@@ -44,6 +53,7 @@ void	raycast(t_data *data)
 	t_ray ray;
 	t_object *camera;
 
+	camera = get_object(data->objects->arr, CAMERA);
 	camera = get_object(data->objects->arr, CAMERA);
 	if (camera == NULL)
 	{
@@ -59,6 +69,19 @@ void	raycast(t_data *data)
 		{
 			ray = get_ray(camera, x, y);
 			cast_ray(&ray, data->objects->arr);
+			// if (ray.color != BACKGROUND_COLOR)
+			// {
+			// 	printf("Before color: \033[38;2;%d;%d;%dm%06X\033[0m\n",
+			// 	(ray.color) & 0xFF, (ray.color >> 8) & 0xFF,
+			// 	(ray.color >> 16) & 0xFF, ray.color);
+			// }
+			ray.color = set_lights(&ray, ray.end, ray.coll_norm, data->objects->arr);
+			// if (ray.color != BACKGROUND_COLOR)
+			// {
+			// 	printf("After color: \033[38;2;%d;%d;%dm%06X\033[0m\n",
+			// 	(ray.color) & 0xFF, (ray.color >> 8) & 0xFF,
+			// 	(ray.color >> 16) & 0xFF, ray.color);
+			// }
 			color_pixel(data->image, ray.color, x, y);
 			x++;
 		}
@@ -67,3 +90,5 @@ void	raycast(t_data *data)
 	}
 	printf("Raycasting completed\n");
 }
+
+

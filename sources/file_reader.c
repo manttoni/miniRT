@@ -1,24 +1,31 @@
 #include "../includes/minirt.h"
 
 t_objarr	*read_objects(char *file)
+t_objarr	*read_objects(char *file)
 {
 	char		*line;
 	int			fd;
 	t_objarr	*objarr;
+	t_objarr	*objarr;
 
 	fd = open(file, O_RDONLY);
+	objarr = init_objarr(4);
+	if (objarr == NULL || fd < 0)
 	objarr = init_objarr(4);
 	if (objarr == NULL || fd < 0)
 	{
 		if (fd > 2)
 			close(fd);
 		free_objarr(objarr);
+		if (fd > 2)
+			close(fd);
+		free_objarr(objarr);
 		return (NULL);
 	}
-	line = trim_newline(get_next_line(fd));
+	line = trim(get_next_line(fd), '\n');
 	while (line)
 	{
-		if (*line != '\0' && *line != '#' && add(objarr, parse_object(line)) == FAILURE)
+		if (*line != '#' && add(objarr, parse_object(line)) == FAILURE)
 		{
 			free_objarr(objarr);
 			free(line);
@@ -26,9 +33,10 @@ t_objarr	*read_objects(char *file)
 			return (NULL);
 		}
 		free(line);
-		line = trim_newline(get_next_line(fd));
+		line = trim(get_next_line(fd), '\n');
 	}
 	close(fd);
+	return (objarr);
 	return (objarr);
 }
 

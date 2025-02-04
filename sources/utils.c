@@ -31,7 +31,7 @@ char	*trim_newline(char *str)
 }
 
 /* Returns a char pointer with all c
- * removed from start and end 
+ * removed from start and end
 char	*trim(char *str, char c)
 {
 	char	*start;

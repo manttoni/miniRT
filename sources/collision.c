@@ -3,12 +3,12 @@
 static void    set_coll_norm(t_ray *ray, t_object *object)
 {
     if (object->type == SPHERE)
-        ray->coll_norm = normalize_vector(v_sub(object->location, ray->end));
+        ray->coll_norm = normalize_vector(v_sub(ray->end, object->location));
     else if (object->type == PLANE)
         ray->coll_norm = object->orientation;
 }
 
-/* if ray collides with sp, ray updates its variables 
+/* if ray collides with sp, ray updates its variables
     and func returns 1, otherwise 0*/
 int	sphere_collision(t_ray *ray, t_object *sp)
 {
@@ -22,7 +22,7 @@ int	sphere_collision(t_ray *ray, t_object *sp)
 
 	oc = v_sub(ray->start, sp->location);  // Vector from ray origin to sphere center
 	a = dot_product(ray->direction, ray->direction);
-	b = 2 * dot_product(ray->direction, oc);  
+	b = 2 * dot_product(ray->direction, oc);
 	c = dot_product(oc, oc) - (sp->diameter / 2) * (sp->diameter / 2);
 
 	discriminant = b * b - 4 * a * c;
@@ -56,23 +56,25 @@ int plane_collision(t_ray *ray, t_object *pl)
     double denominator;
     double numerator;
     double t;
-    
+
     denominator = dot_product(pl->orientation, ray->direction);
     if (fabs(denominator) < EPSILON) // Prevent division by zero
-        return 0;
+        return (0);
 
     t_vector plane_to_ray = v_sub(pl->location, ray->start);
     numerator = dot_product(pl->orientation, plane_to_ray);
     t = numerator / denominator;
 
     if (t < 0 || t >= ray->distance) // Ignore negative or farther intersections
-        return 0;
+        return (0);
 
     // Update ray intersection
-    ray->coll_norm = pl->orientation;
     ray->distance = t;
     ray->end = v_sum(ray->start, v_mul(t, ray->direction));
     ray->color = pl->color;
-
-    return 1;
+    // if (dot_product(ray->direction, pl->orientation) > 0)
+    //     ray->coll_norm = v_mul(-1, pl->orientation);
+    // else
+        ray->coll_norm = pl->orientation;
+    return (1);
 }

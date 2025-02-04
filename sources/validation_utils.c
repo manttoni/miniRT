@@ -22,7 +22,6 @@ int is_double(char *ptr)
     return (periods <= 1 && digits >= 1);
 }
 
-// comma separated double
 int is_cs_double(char *ptr)
 {
     int periods;
