@@ -15,10 +15,6 @@ t_vector	cross_product(t_vector v1, t_vector v2)
 	return (product);
 }
 
-/**
- * print_vector - Prints a vector's components and length.
- * @v: The vector to print.
- */
 void	print_vector(t_vector v)
 {
 	printf("x: %1.2f, y: %1.2f, z: %1.2f, len: %1.2f\n", v.x, v.y, v.z, v_len(v));
@@ -32,6 +28,11 @@ t_vector	vector(double x, double y, double z)
 	v.y = y;
 	v.z = z;
 	return (v);
+}
+
+t_vector reflect_vector(t_vector light_dir, t_vector normal)
+{
+	return v_sub(v_mul(2 * dot_product(normal, light_dir), normal), light_dir);
 }
 
 int	is_normalized_vector(t_vector v)

@@ -1,7 +1,7 @@
 
 #include "../includes/minirt.h"
 
-int	mlx_and_image(t_data *data)
+static int	mlx_and_image(t_data *data)
 {
 	data->mlx = mlx_init(X, Y, "miniRT", true);
 	if (data->mlx == NULL)

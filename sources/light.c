@@ -1,6 +1,6 @@
 #include "../includes/minirt.h"
 
-int	in_the_shadow(t_ray *ray, t_vector collision, t_object *light, t_object **arr)
+static int	in_the_shadow(t_ray *ray, t_vector collision, t_object *light, t_object **arr)
 {
 	t_ray	shadow;
 
@@ -16,7 +16,7 @@ int	in_the_shadow(t_ray *ray, t_vector collision, t_object *light, t_object **ar
 	return (0);
 }
 
-double	set_specular(t_vector normal, t_vector light_dir, t_vector view_dir, double intensity, double shine)
+static double	set_specular(t_vector normal, t_vector light_dir, t_vector view_dir, double intensity, double shine)
 {
 	t_vector	halfway;
 	double		dot;
@@ -27,7 +27,7 @@ double	set_specular(t_vector normal, t_vector light_dir, t_vector view_dir, doub
 	return (intensity * pow(dot, shine));
 }
 
-double	set_diffuse(t_vector normal, t_vector light_dir, double intensity)
+static double	set_diffuse(t_vector normal, t_vector light_dir, double intensity)
 {
 	double	dot;
 	// printf("Normal: x=%.2f, y=%.2f, z=%.2f\n", normal.x, normal.y, normal.z);

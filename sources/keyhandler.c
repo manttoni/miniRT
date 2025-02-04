@@ -1,18 +1,6 @@
 
 #include "../includes/minirt.h"
 
-/**
- * handle_close - Cleans up memory and exits the program when the window closes.
- * @param: A pointer to the `t_data` structure (passed as `param`).
- *
- * This function:
- * - Calls `free_data(param)` to release all allocated memory.
- * - Exits the program with `exit(0)`.
- *
- * This function is used as a **callback** when the window is closed.
- *
- * Return: Always exits the program (no return value).
- */
 int	handle_close(void *param)
 {
 	free_data(param);

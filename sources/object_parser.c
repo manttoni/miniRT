@@ -1,19 +1,7 @@
 #include "../includes/minirt.h"
 
 t_vector	parse_vector(char *str)
-t_vector	parse_vector(char *str)
 {
-	t_vector	v;
-
-	v.x = parse_double(str);
-	str = ft_strchr(str, ',') + 1;
-	v.y = parse_double(str);
-	str = ft_strrchr(str, ',') + 1;
-	v.z = parse_double(str);
-	return (v);
-}
-
-uint32_t	parse_color(char *str)
 	t_vector	v;
 
 	v.x = parse_double(str);
