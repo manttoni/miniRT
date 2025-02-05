@@ -204,3 +204,22 @@ t_object	*parse_object(char *line)
 	return (object);
 }
 
+// t_object	*parse_object(char **values)
+// {
+// 	t_object	*object;
+
+// 	object = malloc(sizeof(t_object));
+// 	if (object != NULL && values != NULL)
+// 	{
+// 		ft_memset(object, 0, sizeof(t_object));
+// 		object->type = get_type(values[0], 1);
+// 	}
+// 	if (assign_values(object, values) == FAILURE)
+// 	{
+// 		printf("here\n");
+// 		free(object);
+// 		ft_free_array(values);
+// 		return (NULL);
+// 	}
+// 	return (object);
+// }

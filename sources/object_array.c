@@ -21,16 +21,16 @@ t_objarr	*init_objarr(size_t capacity)
 
 static int	reallocate(t_objarr *objarr)
 {
-    t_object    **new;
-    size_t      i;
+	t_object **new;
+	size_t i;
 
 	objarr->capacity *= 2;
-    new = malloc(objarr->capacity * sizeof(t_object *));
-    if (new == NULL)
-        return (FAILURE);
-ft_memset(new, 0, objarr->capacity * sizeof(t_object *));
+	new = malloc(objarr->capacity * sizeof(t_object *));
+	if (new == NULL)
+		return (FAILURE);
+	ft_memset(new, 0, objarr->capacity * sizeof(t_object *));
 	i = 0;
-    while (objarr->arr[i] != NULL)
+	while (objarr->arr[i] != NULL)
 	{
 		new[i] = objarr->arr[i];
 		i++;
@@ -42,13 +42,16 @@ ft_memset(new, 0, objarr->capacity * sizeof(t_object *));
 int add(t_objarr *objarr, t_object *to_add)
 {
 	if (objarr == NULL)
+	{
+		printf("I did this\n");
 		return (FAILURE);
-    if (objarr->capacity == objarr->objects + 1) // no more space after summing NULL terminator
-        if (reallocate(objarr) == FAILURE)
+	}
+	if (objarr->capacity == objarr->objects + 1) // no more space after summing NULL terminator
+		if (reallocate(objarr) == FAILURE)
 			return (FAILURE);
-    objarr->arr[objarr->objects] = to_add;
+	objarr->arr[objarr->objects] = to_add;
 	objarr->objects++;
-    return (SUCCESS);
+	return (SUCCESS);
 }
 
 void	free_objarr(t_objarr *objarr)
@@ -56,10 +59,14 @@ void	free_objarr(t_objarr *objarr)
 	size_t	i;
 
 	i = 0;
-	while (objarr->arr[i] != NULL)
+	if (objarr && objarr->arr)
 	{
-		free(objarr->arr[i]);
-		i++;
+		while (objarr->arr[i] != NULL)
+		{
+			free(objarr->arr[i]);
+			i++;
+		}
+		free(objarr->arr);
 	}
 	free(objarr);
 }

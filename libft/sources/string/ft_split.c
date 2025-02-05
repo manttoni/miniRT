@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 14:09:31 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/01/02 12:50:39 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:21:19 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,8 @@ char	**ft_split(char const *s, char c)
 	i = 0;
 	result = (char **)malloc(sizeof(char *) * (count_words(s, c) + 1));
 	if (!s || !result)
+	{
 		return (NULL);
+	}
 	return (separator(s, c, i, result));
 }

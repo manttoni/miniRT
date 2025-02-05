@@ -28,7 +28,7 @@ static int	format_validation(char *str)
 
 	len = ft_strlen(str);
 	if (ft_strncmp(&str[len - 3], ".rt", 3) != 0)
-		return (failure("Wrong filetype"));
+		return (failure("Wrong file type"));
 	return (0);
 }
 
@@ -42,13 +42,10 @@ int main(int argc, char **argv)
 		return (1);
 	}
 	if (format_validation(argv[1]))
-	{
-		printf("Wrong type of file\n");
 		return (1);
-	}
 	data = init_data(argv[1]);
 	if (data == NULL)
-		return (failure("data initialization failed"));
+		return (failure("Data initialization failed"));
 	print_objects(data->objects);
 	raycast(data);
 	the_image(data);

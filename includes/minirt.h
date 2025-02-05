@@ -85,8 +85,6 @@ typedef struct	s_object
 	int				(*collisionf)(t_ray *, struct s_object *);
 	int				fov;
 	t_camera_info	info;
-
-
 }	t_object;
 
 /*
@@ -123,6 +121,7 @@ void		free_data(t_data *data);
 
 /*errors.c*/
 int			failure(char *message);
+void		error_msg(t_data *data);
 
 /*file_reader.c*/
 t_objarr	*read_objects(char *file);
@@ -161,7 +160,6 @@ void		raycast(t_data *data);
 int			min(int a, int b);
 int			max(int a, int b);
 char		*trim_newline(char *str);
-void		error_msg(t_data *data);
 
 /*validation.c*/
 char		*validate(char *line);

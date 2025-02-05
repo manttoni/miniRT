@@ -31,4 +31,3 @@ t_objarr	*read_objects(char *file)
 	close(fd);
 	return (objarr);
 }
-
