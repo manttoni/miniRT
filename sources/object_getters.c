@@ -1,14 +1,15 @@
 #include "../includes/minirt.h"
 
-t_object	*get_object(t_object **arr, t_type type)
+/* Returns a pointer to the first object that has the matching type*/
+t_object	*get_object(t_objarr *objarr, t_type type)
 {
 	size_t	i;
 
 	i = 0;
-	while (arr[i] != NULL)
+	while (i < objarr->objects)
 	{
-		if (arr[i]->type == type)
-			return (arr[i]);
+		if (objarr->arr[i].type == type)
+			return (&(objarr->arr[i]));
 		i++;
 	}
 	return (NULL);
