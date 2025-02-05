@@ -16,8 +16,8 @@
 /* Defines */
 # define EPSILON 0.001
 # define BACKGROUND_COLOR 0xff000000
-# define X 1420
-# define Y 1080
+# define X 500
+# define Y 500
 # define FAILURE 1
 # define SUCCESS 0
 //# define RENDER_DISTANCE 150

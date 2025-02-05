@@ -53,6 +53,6 @@ t_objarr	*read_objects(char *file)
 		line = trim_newline(get_next_line(fd));
 	}
 	close(fd);
-	return (objarr);
+	return (check_uniques(objarr));
 }
 

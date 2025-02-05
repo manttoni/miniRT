@@ -42,7 +42,6 @@ void	raycast(t_data *data)
 	t_object *camera;
 
 	camera = get_object(data->objects, CAMERA);
-	printf("Raycasting started\n");
 	y = 0;
 	while (y < Y)
 	{
@@ -67,10 +66,8 @@ void	raycast(t_data *data)
 			color_pixel(data->image, ray.color, x, y);
 			x++;
 		}
-		printf("%d%%\r", ((y * 100) / Y));
 		y++;
 	}
-	printf("Raycasting completed\n");
 }
 
 
