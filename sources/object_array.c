@@ -43,7 +43,7 @@ int add_object(t_objarr *objarr, char *line)
 {
 	if (objarr == NULL)
 		return (FAILURE);
-    if (objarr->capacity == objarr->objects + 1) // no more space after summing NULL terminator
+    if (objarr->capacity == objarr->objects)
         if (reallocate(objarr) == FAILURE)
 			return (FAILURE);
     if (parse_object(objarr->arr + objarr->objects, line) == FAILURE)

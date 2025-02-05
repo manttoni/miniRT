@@ -9,7 +9,7 @@ int	handle_close(void *param)
 
 static size_t	select_next_object(size_t selected, t_objarr *objarr)
 {
-	if (selected >= objarr->objects)
+	if (selected == objarr->objects - 1)
 		return (0);
 	return (selected + 1);
 }
