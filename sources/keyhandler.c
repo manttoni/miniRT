@@ -60,11 +60,13 @@ void	keypress(mlx_key_data_t mlx_data, void *param)
 		{
 			arr[selected]->location = v_sum(arr[selected]->location, axis);
 			print_vector(arr[selected]->location);
+			redraw(data);
 		}
 		if (mlx_data.key == MLX_KEY_KP_SUBTRACT)
 		{
 			arr[selected]->location = v_sub(arr[selected]->location, axis);
 			print_vector(arr[selected]->location);
+			redraw(data);
 		}
 		if (mlx_data.key == MLX_KEY_ENTER)
 			redraw(data);
