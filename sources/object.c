@@ -11,7 +11,7 @@ void print_object(t_object o)
 	else if (o.type == PLANE)
 		printf("Plane: ✈️\n");
 	else if (o.type == AMBIENT)
-		printf("Ambient light: 💡\n");
+		printf("Ambient light: 🌓\n");
 	else if (o.type == LIGHT)
 		printf("Light: 💡\n");
 	else if (o.type == CYLINDER)
@@ -186,7 +186,7 @@ int	parse_object(t_object *object, char *line)
 		return FAILURE;
 	object->type = get_type(line);
 	info = ft_split(line, ' ');
-	if (assign_values(object, ft_split(line, ' ')) == FAILURE)
+	if (assign_values(object, info) == FAILURE)
 	{
 		ft_free_array(info);
 		return (FAILURE);
