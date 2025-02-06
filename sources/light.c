@@ -5,9 +5,9 @@ static int	in_the_shadow(t_ray *ray, t_vector collision, t_object *light, t_obja
 	t_ray	shadow;
 
 	(void)ray;
+	shadow.direction = normalize_vector(v_sub(light->location, collision));
 	shadow.start = v_sum(collision, v_mul(0.001, shadow.direction));
 	shadow.distance = DBL_MAX;
-	shadow.direction = normalize_vector(v_sub(light->location, collision));
 	if (cast_ray(&shadow, objarr))
 	{
 		if (shadow.distance < v_dist(light->location, collision))
