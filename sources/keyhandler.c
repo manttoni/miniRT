@@ -1,23 +1,16 @@
 
 #include "../includes/minirt.h"
 
-int	handle_close(void *param)
-{
-	free_data(param);
-	exit(0);
-}
+// int	handle_close(void *param)
+// {
+// 	free_data(param);
+// 	exit(0);
+// }
 
-static size_t	select_next_object(size_t selected, t_objarr *objarr)
-{
-	if (selected == objarr->objects - 1)
-		return (0);
-	return (selected + 1);
-}
 
 void	keypress(mlx_key_data_t mlx_data, void *param)
 {
 	t_data	*data;
-	static int		selected;
 	static t_vector axis;
 	t_object		*arr;
 
@@ -29,11 +22,6 @@ void	keypress(mlx_key_data_t mlx_data, void *param)
 		{
 			mlx_close_window(data->mlx);
 			return ;
-		}
-		if (mlx_data.key == MLX_KEY_TAB)
-		{
-			selected = select_next_object(selected, data->objects);
-			print_object(arr[selected]);
 		}
 		if (mlx_data.key == MLX_KEY_X)
 		{
@@ -52,18 +40,15 @@ void	keypress(mlx_key_data_t mlx_data, void *param)
 		}
 		if (mlx_data.key == MLX_KEY_KP_ADD)
 		{
-			arr[selected].location = v_sum(arr[selected].location, axis);
-			print_vector(arr[selected].location);
+			data->ui->selected->location = v_sum(data->ui->selected->location, axis);
+			print_vector(data->ui->selected->location);
 			redraw(data);
 		}
 		if (mlx_data.key == MLX_KEY_KP_SUBTRACT)
 		{
-			arr[selected].location = v_sub(arr[selected].location, axis);
-			print_vector(arr[selected].location);
+			data->ui->selected->location = v_sub(data->ui->selected->location, axis);
+			print_vector(data->ui->selected->location);
 			redraw(data);
 		}
-		if (mlx_data.key == MLX_KEY_ENTER)
-			redraw(data);
-		
 	}
 }

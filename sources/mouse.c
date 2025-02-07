@@ -6,6 +6,7 @@ void    left_click(t_data *data)
     t_object    *camera;
     t_vector    new_orientation;
 
+    printf("Left button clicked\n"); // debug
     mlx_get_mouse_pos(data->mlx, &(data->mouse.x), &(data->mouse.y));
     camera = get_object(data->objects, CAMERA);
     new_orientation = get_ray(camera, data->mouse.x, data->mouse.y).direction;
@@ -18,6 +19,7 @@ void    right_click(t_data *data)
 {
     t_ray   ray;
 
+    printf("Right button clicked\n"); // debug
     mlx_get_mouse_pos(data->mlx, &(data->mouse.x), &(data->mouse.y));
     ray = get_ray(get_object(data->objects, CAMERA), data->mouse.x, data->mouse.y);
     if (cast_ray(&ray, data->objects) == 1)

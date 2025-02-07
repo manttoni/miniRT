@@ -29,6 +29,8 @@ t_data	*init_data(char *file)
 		return (NULL);
 	}
 	ft_bzero(data, sizeof(t_data));
+	data->mouse.left = 0;
+	data->mouse.right = 0;
 	data->objects = read_objects(file);
 	if (!data->objects)
 	{
@@ -48,5 +50,6 @@ void	free_data(t_data *data)
 	if (data == NULL)
 		return ;
 	free_objarr(data->objects);
+	free(data->ui);
 	free(data);
 }
