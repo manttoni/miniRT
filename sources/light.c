@@ -64,7 +64,6 @@ uint32_t	set_lights(t_ray *ray, t_vector collision, t_vector normal, t_objarr *o
 	{
 		diffuse = set_diffuse(normal, light_dir, light->brightness);
 		specular = set_specular(normal, light_dir, view_dir, light->brightness, shine);
-		// printf("Diffuse: %f\n", diffuse);
 	}
 	r = min(255, (ambient->brightness + diffuse + specular) * ((ray->color >> 24) & 0xff));
 	g = min(255, (ambient->brightness + diffuse + specular) * ((ray->color >> 16) & 0xff));

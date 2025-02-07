@@ -18,11 +18,17 @@ static t_objarr	*check_uniques(t_objarr *objarr)
 			types[2]++;
 		i++;
 	}
-	if (types[0] * types[1] * types[2] == 1)
+	if (types[0] * types[1] * types[2] == 1 && objarr->objects >= 4)
 		return (objarr);
 	free_objarr(objarr);
 	return (NULL);
 }
+
+// int	open_and_init(t_objarr *objarr, char *file, int fd)
+// {
+// 	// if (open_and_init(objarr, file, fd))
+// 	// 	return (NULL);
+// }
 
 t_objarr	*read_objects(char *file)
 {
@@ -43,6 +49,7 @@ t_objarr	*read_objects(char *file)
 	while (line)
 	{
 		if (*line != '\0' && *line != '#' && add_object(objarr, line) == FAILURE)
+		if (*line != '\0' && *line != '#' && add_object(objarr, line) == FAILURE)
 		{
 			free_objarr(objarr);
 			free(line);
@@ -54,5 +61,5 @@ t_objarr	*read_objects(char *file)
 	}
 	close(fd);
 	return (check_uniques(objarr));
+	return (check_uniques(objarr));
 }
-

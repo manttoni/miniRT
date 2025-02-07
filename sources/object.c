@@ -193,4 +193,3 @@ int	parse_object(t_object *object, char *line)
 	}
 	return (SUCCESS);
 }
-
