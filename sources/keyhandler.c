@@ -6,6 +6,13 @@
 // 	free_data(param);
 // 	exit(0);
 // }
+
+static void	select_object_by_index(mlx_key_data_t mlx_data, t_data *data)
+{
+	if (mlx_data.key >= MLX_KEY_0 && mlx_data.key <= MLX_KEY_9)
+		data->ui->selected = &data->objects->arr[mlx_data.key - MLX_KEY_0];
+}
+
 static int	translate(mlx_key_data_t mlx_data, t_object *selected)
 {
 	t_vector	delta;
@@ -42,5 +49,6 @@ void	keypress(mlx_key_data_t mlx_data, void *param)
 		}
 		if (translate(mlx_data, data->ui->selected) == 1)
 			redraw(data);
+		select_object_by_index(mlx_data, data);
 	}
 }

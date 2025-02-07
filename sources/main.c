@@ -8,6 +8,7 @@ void print_objects(t_objarr *objarr)
 	while (i < objarr->objects)
 	{
 		print_object(objarr->arr[i]);
+		printf("Index: %zu\n", i);
 		i++;
 	}
 	printf("---------------\n");
