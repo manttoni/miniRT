@@ -183,12 +183,13 @@ int	parse_object(t_object *object, char *line)
 	char		**info;
 
 	if (validate(line) == NULL)
-		return FAILURE;
+		return failure("Validation failed");
 	object->type = get_type(line);
 	info = ft_split(line, ' ');
 	if (assign_values(object, info) == FAILURE)
 	{
 		ft_free_array(info);
+		failure("assign_values FAILURE");
 		return (FAILURE);
 	}
 	ft_free_array(info);

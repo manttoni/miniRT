@@ -74,8 +74,7 @@ char *validate(char *line)
 		ptr = next_value(ptr);
 		if (ptr == NULL || (checks[i])(ptr) == 0)
 		{
-			// printf("%s: Failed at check: %d\n", line, i);
-			failure("Incorrect format");
+			printf("%s: Failed at check: %d\n", line, i);
 			return (NULL);
 		}
 		i++;
