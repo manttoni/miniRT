@@ -22,7 +22,6 @@ t_objarr	*init_objarr(size_t capacity)
 static int	reallocate(t_objarr *objarr)
 {
     t_object    *new_arr;
-    t_object    *new_arr;
     size_t      i;
 
 	objarr->capacity *= 2;
