@@ -98,13 +98,15 @@ typedef struct s_objarr
 
 typedef struct s_ui
 {
-	t_object	selected;
+	t_object	*selected;
 }	t_ui;
 
 typedef struct s_mouse
 {
 	int32_t	x;
 	int32_t	y;
+	int		left;
+	int		right;
 }	t_mouse;
 
 typedef struct	s_data
@@ -117,6 +119,8 @@ typedef struct	s_data
 }	t_data;
 
 void		print_object(t_object o);
+/*user_interface.c*/
+void    select_object(t_object *object, t_ui *ui);
 
 /*mouse.c*/
 void	rt_mouse(void *param);

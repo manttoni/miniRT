@@ -22,10 +22,11 @@ void    right_click(t_data *data)
     ray = get_ray(get_object(data->objects, CAMERA), data->mouse.x, data->mouse.y);
     if (cast_ray(&ray, data->objects) == 1)
     {
-        printf("-------------\n");
-        printf("Ray at %d,%d found this:\n", data->mouse.x, data->mouse.y);
-        print_object(*(ray.object));
-        //select_object(ray.object, data->ui);
+        // printf("-------------\n");
+        // printf("Ray at %d,%d found this:\n", data->mouse.x, data->mouse.y);
+        // print_object(*(ray.object));
+        if (data->ui->selected != ray.object)
+            select_object(ray.object, data->ui);
     }
 }
 
@@ -34,8 +35,19 @@ void	rt_mouse(void *param)
 	t_data	*data;
 
 	data = (t_data *)param;
-	if (mlx_is_mouse_down(data->mlx, MLX_MOUSE_BUTTON_LEFT))
-        left_click(data);
-	else if (mlx_is_mouse_down(data->mlx, MLX_MOUSE_BUTTON_RIGHT))
-        right_click(data);
+	if (mlx_is_mouse_down(data->mlx, MLX_MOUSE_BUTTON_LEFT) && !data->mouse.left)
+	{
+		data->mouse.left = 1;
+		left_click(data);
+	}
+	else if (!mlx_is_mouse_down(data->mlx, MLX_MOUSE_BUTTON_LEFT))
+		data->mouse.left = 0;
+
+	if (mlx_is_mouse_down(data->mlx, MLX_MOUSE_BUTTON_RIGHT) && !data->mouse.right)
+	{
+		data->mouse.right = 1;
+		right_click(data);
+	}
+	else if (!mlx_is_mouse_down(data->mlx, MLX_MOUSE_BUTTON_RIGHT))
+		data->mouse.right = 0;
 }
