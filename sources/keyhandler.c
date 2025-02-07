@@ -6,16 +6,33 @@
 // 	free_data(param);
 // 	exit(0);
 // }
+static int	translate(mlx_key_data_t mlx_data, t_object *selected)
+{
+	t_vector	delta;
 
+	if (mlx_data.key == MLX_KEY_KP_9)
+		delta = vector(0, 0, 1);
+	else if (mlx_data.key == MLX_KEY_KP_1)
+		delta = vector(0, 0, -1);
+	else if (mlx_data.key == MLX_KEY_KP_8)
+		delta = vector(0, 1, 0);
+	else if (mlx_data.key == MLX_KEY_KP_2)
+		delta = vector(0, -1, 0);
+	else if (mlx_data.key == MLX_KEY_KP_6)
+		delta = vector(1, 0, 0);
+	else if (mlx_data.key == MLX_KEY_KP_4)
+		delta = vector(-1, 0, 0);
+	else
+		return (0);
+	selected->location = v_sum(selected->location, delta);
+	return (1);
+}
 
 void	keypress(mlx_key_data_t mlx_data, void *param)
 {
 	t_data	*data;
-	static t_vector axis;
-	t_object		*arr;
 
 	data = (t_data *)param;
-	arr = data->objects->arr;
 	if (mlx_data.action == MLX_PRESS)
 	{
 		if (mlx_data.key == MLX_KEY_ESCAPE)
@@ -23,32 +40,7 @@ void	keypress(mlx_key_data_t mlx_data, void *param)
 			mlx_close_window(data->mlx);
 			return ;
 		}
-		if (mlx_data.key == MLX_KEY_X)
-		{
-			axis = vector(1, 0, 0);
-			printf("Move X\n");
-		}
-		if (mlx_data.key == MLX_KEY_Y)
-		{
-			axis = vector(0, 1, 0);
-			printf("Move Y\n");
-		}
-		if (mlx_data.key == MLX_KEY_Z)
-		{
-			axis = vector(0, 0, 1);
-			printf("Move Z\n");
-		}
-		if (mlx_data.key == MLX_KEY_KP_ADD)
-		{
-			data->ui->selected->location = v_sum(data->ui->selected->location, axis);
-			print_vector(data->ui->selected->location);
+		if (translate(mlx_data, data->ui->selected) == 1)
 			redraw(data);
-		}
-		if (mlx_data.key == MLX_KEY_KP_SUBTRACT)
-		{
-			data->ui->selected->location = v_sub(data->ui->selected->location, axis);
-			print_vector(data->ui->selected->location);
-			redraw(data);
-		}
 	}
 }
