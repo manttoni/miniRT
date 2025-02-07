@@ -19,6 +19,8 @@ int is_double(char *ptr)
 			return (0);
 		ptr++;
 	}
+	if (*ptr != ' ' && *ptr != '\0')
+		return (0);
 	return (periods <= 1 && digits >= 1);
 }
 
@@ -41,6 +43,8 @@ static int is_cs_double(char *ptr)
 			return (0);
 		ptr++;
 	}
+	if (*ptr != ' ' && *ptr != '\0' && *ptr != ',')
+		return (0);
 	return (periods <= 1 && digits >= 1);
 }
 
@@ -62,7 +66,9 @@ int is_color(char *ptr)
 		commas++;
 		ptr++;
 	}
-	return (values == 3 && commas == 2 && *ptr == '\0');
+	if (*ptr != ' ' && *ptr != '\0')
+		return (0);
+	return (values == 3 && commas == 2);
 }
 
 int is_vector(char *ptr)
@@ -83,6 +89,8 @@ int is_vector(char *ptr)
 		commas++;
 		ptr++;
 	}
+	if (*ptr != ' ' && *ptr != '\0')
+		return (0);
 	return (doubles == 3 && commas == 2);
 }
 

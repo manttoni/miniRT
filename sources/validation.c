@@ -74,12 +74,16 @@ char *validate(char *line)
 		ptr = next_value(ptr);
 		if (ptr == NULL || (checks[i])(ptr) == 0)
 		{
-			if (type == PLANE)
-				printf("Failed at check: %d\n", i);
+			printf("%s: Failed at check: %d\n", line, i);
 			return (NULL);
 		}
 		i++;
 	}
-	// printf("Validation success: %s\n", line);
+	ptr = next_value(ptr);
+	if (ptr != NULL && *ptr != '\0')
+	{
+		printf("Wrong format(%c): %s\n", *ptr, line);
+		return (NULL);
+	}
 	return (line);
 }
