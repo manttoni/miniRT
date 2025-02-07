@@ -28,7 +28,7 @@ int	cast_ray(t_ray *ray, t_objarr *objarr)
 	while (i < objarr->objects)
 	{
 		if (arr[i].collisionf != NULL)
-			is_collision = max(is_collision, (*(arr[i].collisionf))(ray, arr[i]));
+			is_collision = max(is_collision, (*(arr[i].collisionf))(ray, &arr[i]));
 		i++;
 	}
 	return (is_collision);

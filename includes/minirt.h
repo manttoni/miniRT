@@ -79,7 +79,7 @@ typedef struct	s_object
 	double			height;
 	t_vector		location;
 	t_vector		orientation;
-	int				(*collisionf)(t_ray *, struct s_object);
+	int				(*collisionf)(t_ray *, struct s_object *);
 	int				fov;
 	t_camera_info	info;
 }	t_object;
@@ -128,8 +128,8 @@ void	redraw(t_data *data);
 void    rotate_object(t_object *object, t_vector new_orientation);
 
 /*collision.c*/
-int			sphere_collision(t_ray *ray, t_object sp);
-int			plane_collision(t_ray *ray, t_object pl);
+int			sphere_collision(t_ray *ray, t_object *sp);
+int			plane_collision(t_ray *ray, t_object *pl);
 
 /*color.c*/
 void		color_pixel(mlx_image_t *image, uint32_t pixel_color, int x, int y);
