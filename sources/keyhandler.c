@@ -14,12 +14,6 @@ static size_t	select_next_object(size_t selected, t_objarr *objarr)
 	return (selected + 1);
 }
 
-static void redraw(t_data *data)
-{
-	raycast(data);
-	mlx_image_to_window(data->mlx, data->image, 0, 0);
-}
-
 void	keypress(mlx_key_data_t mlx_data, void *param)
 {
 	t_data	*data;
@@ -71,24 +65,5 @@ void	keypress(mlx_key_data_t mlx_data, void *param)
 		if (mlx_data.key == MLX_KEY_ENTER)
 			redraw(data);
 		
-	}
-}
-
-void	rt_mouse(void *param)
-{
-	int32_t	mouse_x;
-	int32_t	mouse_y;
-	t_data	*data;
-	t_vector	new_orientation;
-	t_object	*camera;
-
-	data = (t_data *)param;
-	if (mlx_is_mouse_down(data->mlx, MLX_MOUSE_BUTTON_LEFT))
-	{
-		mlx_get_mouse_pos(data->mlx, &mouse_x, &mouse_y);
-		camera = get_object(data->objects, CAMERA);
-		new_orientation = get_ray(camera, mouse_x, mouse_y).direction;
-		rotate_object(get_object(data->objects, CAMERA), new_orientation);
-		redraw(data);
 	}
 }

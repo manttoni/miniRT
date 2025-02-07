@@ -30,6 +30,7 @@ int	sphere_collision(t_ray *ray, t_object sp)
 		ray->distance = t;
 		ray->end = v_sum(ray->start, v_mul(ray->distance, ray->direction));
 		ray->coll_norm = normalize_vector(v_sub(ray->end, sp.location));
+		ray->object = &sp;
 		return (1);
 	}
 
@@ -57,5 +58,6 @@ int plane_collision(t_ray *ray, t_object pl)
 	//     ray->coll_norm = v_mul(-1, pl.orientation);
 	// else
 	ray->coll_norm = pl.orientation;
+	ray->object = &pl;
 	return (1);
 }

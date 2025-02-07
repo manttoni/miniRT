@@ -3,6 +3,11 @@
 
 void print_object(t_object o)
 {
+	// if (o.type >= NONE)
+	// {
+	// 	printf("Unknown object\n");
+	// 	return ;
+	// }
 	printf("---------------\n");
 	if (o.type == CAMERA)
 		printf("Camera: 📷\n");
@@ -30,7 +35,7 @@ void print_object(t_object o)
 		printf("FOV: %d\nView distance: %1.2f\n", o.fov, o.info.view_distance);
 	if (o.type == SPHERE || o.type == CYLINDER)
 		printf("Diameter: %f\n", o.diameter);
-	if (o.type != CAMERA)
+	if (o.type != CAMERA && o.type != LIGHT)
 	{
 		printf("Color: \033[38;2;%d;%d;%dm%06X\033[0m\n",
 			   (o.color >> 24) & 0xFF, (o.color >> 16) & 0xFF,
@@ -100,6 +105,7 @@ t_camera_info	image_plane(t_object *camera)
 	info.ray.direction = v_sum(camera->location, info.ray.direction);
 	info.ray.color = BACKGROUND_COLOR;
 	info.ray.distance = DBL_MAX;
+	info.ray.object = NULL;
 	return (info);
 }
 
