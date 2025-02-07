@@ -22,7 +22,10 @@ SRC = $(SRC_DIR)main.c \
 	$(SRC_DIR)vector.c \
 	$(SRC_DIR)vector_math.c \
 	$(SRC_DIR)vector_geometry.c \
-	$(SRC_DIR)transformation.c
+	$(SRC_DIR)transformation.c \
+	$(SRC_DIR)mouse.c \
+	$(SRC_DIR)user_interface.c \
+	$(SRC_DIR)image.c
 
 FLAGS = -Wall -Werror -Wextra -g -O2
 OFLAGS = -Iinclude -ldl -lglfw -pthread -lm

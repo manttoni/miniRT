@@ -1,12 +1,7 @@
 #include "../includes/minirt.h"
 
-void    select_object(t_object *object, t_ui *ui)
+void    select_object(t_object object, t_ui *ui)
 {
-    if (object == NULL)
-    {
-        printf("Object is NULL\n");
-        return ;
-    }
     if (ui == NULL)
     {
         printf("UI is NULL\n");
@@ -14,5 +9,5 @@ void    select_object(t_object *object, t_ui *ui)
     }
     ui->selected = object;
     printf("Object selected: \n");
-    print_object(*object);
+    print_object(object);
 }

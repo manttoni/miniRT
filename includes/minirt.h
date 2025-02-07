@@ -58,6 +58,7 @@ typedef struct s_ray
     t_vector    start;
 	double		distance;
     uint32_t    color;
+	struct s_object	*object;
 }   t_ray;
 
 typedef struct s_camera_info
@@ -95,14 +96,33 @@ typedef struct s_objarr
 	size_t		objects;
 }	t_objarr;
 
+typedef struct s_ui
+{
+	t_object	selected;
+}	t_ui;
+
+typedef struct s_mouse
+{
+	int32_t	x;
+	int32_t	y;
+}	t_mouse;
+
 typedef struct	s_data
 {
 	t_objarr	*objects;
 	mlx_t		*mlx;
 	mlx_image_t	*image;
+	t_ui		*ui;
+	t_mouse		mouse;
 }	t_data;
 
 void		print_object(t_object o);
+
+/*mouse.c*/
+void	rt_mouse(void *param);
+
+/*image.c*/
+void	redraw(t_data *data);
 
 /*transformation.c*/
 void    rotate_object(t_object *object, t_vector new_orientation);
