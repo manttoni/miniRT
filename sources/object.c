@@ -1,47 +1,43 @@
 #include "../includes/minirt.h"
+#include <math.h>
 
-void print_object(t_object *o)
+void print_object(t_object o)
 {
-	if (o == NULL)
-	{
-		printf("Object not found!\n");
-		return ;
-	}
 	printf("---------------\n");
-	if (o->type == CAMERA)
+	if (o.type == CAMERA)
 		printf("Camera: 📷\n");
-	else if (o->type == SPHERE)
+	else if (o.type == SPHERE)
 		printf("Sphere: ⚪\n");
-	else if (o->type == PLANE)
+	else if (o.type == PLANE)
 		printf("Plane: ✈️\n");
-	else if (o->type == AMBIENT)
-		printf("Ambient light: 💡\n");
-	else if (o->type == LIGHT)
+	else if (o.type == AMBIENT)
+		printf("Ambient light: 🌓\n");
+	else if (o.type == LIGHT)
 		printf("Light: 💡\n");
-	else if (o->type == CYLINDER)
+	else if (o.type == CYLINDER)
 		printf("Cylinder: 🛢\n");
-	if (o->type != AMBIENT)
+	if (o.type != AMBIENT)
 	{
 		printf("Location: ");
-		print_vector(o->location);
+		print_vector(o.location);
 	}
-	if (o->type == CAMERA || o->type == PLANE || o->type == CYLINDER)
+	if (o.type == CAMERA || o.type == PLANE || o.type == CYLINDER)
 	{
 		printf("Orientation: ");
-		print_vector(o->orientation);
+		print_vector(o.orientation);
 	}
-	if (o->type == CAMERA)
-		printf("FOV: %d\nView distance: %1.2f\n", o->fov, o->info.view_distance);
-	if (o->type == SPHERE || o->type == CYLINDER)
-		printf("Diameter: %f\n", o->diameter);
-	if (o->type != CAMERA)
+	if (o.type == CAMERA)
+		printf("FOV: %d\nView distance: %1.2f\n", o.fov, o.info.view_distance);
+	if (o.type == SPHERE || o.type == CYLINDER)
+		printf("Diameter: %f\n", o.diameter);
+	if (o.type != CAMERA)
 	{
 		printf("Color: \033[38;2;%d;%d;%dm%06X\033[0m\n",
-			   (o->color >> 24) & 0xFF, (o->color >> 16) & 0xFF,
-			   (o->color >> 8) & 0xFF, o->color);
+			   (o.color >> 24) & 0xFF, (o.color >> 16) & 0xFF,
+			   (o.color >> 8) & 0xFF, o.color);
 	}
-	if (o->type == LIGHT || o->type == AMBIENT)
-		printf("Brightness: %f\n", o->brightness);
+	if (o.type == LIGHT || o.type == AMBIENT)
+		printf("Brightness: %f\n", o.brightness);
 }
 
 t_type	get_type(char *line)
@@ -71,7 +67,7 @@ double	calc_view_distance(int fov)
 {
 	double	fov_rad;
 
-	fov_rad = fov * M_PI / 180;
+	fov_rad = fov * M_PI / 180; // why is vscode saying M_PI is wrong?
 	return ((X / 2) / tan(fov_rad / 2));
 }
 
@@ -84,7 +80,7 @@ int	assign_ambient(t_object *ambient, char **info)
 	return (SUCCESS);
 }
 
-static t_camera_info	image_plane(t_object *camera)
+t_camera_info	image_plane(t_object *camera)
 {
 	t_camera_info	info;
 
@@ -182,25 +178,19 @@ static int	assign_values(t_object *object, char **info)
 	return (FAILURE);
 }
 
-t_object	*parse_object(char *line)
+int	parse_object(t_object *object, char *line)
 {
-	t_object	*object;
 	char		**info;
 
-	line = validate(line);
-	object = malloc(sizeof(t_object));
-	if (object != NULL && line != NULL)
-	{
-		ft_memset(object, 0, sizeof(t_object));
-		object->type = get_type(line);
-	}
+	if (validate(line) == NULL)
+		return FAILURE;
+	object->type = get_type(line);
 	info = ft_split(line, ' ');
 	if (assign_values(object, info) == FAILURE)
 	{
-		free(object);
 		ft_free_array(info);
-		return (NULL);
+		return (FAILURE);
 	}
-	return (object);
+	return (SUCCESS);
 }
 

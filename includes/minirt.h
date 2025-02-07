@@ -16,15 +16,11 @@
 /* Defines */
 # define EPSILON 0.001
 # define BACKGROUND_COLOR 0xff000000
-# define SHADOW_COLOR 0xffffffff
-# define WHITE 0xffffffff
-# define X 1420
-# define Y 1080
-# define RENDER_DISTANCE 150
+# define X 1000
+# define Y 1000
 # define FAILURE 1
 # define SUCCESS 0
-# define FAILURE 1
-# define SUCCESS 0
+//# define RENDER_DISTANCE 150
 
 /* Enums */
 typedef enum e_type
@@ -82,7 +78,7 @@ typedef struct	s_object
 	double			height;
 	t_vector		location;
 	t_vector		orientation;
-	int				(*collisionf)(t_ray *, struct s_object *);
+	int				(*collisionf)(t_ray *, struct s_object);
 	int				fov;
 	t_camera_info	info;
 
@@ -90,13 +86,13 @@ typedef struct	s_object
 }	t_object;
 
 /*
-	arr is malloced array of pointers to objects
+	arr is malloced array of objects
 	capacity is amount of memory allocated
 	objects is amount of objects
 */
 typedef struct s_objarr
 {
-	t_object	**arr;
+	t_object	*arr;
 	size_t		capacity;
 	size_t		objects;
 }	t_objarr;
@@ -108,11 +104,14 @@ typedef struct	s_data
 	mlx_image_t	*image;
 }	t_data;
 
-void		print_object(t_object *o);
+void		print_object(t_object o);
+
+/*transformation.c*/
+void    rotate_object(t_object *object, t_vector new_orientation);
 
 /*collision.c*/
-int			sphere_collision(t_ray *ray, t_object *sp);
-int			plane_collision(t_ray *ray, t_object *pl);
+int			sphere_collision(t_ray *ray, t_object sp);
+int			plane_collision(t_ray *ray, t_object pl);
 
 /*color.c*/
 void		color_pixel(mlx_image_t *image, uint32_t pixel_color, int x, int y);
@@ -129,17 +128,18 @@ t_objarr	*read_objects(char *file);
 
 /*keyhandler.c*/
 void		keypress(mlx_key_data_t mlx_data, void *param);
+void		rt_mouse(void *param);
 
 /*lights.c*/
-uint32_t	set_lights(t_ray *ray, t_vector collision, t_vector normal, t_object **arr);
+uint32_t	set_lights(t_ray *ray, t_vector collision, t_vector normal, t_objarr *objarr);
 
 /*object_array.c*/
 t_objarr	*init_objarr(size_t capacity);
-int 		add(t_objarr *objarr, t_object *to_add);
+int 		add_object(t_objarr *objarr, char *line);
 void		free_objarr(t_objarr *objarr);
 
 /*object_getters.c*/
-t_object	*get_object(t_object **arr, t_type type);
+t_object	*get_object(t_objarr *objarr, t_type type);
 
 /*object_parser.c*/
 t_vector	parse_vector(char *str);
@@ -148,14 +148,16 @@ uint32_t	parse_color(char *str);
 /*object.c*/
 t_type		get_type(char *line);
 int			assign_ambient(t_object *ambient, char **info);
-t_object	*parse_object(char *line);
+int			parse_object(t_object *object, char *line);
+t_camera_info	image_plane(t_object *camera);
 
 /*parser.c*/
 double		parse_double(char *str);
 
 /*ray.c*/
-int			cast_ray(t_ray *ray, t_object **arr);
+int			cast_ray(t_ray *ray, t_objarr *objarr);
 void		raycast(t_data *data);
+t_ray		get_ray(t_object *camera, int x, int y);
 
 /*utils.c*/
 int			min(int a, int b);

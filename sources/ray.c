@@ -5,7 +5,7 @@
 		Basic vectors (u and v) of the image plane. Used for finding pixels
 		All rays share some information like starting point and general direction
 		aka camera direction	*/
-static t_ray	get_ray(t_object *camera, int x, int y)
+t_ray	get_ray(t_object *camera, int x, int y)
 {
 	t_ray		ray;
 
@@ -16,17 +16,19 @@ static t_ray	get_ray(t_object *camera, int x, int y)
 	return (ray);
 }
 
-int	cast_ray(t_ray *ray, t_object **arr)
+int	cast_ray(t_ray *ray, t_objarr *objarr)
 {
 	size_t	i;
 	int		is_collision;
+	t_object	*arr;
 
 	is_collision = 0;
 	i = 0;
-	while (arr[i] != NULL)
+	arr = objarr->arr;
+	while (i < objarr->objects)
 	{
-		if (arr[i]->collisionf != NULL)
-			is_collision = max(is_collision, (*arr[i]->collisionf)(ray, arr[i]));
+		if (arr[i].collisionf != NULL)
+			is_collision = max(is_collision, (*(arr[i].collisionf))(ray, arr[i]));
 		i++;
 	}
 	return is_collision;
@@ -39,14 +41,7 @@ void	raycast(t_data *data)
 	t_ray ray;
 	t_object *camera;
 
-	camera = get_object(data->objects->arr, CAMERA);
-	camera = get_object(data->objects->arr, CAMERA);
-	if (camera == NULL)
-	{
-		printf("Camera not found\n");
-		return ;
-	}
-	printf("Raycasting started\n");
+	camera = get_object(data->objects, CAMERA);
 	y = 0;
 	while (y < Y)
 	{
@@ -54,14 +49,14 @@ void	raycast(t_data *data)
 		while (x < X)
 		{
 			ray = get_ray(camera, x, y);
-			cast_ray(&ray, data->objects->arr);
+			cast_ray(&ray, data->objects);
 			// if (ray.color != BACKGROUND_COLOR)
 			// {
 			// 	printf("Before color: \033[38;2;%d;%d;%dm%06X\033[0m\n",
 			// 	(ray.color) & 0xFF, (ray.color >> 8) & 0xFF,
 			// 	(ray.color >> 16) & 0xFF, ray.color);
 			// }
-			ray.color = set_lights(&ray, ray.end, ray.coll_norm, data->objects->arr);
+			ray.color = set_lights(&ray, ray.end, ray.coll_norm, data->objects);
 			// if (ray.color != BACKGROUND_COLOR)
 			// {
 			// 	printf("After color: \033[38;2;%d;%d;%dm%06X\033[0m\n",
@@ -71,10 +66,8 @@ void	raycast(t_data *data)
 			color_pixel(data->image, ray.color, x, y);
 			x++;
 		}
-		printf("%d%%\r", ((y * 100) / Y));
 		y++;
 	}
-	printf("Raycasting completed\n");
 }
 
 

@@ -7,9 +7,9 @@ int	handle_close(void *param)
 	exit(0);
 }
 
-static int	select_next_object(int selected, t_object **arr)
+static size_t	select_next_object(size_t selected, t_objarr *objarr)
 {
-	if (arr[selected + 1] == NULL)
+	if (selected == objarr->objects - 1)
 		return (0);
 	return (selected + 1);
 }
@@ -25,7 +25,7 @@ void	keypress(mlx_key_data_t mlx_data, void *param)
 	t_data	*data;
 	static int		selected;
 	static t_vector axis;
-	t_object		**arr;
+	t_object		*arr;
 
 	data = (t_data *)param;
 	arr = data->objects->arr;
@@ -38,7 +38,7 @@ void	keypress(mlx_key_data_t mlx_data, void *param)
 		}
 		if (mlx_data.key == MLX_KEY_TAB)
 		{
-			selected = select_next_object(selected, arr);
+			selected = select_next_object(selected, data->objects);
 			print_object(arr[selected]);
 		}
 		if (mlx_data.key == MLX_KEY_X)
@@ -58,15 +58,37 @@ void	keypress(mlx_key_data_t mlx_data, void *param)
 		}
 		if (mlx_data.key == MLX_KEY_KP_ADD)
 		{
-			arr[selected]->location = v_sum(arr[selected]->location, axis);
-			print_vector(arr[selected]->location);
+			arr[selected].location = v_sum(arr[selected].location, axis);
+			print_vector(arr[selected].location);
+			redraw(data);
 		}
 		if (mlx_data.key == MLX_KEY_KP_SUBTRACT)
 		{
-			arr[selected]->location = v_sub(arr[selected]->location, axis);
-			print_vector(arr[selected]->location);
+			arr[selected].location = v_sub(arr[selected].location, axis);
+			print_vector(arr[selected].location);
+			redraw(data);
 		}
 		if (mlx_data.key == MLX_KEY_ENTER)
 			redraw(data);
+		
+	}
+}
+
+void	rt_mouse(void *param)
+{
+	int32_t	mouse_x;
+	int32_t	mouse_y;
+	t_data	*data;
+	t_vector	new_orientation;
+	t_object	*camera;
+
+	data = (t_data *)param;
+	if (mlx_is_mouse_down(data->mlx, MLX_MOUSE_BUTTON_LEFT))
+	{
+		mlx_get_mouse_pos(data->mlx, &mouse_x, &mouse_y);
+		camera = get_object(data->objects, CAMERA);
+		new_orientation = get_ray(camera, mouse_x, mouse_y).direction;
+		rotate_object(get_object(data->objects, CAMERA), new_orientation);
+		redraw(data);
 	}
 }

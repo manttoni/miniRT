@@ -1,13 +1,13 @@
 #include "../includes/minirt.h"
 
-void print_objects(t_objarr *objects)
+void print_objects(t_objarr *objarr)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
-	while (objects->arr[i] != NULL)
+	while (i < objarr->objects)
 	{
-		print_object(objects->arr[i]);
+		print_object(objarr->arr[i]);
 		i++;
 	}
 	printf("---------------\n");
@@ -18,6 +18,7 @@ static void	the_image(t_data *data)
 	mlx_key_hook(data->mlx, &keypress, data);
 	mlx_image_to_window(data->mlx, data->image , 0, 0);
 	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
+	mlx_loop_hook(data->mlx, &rt_mouse, data);
 	mlx_loop(data->mlx);
 	mlx_terminate(data->mlx);
 }
