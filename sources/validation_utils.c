@@ -62,7 +62,7 @@ int is_color(char *ptr)
 		commas++;
 		ptr++;
 	}
-	return (values == 3 && commas == 2);
+	return (values == 3 && commas == 2 && *ptr == '\0');
 }
 
 int is_vector(char *ptr)

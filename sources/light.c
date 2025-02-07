@@ -1,14 +1,14 @@
 #include "../includes/minirt.h"
 
-static int	in_the_shadow(t_ray *ray, t_vector collision, t_object *light, t_object **arr)
+static int	in_the_shadow(t_ray *ray, t_vector collision, t_object *light, t_objarr *objarr)
 {
 	t_ray	shadow;
 
 	(void)ray;
+	shadow.direction = normalize_vector(v_sub(light->location, collision));
 	shadow.start = v_sum(collision, v_mul(0.001, shadow.direction));
 	shadow.distance = DBL_MAX;
-	shadow.direction = normalize_vector(v_sub(light->location, collision));
-	if (cast_ray(&shadow, arr))
+	if (cast_ray(&shadow, objarr))
 	{
 		if (shadow.distance < v_dist(light->location, collision))
 			return (1);
@@ -39,7 +39,7 @@ static double	set_diffuse(t_vector normal, t_vector light_dir, double intensity)
 	return (intensity * dot);
 }
 
-uint32_t	set_lights(t_ray *ray, t_vector collision, t_vector normal, t_object **arr)
+uint32_t	set_lights(t_ray *ray, t_vector collision, t_vector normal, t_objarr *objarr)
 {
 	t_object	*ambient;
 	t_object	*light;
@@ -53,18 +53,17 @@ uint32_t	set_lights(t_ray *ray, t_vector collision, t_vector normal, t_object **
 	int			g;
 	int			b;
 
-	ambient = get_object(arr, AMBIENT);
-	light = get_object(arr, LIGHT);
+	ambient = get_object(objarr, AMBIENT);
+	light = get_object(objarr, LIGHT);
 	diffuse = 0.0;
 	specular = 0.0;
 	shine = 32.0;
 	light_dir = normalize_vector(v_sub(light->location, collision));
 	view_dir = normalize_vector(v_sub(ray->start, collision));
-	if (!in_the_shadow(ray, collision, light, arr))
+	if (!in_the_shadow(ray, collision, light, objarr))
 	{
 		diffuse = set_diffuse(normal, light_dir, light->brightness);
 		specular = set_specular(normal, light_dir, view_dir, light->brightness, shine);
-		// printf("Diffuse: %f\n", diffuse);
 	}
 	r = min(255, (ambient->brightness + diffuse + specular) * ((ray->color >> 24) & 0xff));
 	g = min(255, (ambient->brightness + diffuse + specular) * ((ray->color >> 16) & 0xff));
