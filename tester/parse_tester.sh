@@ -27,6 +27,9 @@ make
 valgrind_log=valgrind.log
 
 while read line; do
+    if [[ -z "$line" || "$line" =~ ^[[:space:]]*$ ]]; then
+        continue
+    fi
     echo "------------------------"
     echo -e "test input: $line\n"
 
@@ -52,6 +55,21 @@ cat invalid.txt | wc -l
 cat invalid.txt
 
 echo "------------------------"
+
+
+if [[ $(grep -c "L" valid.txt) -ne 1 ]]; then
+    echo "Wrong amount of light"
+fi
+if [[ $(grep -c "C" valid.txt) -ne 1 ]]; then
+    echo "Wrong amount of camera"
+fi
+if [[ $(grep -c "A" valid.txt) -ne 1 ]]; then
+    echo "Wrong amount of ambient"
+fi
+if [[ $(grep -v "[LCA]" valid.txt | wc -l) -le 0 ]]; then
+    echo "Wrong amount of objects"
+fi
+
 
 make clean
 rm -f valid.txt
