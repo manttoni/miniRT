@@ -49,7 +49,6 @@ void	raycast(t_data *data)
 		while (x < X)
 		{
 			ray = get_ray(camera, x, y);
-			cast_ray(&ray, data->objects);
 			// if (ray.color != BACKGROUND_COLOR)
 			// {
 			// 	printf("Before color: \033[38;2;%d;%d;%dm%06X\033[0m\n",
@@ -58,7 +57,6 @@ void	raycast(t_data *data)
 			// }
 			if (cast_ray(&ray, data->objects))
 				ray.color = set_lights(&ray, ray.end, ray.coll_norm, data->objects);
-			// if (ray.color == BACKGROUND_COLOR)
 			// if (ray.color != BACKGROUND_COLOR)
 			// {
 			// 	printf("After color: \033[38;2;%d;%d;%dm%06X\033[0m\n",

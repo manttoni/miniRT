@@ -130,16 +130,13 @@ void		rt_mouse(void *param);
 
 /*lights.c*/
 uint32_t	set_lights(t_ray *ray, t_vector collision, t_vector normal, t_objarr *objarr);
-uint32_t	set_lights(t_ray *ray, t_vector collision, t_vector normal, t_objarr *objarr);
 
 /*object_array.c*/
 t_objarr	*init_objarr(size_t capacity);
 int 		add_object(t_objarr *objarr, char *line);
-int 		add_object(t_objarr *objarr, char *line);
 void		free_objarr(t_objarr *objarr);
 
 /*object_getters.c*/
-t_object	*get_object(t_objarr *objarr, t_type type);
 t_object	*get_object(t_objarr *objarr, t_type type);
 
 /*object_parser.c*/
@@ -156,7 +153,6 @@ t_camera_info	image_plane(t_object *camera);
 double		parse_double(char *str);
 
 /*ray.c*/
-int			cast_ray(t_ray *ray, t_objarr *objarr);
 int			cast_ray(t_ray *ray, t_objarr *objarr);
 void		raycast(t_data *data);
 t_ray		get_ray(t_object *camera, int x, int y);

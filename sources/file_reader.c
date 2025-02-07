@@ -21,6 +21,7 @@ static t_objarr	*check_uniques(t_objarr *objarr)
 	if (types[0] * types[1] * types[2] == 1 && objarr->objects >= 4)
 		return (objarr);
 	free_objarr(objarr);
+	failure("Needs to have LIGHT, CAMERA, AMBIENT and one OBJECT");
 	return (NULL);
 }
 
@@ -49,7 +50,6 @@ t_objarr	*read_objects(char *file)
 	while (line)
 	{
 		if (*line != '\0' && *line != '#' && add_object(objarr, line) == FAILURE)
-		if (*line != '\0' && *line != '#' && add_object(objarr, line) == FAILURE)
 		{
 			free_objarr(objarr);
 			free(line);
@@ -60,6 +60,5 @@ t_objarr	*read_objects(char *file)
 		line = trim_newline(get_next_line(fd));
 	}
 	close(fd);
-	return (check_uniques(objarr));
 	return (check_uniques(objarr));
 }

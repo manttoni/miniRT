@@ -191,5 +191,6 @@ int	parse_object(t_object *object, char *line)
 		ft_free_array(info);
 		return (FAILURE);
 	}
+	ft_free_array(info);
 	return (SUCCESS);
 }
