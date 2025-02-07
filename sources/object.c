@@ -67,7 +67,7 @@ double	calc_view_distance(int fov)
 {
 	double	fov_rad;
 
-	fov_rad = fov * M_PI / 180;
+	fov_rad = fov * M_PI / 180; // why is vscode saying M_PI is wrong?
 	return ((X / 2) / tan(fov_rad / 2));
 }
 
@@ -80,7 +80,7 @@ int	assign_ambient(t_object *ambient, char **info)
 	return (SUCCESS);
 }
 
-static t_camera_info	image_plane(t_object *camera)
+t_camera_info	image_plane(t_object *camera)
 {
 	t_camera_info	info;
 
@@ -191,6 +191,5 @@ int	parse_object(t_object *object, char *line)
 		ft_free_array(info);
 		return (FAILURE);
 	}
-	ft_free_array(info);
 	return (SUCCESS);
 }

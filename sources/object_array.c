@@ -4,14 +4,17 @@ t_objarr	*init_objarr(size_t capacity)
 {
 	t_objarr	*objarr;
 	t_object	*arr;
+	t_object	*arr;
 
 	objarr = malloc(sizeof(t_objarr));
+	arr = malloc(capacity * sizeof(t_object));
 	arr = malloc(capacity * sizeof(t_object));
 	if (objarr == NULL || arr == NULL)
 	{
 		free(objarr);
 		return (NULL);
 	}
+	ft_memset(arr, 0, capacity * sizeof(t_object));
 	ft_memset(arr, 0, capacity * sizeof(t_object));
 	objarr->arr = arr;
 	objarr->capacity = capacity;
@@ -21,6 +24,7 @@ t_objarr	*init_objarr(size_t capacity)
 
 static int	reallocate(t_objarr *objarr)
 {
+    t_object    *new_arr;
     t_object    *new_arr;
     size_t      i;
 
