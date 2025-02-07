@@ -16,8 +16,8 @@
 /* Defines */
 # define EPSILON 0.001
 # define BACKGROUND_COLOR 0xff000000
-# define X 500
-# define Y 500
+# define X 1000
+# define Y 1000
 # define FAILURE 1
 # define SUCCESS 0
 //# define RENDER_DISTANCE 150
@@ -106,6 +106,9 @@ typedef struct	s_data
 
 void		print_object(t_object o);
 
+/*transformation.c*/
+void    rotate_object(t_object *object, t_vector new_orientation);
+
 /*collision.c*/
 int			sphere_collision(t_ray *ray, t_object sp);
 int			plane_collision(t_ray *ray, t_object pl);
@@ -125,6 +128,7 @@ t_objarr	*read_objects(char *file);
 
 /*keyhandler.c*/
 void		keypress(mlx_key_data_t mlx_data, void *param);
+void		rt_mouse(void *param);
 
 /*lights.c*/
 uint32_t	set_lights(t_ray *ray, t_vector collision, t_vector normal, t_objarr *objarr);
@@ -145,6 +149,7 @@ uint32_t	parse_color(char *str);
 t_type		get_type(char *line);
 int			assign_ambient(t_object *ambient, char **info);
 int			parse_object(t_object *object, char *line);
+t_camera_info	image_plane(t_object *camera);
 
 /*parser.c*/
 double		parse_double(char *str);
@@ -152,6 +157,7 @@ double		parse_double(char *str);
 /*ray.c*/
 int			cast_ray(t_ray *ray, t_objarr *objarr);
 void		raycast(t_data *data);
+t_ray		get_ray(t_object *camera, int x, int y);
 
 /*utils.c*/
 int			min(int a, int b);

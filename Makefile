@@ -21,7 +21,8 @@ SRC = $(SRC_DIR)main.c \
 	$(SRC_DIR)validation_utils.c \
 	$(SRC_DIR)vector.c \
 	$(SRC_DIR)vector_math.c \
-	$(SRC_DIR)vector_geometry.c
+	$(SRC_DIR)vector_geometry.c \
+	$(SRC_DIR)transformation.c
 
 FLAGS = -Wall -Werror -Wextra -g -O2
 OFLAGS = -Iinclude -ldl -lglfw -pthread -lm

@@ -80,7 +80,7 @@ int	assign_ambient(t_object *ambient, char **info)
 	return (SUCCESS);
 }
 
-static t_camera_info	image_plane(t_object *camera)
+t_camera_info	image_plane(t_object *camera)
 {
 	t_camera_info	info;
 
