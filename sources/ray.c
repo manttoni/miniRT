@@ -68,7 +68,9 @@ void	raycast(t_data *data)
 			x++;
 		}
 		y++;
+		printf("%d%%\r", ((y * 100) / Y));
 	}
+	printf("Ready\n");
 }
 
 

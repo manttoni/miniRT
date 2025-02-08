@@ -32,6 +32,7 @@ static int	translate(mlx_key_data_t mlx_data, t_object *selected)
 	else
 		return (0);
 	selected->location = v_sum(selected->location, delta);
+	print_vector(selected->location);
 	return (1);
 }
 

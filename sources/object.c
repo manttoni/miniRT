@@ -139,15 +139,22 @@ static int	assign_sphere(t_object *sphere, char **info)
 	return (SUCCESS);
 }
 
+void	precalculate_plane(t_object *plane, t_object *camera)
+{
+	double	d;
+
+	d = dot_product(plane->orientation, plane->location);
+	plane->numerator = -dot_product(plane->orientation, camera->location) + d;
+}
+
 static int	assign_plane(t_object *plane, char **info)
 {
 	plane->location = parse_vector(info[1]);
 	plane->orientation = parse_vector(info[2]);
 	plane->color = parse_color(info[3]);
-	plane->orientation = normalize_vector(plane->orientation);
-	//if (!is_normalized_vector(plane->orientation))
-	//	return (failure("Plane orientation not normalized"));
-	plane->d = dot_product(plane->orientation, plane->location); // precalculation
+	plane->orientation = normalize_vector(plane->orientation); // for easier testing
+	if (!is_normalized_vector(plane->orientation))
+		return (failure("Plane orientation not normalized"));
 	plane->collisionf = &plane_collision;
 	return (SUCCESS);
 }

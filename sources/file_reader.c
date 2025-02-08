@@ -30,6 +30,19 @@ static t_objarr	*check_uniques(t_objarr *objarr)
 // 	// 	return (NULL);
 // }
 
+void	set_precalculations(t_objarr *objarr)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < objarr->objects)
+	{
+		if (objarr->arr[i].type == PLANE)
+			precalculate_plane(&objarr->arr[i], get_object(objarr, CAMERA));
+		i++;
+	}
+}
+
 t_objarr	*read_objects(char *file)
 {
 	char		*line;
@@ -59,5 +72,6 @@ t_objarr	*read_objects(char *file)
 		line = trim_newline(get_next_line(fd));
 	}
 	close(fd);
+	set_precalculations(objarr);
 	return (check_uniques(objarr));
 }

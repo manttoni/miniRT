@@ -40,23 +40,17 @@ int	sphere_collision(t_ray *ray, t_object *sp)
 int plane_collision(t_ray *ray, t_object *pl)
 {
 	double denominator;
-	double numerator;
 	double t;
 
 	denominator = dot_product(pl->orientation, ray->direction);
 	if (fabs(denominator) < EPSILON)
 		return (0);
-	t_vector plane_to_ray = v_sub(pl->location, ray->start);
-	numerator = dot_product(pl->orientation, plane_to_ray);
-	t = numerator / denominator;
-	if (t < 0 || t >= ray->distance)
+	t = pl->numerator / denominator;
+	if (t < EPSILON || t >= ray->distance)
 		return (0);
 	ray->distance = t;
 	ray->end = v_sum(ray->start, v_mul(t, ray->direction));
 	ray->color = pl->color;
-	// if (dot_product(ray->direction, pl->orientation) > 0)
-	//     ray->coll_norm = v_mul(-1, pl->orientation);
-	// else
 	ray->coll_norm = pl->orientation;
 	ray->object = pl;
 	return (1);
