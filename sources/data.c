@@ -40,7 +40,13 @@ t_data	*init_data(char *file)
 	}
 	if (mlx_and_image(data))
 		return (NULL);
-	data->ui = malloc(sizeof(t_ui)); // no check yet
+	data->ui = malloc(sizeof(t_ui));
+	if (data->ui == NULL)
+	{
+		error_msg(data);
+		free_data(data);
+		return (NULL);
+	}
 	ft_memset(data->ui, 0, sizeof(t_ui));
 	return (data);
 }

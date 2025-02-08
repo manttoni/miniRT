@@ -74,7 +74,7 @@ typedef struct	s_object
 	t_type			type;
 	uint32_t		color;
 	double			brightness;;
-	double			d;
+	double			numerator;
 	double			diameter;
 	double			height;
 	t_vector		location;
@@ -175,6 +175,7 @@ int			assign_ambient(t_object *ambient, char **info);
 int			parse_object(t_object *object, char *line);
 t_camera_info	image_plane(t_object *camera);
 void	precalculate_plane(t_object *plane, t_object *camera);
+void	print_objects(t_objarr *objarr);
 
 /*parser.c*/
 double		parse_double(char *str);

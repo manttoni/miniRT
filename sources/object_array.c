@@ -40,6 +40,9 @@ static int	reallocate(t_objarr *objarr)
 	return (SUCCESS);
 }
 
+/*	Adds an object to the array
+	parse_object parses that object from line
+	if array is full, doubles the arrays allocated memory */
 int add_object(t_objarr *objarr, char *line)
 {
 	if (objarr == NULL)
@@ -55,6 +58,8 @@ int add_object(t_objarr *objarr, char *line)
 
 void	free_objarr(t_objarr *objarr)
 {
+	if (objarr == NULL)
+		return ;
 	free(objarr->arr);
 	free(objarr);
 }

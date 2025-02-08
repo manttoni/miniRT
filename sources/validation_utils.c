@@ -1,5 +1,6 @@
 #include "../includes/minirt.h"
 
+/* Checks if the string is a valid double until the next space or terminator */
 int is_double(char *ptr)
 {
 	int periods;
@@ -24,6 +25,7 @@ int is_double(char *ptr)
 	return (periods <= 1 && digits >= 1);
 }
 
+/* same as is_double, but can end with ',' */
 static int is_cs_double(char *ptr)
 {
 	int periods;
@@ -48,6 +50,7 @@ static int is_cs_double(char *ptr)
 	return (periods <= 1 && digits >= 1);
 }
 
+/* Checks if the string is a valid color until the next space or terminator */
 int is_color(char *ptr)
 {
 	int commas;
@@ -71,6 +74,8 @@ int is_color(char *ptr)
 	return (values == 3 && commas == 2);
 }
 
+/* Checks if the string is a valid vector until the next space or terminator
+	uses is_cs_double to validate individual coordinates */
 int is_vector(char *ptr)
 {
 	int commas;

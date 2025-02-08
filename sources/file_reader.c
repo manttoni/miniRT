@@ -61,13 +61,8 @@ t_objarr	*read_objects(char *file)
 
 	fd = open(file, O_RDONLY);
 	objarr = init_objarr(4);
-	if (objarr == NULL || fd < 0)
-	{
-		if (fd > 2)
-			close(fd);
-		free_objarr(objarr);
+	if (error_check(fd, objarr) == FAILURE)
 		return (NULL);
-	}
 	line = trim_newline(get_next_line(fd));
 	while (line)
 	{
@@ -82,5 +77,6 @@ t_objarr	*read_objects(char *file)
 		line = trim_newline(get_next_line(fd));
 	}
 	close(fd);
+	set_precalculations(objarr);
 	return (check_uniques(objarr));
 }

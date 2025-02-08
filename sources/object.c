@@ -3,11 +3,11 @@
 
 void print_object(t_object o)
 {
-	// if (o.type >= NONE)
-	// {
-	// 	printf("Unknown object\n");
-	// 	return ;
-	// }
+	if (o.type >= NONE)
+	{
+		printf("Unknown object\n");
+		return ;
+	}
 	printf("---------------\n");
 	if (o.type == CAMERA)
 		printf("Camera: 📷\n");
@@ -82,11 +82,12 @@ t_type	get_type(char *line)
 	return (NONE);
 }
 
+/* Calculates the distance to the image plane from the camera so that the angle is fov */
 double	calc_view_distance(int fov)
 {
 	double	fov_rad;
 
-	fov_rad = fov * M_PI / 180; // why is vscode saying M_PI is wrong?
+	fov_rad = fov * M_PI / 180;
 	return ((X / 2) / tan(fov_rad / 2));
 }
 
@@ -99,6 +100,8 @@ int	assign_ambient(t_object *ambient, char **info)
 	return (SUCCESS);
 }
 
+/* precalculations for image plane basic vectors
+	ray gets values that are initially always the same */
 t_camera_info	image_plane(t_object *camera)
 {
 	t_camera_info	info;
@@ -153,15 +156,23 @@ static int	assign_sphere(t_object *sphere, char **info)
 	return (SUCCESS);
 }
 
+/* Precalculates numerator which is used in plane_collision */
+void	precalculate_plane(t_object *plane, t_object *camera)
+{
+	double	d;
+
+	d = dot_product(plane->orientation, plane->location);
+	plane->numerator = -dot_product(plane->orientation, camera->location) + d;
+}
+
 static int	assign_plane(t_object *plane, char **info)
 {
 	plane->location = parse_vector(info[1]);
 	plane->orientation = parse_vector(info[2]);
 	plane->color = parse_color(info[3]);
-	plane->orientation = normalize_vector(plane->orientation);
-	//if (!is_normalized_vector(plane->orientation))
-	//	return (failure("Plane orientation not normalized"));
-	plane->d = dot_product(plane->orientation, plane->location); // precalculation
+	plane->orientation = normalize_vector(plane->orientation); // for easier testing
+	if (!is_normalized_vector(plane->orientation))
+		return (failure("Plane orientation not normalized"));
 	plane->collisionf = &plane_collision;
 	return (SUCCESS);
 }

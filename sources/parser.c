@@ -10,6 +10,8 @@ static size_t	fract_len(char *ptr)
 	return (len);
 }
 
+/* Parses a double until a non double character is found
+	assumes the format has been validated */
 double	parse_double(char *str)
 {
 	int		int_part;
