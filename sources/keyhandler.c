@@ -13,7 +13,8 @@ static void	select_object_by_index(mlx_key_data_t mlx_data, t_data *data)
 		data->ui->selected = &data->objects->arr[mlx_data.key - MLX_KEY_0];
 }
 
-static int	translate(mlx_key_data_t mlx_data, t_object *selected)
+/* checks which key is pressed, creates a vector and translates the object in that direction */
+static int	translate(mlx_key_data_t mlx_data, t_object *selected, t_objarr *objarr)
 {
 	t_vector	delta;
 
@@ -31,8 +32,20 @@ static int	translate(mlx_key_data_t mlx_data, t_object *selected)
 		delta = vector(-1, 0, 0);
 	else
 		return (0);
-	selected->location = v_sum(selected->location, delta);
+	translate_object(selected, delta, objarr);
+	print_vector(selected->location);
 	return (1);
+}
+
+void	print_help(void)
+{
+	printf("--------------\n");
+	printf("HOME: print objects\n");
+	printf("COMMA: this menu\n");
+	printf("First select object with numbers or left click\n");
+	printf("Movement keys (numpad):\n");
+	printf("X: 4 & 6\nY: 8 & 2\nZ: 9 & 1\n");
+	printf("Left click rotates camera\n");
 }
 
 void	keypress(mlx_key_data_t mlx_data, void *param)
@@ -47,7 +60,11 @@ void	keypress(mlx_key_data_t mlx_data, void *param)
 			mlx_close_window(data->mlx);
 			return ;
 		}
-		if (translate(mlx_data, data->ui->selected) == 1)
+		if (mlx_data.key == MLX_KEY_HOME)
+			print_objects(data->objects);
+		if (mlx_data.key == MLX_KEY_COMMA)
+			print_help();
+		if (translate(mlx_data, data->ui->selected, data->objects) == 1)
 			redraw(data);
 		select_object_by_index(mlx_data, data);
 	}

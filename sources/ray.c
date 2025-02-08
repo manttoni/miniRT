@@ -69,6 +69,8 @@ void	raycast(t_data *data)
 		}
 		y++;
 	}
+	printf("Ready\r");
+	fflush(stdout);
 }
 
 

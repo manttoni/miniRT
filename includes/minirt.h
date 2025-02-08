@@ -129,7 +129,8 @@ void	rt_mouse(void *param);
 void	redraw(t_data *data);
 
 /*transformation.c*/
-void    rotate_object(t_object *object, t_vector new_orientation);
+void    rotate_object(t_object *object, t_vector new_orientation, t_objarr *objarr);
+void    translate_object(t_object *object, t_vector delta, t_objarr *objarr);
 
 /*collision.c*/
 int			sphere_collision(t_ray *ray, t_object *sp);
@@ -147,6 +148,7 @@ int			failure(char *message);
 
 /*file_reader.c*/
 t_objarr	*read_objects(char *file);
+void	set_precalculations(t_objarr *objarr);
 
 /*keyhandler.c*/
 void		keypress(mlx_key_data_t mlx_data, void *param);
@@ -172,6 +174,7 @@ t_type		get_type(char *line);
 int			assign_ambient(t_object *ambient, char **info);
 int			parse_object(t_object *object, char *line);
 t_camera_info	image_plane(t_object *camera);
+void	precalculate_plane(t_object *plane, t_object *camera);
 
 /*parser.c*/
 double		parse_double(char *str);

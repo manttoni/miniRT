@@ -10,7 +10,7 @@ void    left_click(t_data *data)
     mlx_get_mouse_pos(data->mlx, &(data->mouse.x), &(data->mouse.y));
     camera = get_object(data->objects, CAMERA);
     new_orientation = get_ray(camera, data->mouse.x, data->mouse.y).direction;
-    rotate_object(get_object(data->objects, CAMERA), new_orientation);
+    rotate_object(get_object(data->objects, CAMERA), new_orientation, data->objects);
     redraw(data);
 }
 

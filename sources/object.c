@@ -45,6 +45,20 @@ void print_object(t_object o)
 		printf("Brightness: %f\n", o.brightness);
 }
 
+void print_objects(t_objarr *objarr)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < objarr->objects)
+	{
+		print_object(objarr->arr[i]);
+		printf("Index: %zu\n", i);
+		i++;
+	}
+	printf("---------------\n");
+}
+
 t_type	get_type(char *line)
 {
 	char *shapes[7];
@@ -117,7 +131,7 @@ static int assign_camera(t_object *camera, char **info)
 	camera->orientation = normalize_vector(camera->orientation);
 	if (camera->fov < 0 || camera->fov > 180)
 		return (failure("FOV not valid"));
-	camera->info = image_plane(camera);
+	//camera->info = image_plane(camera);
 	return (SUCCESS);
 }
 
