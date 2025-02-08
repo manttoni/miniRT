@@ -1,12 +1,14 @@
 
 #include "../includes/minirt.h"
 
+/* select an object by its index in the array, visible in terminal. only 0-9 */
 static void	select_object_by_index(mlx_key_data_t mlx_data, t_data *data)
 {
 	if (mlx_data.key >= MLX_KEY_0 && mlx_data.key <= MLX_KEY_9)
 		select_object(&data->objects->arr[mlx_data.key - MLX_KEY_0], data->ui);
 }
 
+/* checks which key is pressed, creates a vector and translates the object in that direction */
 static int	translate(mlx_key_data_t mlx_data, t_object *selected, t_object *camera)
 {
 	t_vector	delta;

@@ -27,6 +27,7 @@ void    right_click(t_data *data)
     }
 }
 
+/* mouse.left and mouse.right checks prevent the program from executing the functions every frame */
 void	rt_mouse(void *param)
 {
 	t_data	*data;

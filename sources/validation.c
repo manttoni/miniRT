@@ -46,6 +46,9 @@ static void assign_checks(t_type type, int (**checks)(char *))
 	}
 }
 
+/* Jumps to the next 'token' of the line read from the line
+	first to end of 'token' and then skips all spaces 
+	returns NULL if there are no more 'tokens' */
 static char *next_value(char *ptr)
 {
 	ptr = ft_strchr(ptr, ' ');
@@ -56,6 +59,8 @@ static char *next_value(char *ptr)
 	return (ptr);
 }
 
+/* Checks validity of line read from file by looping through validation functions 
+	every value must be correct, and there must not be any extra values */
 char *validate(char *line)
 {
 	int (*checks[6])(char *);

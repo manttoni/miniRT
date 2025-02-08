@@ -68,11 +68,12 @@ t_type	get_type(char *line)
 	return (NONE);
 }
 
+/* Calculates the distance to the image plane from the camera so that the angle is fov */
 double	calc_view_distance(int fov)
 {
 	double	fov_rad;
 
-	fov_rad = fov * M_PI / 180; // why is vscode saying M_PI is wrong?
+	fov_rad = fov * M_PI / 180;
 	return ((X / 2) / tan(fov_rad / 2));
 }
 
@@ -85,6 +86,8 @@ int	assign_ambient(t_object *ambient, char **info)
 	return (SUCCESS);
 }
 
+/* precalculations for image plane basic vectors
+	ray gets values that are initially always the same */
 t_camera_info	image_plane(t_object *camera)
 {
 	t_camera_info	info;
@@ -139,6 +142,7 @@ static int	assign_sphere(t_object *sphere, char **info)
 	return (SUCCESS);
 }
 
+/* Precalculates numerator which is used in plane_collision */
 void	precalculate_plane(t_object *plane, t_object *camera)
 {
 	double	d;
