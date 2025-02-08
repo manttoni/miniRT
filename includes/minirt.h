@@ -130,6 +130,7 @@ void	redraw(t_data *data);
 
 /*transformation.c*/
 void    rotate_object(t_object *object, t_vector new_orientation);
+void    translate_object(t_object *object, t_vector delta, t_object *camera);
 
 /*collision.c*/
 int			sphere_collision(t_ray *ray, t_object *sp);

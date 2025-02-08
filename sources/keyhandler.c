@@ -13,7 +13,7 @@ static void	select_object_by_index(mlx_key_data_t mlx_data, t_data *data)
 		data->ui->selected = &data->objects->arr[mlx_data.key - MLX_KEY_0];
 }
 
-static int	translate(mlx_key_data_t mlx_data, t_object *selected)
+static int	translate(mlx_key_data_t mlx_data, t_object *selected, t_object *camera)
 {
 	t_vector	delta;
 
@@ -31,7 +31,7 @@ static int	translate(mlx_key_data_t mlx_data, t_object *selected)
 		delta = vector(-1, 0, 0);
 	else
 		return (0);
-	selected->location = v_sum(selected->location, delta);
+	translate_object(selected, delta, camera);
 	print_vector(selected->location);
 	return (1);
 }
@@ -48,7 +48,7 @@ void	keypress(mlx_key_data_t mlx_data, void *param)
 			mlx_close_window(data->mlx);
 			return ;
 		}
-		if (translate(mlx_data, data->ui->selected) == 1)
+		if (translate(mlx_data, data->ui->selected, get_object(data->objects, CAMERA)) == 1)
 			redraw(data);
 		select_object_by_index(mlx_data, data);
 	}
