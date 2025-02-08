@@ -16,8 +16,8 @@
 /* Defines */
 # define EPSILON 0.001
 # define BACKGROUND_COLOR 0x000000ff
-# define X 1000
-# define Y 1000
+# define X 1500
+# define Y 1500
 # define FAILURE 1
 # define SUCCESS 0
 //# define RENDER_DISTANCE 150
@@ -49,6 +49,14 @@ typedef struct s_vector
 	double	y;
 	double	z;
 }	t_vector;
+
+typedef struct	s_color
+{
+	int	r;
+	int	g;
+	int	b;
+	int a;
+}	t_color;
 
 typedef struct s_ray
 {
@@ -137,6 +145,7 @@ int			plane_collision(t_ray *ray, t_object *pl);
 
 /*color.c*/
 void		color_pixel(mlx_image_t *image, uint32_t pixel_color, int x, int y);
+void interpolate_missing_pixels(t_data *data);
 
 /*data*/
 t_data		*init_data(char *file);

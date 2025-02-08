@@ -49,26 +49,14 @@ void	raycast(t_data *data)
 		while (x < X)
 		{
 			ray = get_ray(camera, x, y);
-			// if (ray.color != BACKGROUND_COLOR)
-			// {
-			// 	printf("Before color: \033[38;2;%d;%d;%dm%06X\033[0m\n",
-			// 	(ray.color) & 0xFF, (ray.color >> 8) & 0xFF,
-			// 	(ray.color >> 16) & 0xFF, ray.color);
-			// }
 			if (cast_ray(&ray, data->objects))
 				ray.color = set_lights(&ray, ray.end, ray.coll_norm, data->objects);
-			// if (ray.color == BACKGROUND_COLOR)
-			// if (ray.color != BACKGROUND_COLOR)
-			// {
-			// 	printf("After color: \033[38;2;%d;%d;%dm%06X\033[0m\n",
-			// 	(ray.color >> 24) & 0xFF, (ray.color >> 16) & 0xFF,
-			// 	(ray.color >> 8) & 0xFF, ray.color);
-			// }
 			color_pixel(data->image, ray.color, x, y);
-			x++;
+			x += 2;
 		}
-		y++;
+		y += 2;
 	}
+	interpolate_missing_pixels(data);
 }
 
 
