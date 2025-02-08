@@ -3,11 +3,11 @@
 
 void print_object(t_object o)
 {
-	// if (o.type >= NONE)
-	// {
-	// 	printf("Unknown object\n");
-	// 	return ;
-	// }
+	if (o.type >= NONE)
+	{
+		printf("Unknown object\n");
+		return ;
+	}
 	printf("---------------\n");
 	if (o.type == CAMERA)
 		printf("Camera: 📷\n");

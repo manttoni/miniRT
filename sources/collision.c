@@ -37,6 +37,7 @@ int	sphere_collision(t_ray *ray, t_object *sp)
 	return (0);
 }
 
+/*	numerator is a precalculated value stored in t_object */
 int plane_collision(t_ray *ray, t_object *pl)
 {
 	double denominator;

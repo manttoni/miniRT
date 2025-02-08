@@ -1,16 +1,10 @@
 
 #include "../includes/minirt.h"
 
-// int	handle_close(void *param)
-// {
-// 	free_data(param);
-// 	exit(0);
-// }
-
 static void	select_object_by_index(mlx_key_data_t mlx_data, t_data *data)
 {
 	if (mlx_data.key >= MLX_KEY_0 && mlx_data.key <= MLX_KEY_9)
-		data->ui->selected = &data->objects->arr[mlx_data.key - MLX_KEY_0];
+		select_object(&data->objects->arr[mlx_data.key - MLX_KEY_0], data->ui);
 }
 
 static int	translate(mlx_key_data_t mlx_data, t_object *selected, t_object *camera)
