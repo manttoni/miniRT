@@ -21,6 +21,7 @@ static t_objarr	*check_uniques(t_objarr *objarr)
 	if (types[0] * types[1] * types[2] == 1 && objarr->objects >= 4)
 		return (objarr);
 	free_objarr(objarr);
+	failure("Needs to have LIGHT, CAMERA, AMBIENT and at least one OBJECT");
 	return (NULL);
 }
 

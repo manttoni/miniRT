@@ -2,7 +2,7 @@
 
 int failure(char *message)
 {
-    printf("Error: %s\n", message);
+    printf("Error\n\t%s\n", message);
     return (FAILURE);
 }
 

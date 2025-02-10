@@ -26,14 +26,14 @@ int main(int argc, char **argv)
 
 	if (argc != 2)
 	{
-		printf("Wrong amount of arguments!\n");
+		printf("Error\n\tWrong amount of arguments!\n");
 		return (1);
 	}
 	if (format_validation(argv[1]))
 		return (1);
 	data = init_data(argv[1]);
 	if (data == NULL)
-		return (failure("Data initialization failed"));
+		return (1);
 	print_objects(data->objects);
 	raycast(data);
 	the_image(data);
