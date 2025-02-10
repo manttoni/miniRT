@@ -47,7 +47,6 @@ int main(int argc, char **argv)
 	data = init_data(argv[1]);
 	if (data == NULL)
 		return (1);
-		// return (failure("Data initialization failed"));
 	print_objects(data->objects);
 	raycast(data);
 	the_image(data);

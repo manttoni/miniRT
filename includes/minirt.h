@@ -43,6 +43,8 @@ typedef enum e_rgba
 }	t_rgba;
 
 /* Structs */
+
+
 typedef struct s_vector
 {
 	double	x;
@@ -83,6 +85,20 @@ typedef struct	s_object
 	t_camera_info	info;
 }	t_object;
 
+typedef struct s_light
+{
+	t_object	*ambient;
+	t_object	*light;
+	t_vector	light_dir;
+	t_vector	view_dir;
+	double		diffuse;
+	double		specular;
+	double		shine;
+	uint32_t	color;
+	int			r;
+	int			g;
+	int			b;
+} t_light;
 /*
 	arr is malloced array of objects
 	capacity is amount of memory allocated
