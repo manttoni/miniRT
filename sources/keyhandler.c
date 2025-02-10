@@ -12,24 +12,30 @@ static void	select_object_by_index(mlx_key_data_t mlx_data, t_data *data)
 static int	translate(mlx_key_data_t mlx_data, t_object *selected, t_objarr *objarr)
 {
 	t_vector	delta;
+	t_object	*camera;
+	t_vector	to_camera;
 
+	if (selected == NULL)
+		return (failure("No object selected"));
+	camera = get_object(objarr, CAMERA);
+	to_camera = normalize_vector(v_sub(camera->location, selected->location));
 	if (mlx_data.key == MLX_KEY_KP_9)
-		delta = vector(0, 0, 1);
+		delta = v_mul(-1, to_camera); // away from camera
 	else if (mlx_data.key == MLX_KEY_KP_1)
-		delta = vector(0, 0, -1);
+		delta = to_camera; // towards camera
 	else if (mlx_data.key == MLX_KEY_KP_8)
-		delta = vector(0, 1, 0);
+		delta = camera->info.v; // up
 	else if (mlx_data.key == MLX_KEY_KP_2)
-		delta = vector(0, -1, 0);
+		delta = v_mul(-1, camera->info.v); // down
 	else if (mlx_data.key == MLX_KEY_KP_6)
-		delta = vector(1, 0, 0);
+		delta = camera->info.u; // right
 	else if (mlx_data.key == MLX_KEY_KP_4)
-		delta = vector(-1, 0, 0);
+		delta = v_mul(-1, camera->info.u); // left
 	else
-		return (0);
+		return (FAILURE);
 	translate_object(selected, delta, objarr);
 	print_vector(selected->location);
-	return (1);
+	return (SUCCESS);
 }
 
 void	print_help(void)
@@ -59,7 +65,7 @@ void	keypress(mlx_key_data_t mlx_data, void *param)
 			print_objects(data->objects);
 		if (mlx_data.key == MLX_KEY_COMMA)
 			print_help();
-		if (translate(mlx_data, data->ui->selected, data->objects) == 1)
+		if (translate(mlx_data, data->ui->selected, data->objects) == SUCCESS)
 			redraw(data);
 		select_object_by_index(mlx_data, data);
 	}
