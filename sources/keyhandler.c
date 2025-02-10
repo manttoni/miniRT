@@ -1,34 +1,59 @@
 
 #include "../includes/minirt.h"
 
-int	handle_close(void *param)
+/* select an object by its index in the array, visible in terminal. only 0-9 */
+static void	select_object_by_index(mlx_key_data_t mlx_data, t_data *data)
 {
-	free_data(param);
-	exit(0);
+	if (mlx_data.key >= MLX_KEY_0 && mlx_data.key <= MLX_KEY_9)
+		select_object(&data->objects->arr[mlx_data.key - MLX_KEY_0], data->ui);
 }
 
-static size_t	select_next_object(size_t selected, t_objarr *objarr)
+/* checks which key is pressed, creates a vector and translates the object in that direction */
+static int	translate(mlx_key_data_t mlx_data, t_object *selected, t_objarr *objarr)
 {
-	if (selected == objarr->objects - 1)
-		return (0);
-	return (selected + 1);
+	t_vector	delta;
+	t_object	*camera;
+	t_vector	to_camera;
+
+	if (selected == NULL)
+		return (failure("No object selected"));
+	camera = get_object(objarr, CAMERA);
+	to_camera = normalize_vector(v_sub(camera->location, selected->location));
+	if (mlx_data.key == MLX_KEY_KP_9)
+		delta = v_mul(-1, to_camera); // away from camera
+	else if (mlx_data.key == MLX_KEY_KP_1)
+		delta = to_camera; // towards camera
+	else if (mlx_data.key == MLX_KEY_KP_8)
+		delta = camera->info.v; // up
+	else if (mlx_data.key == MLX_KEY_KP_2)
+		delta = v_mul(-1, camera->info.v); // down
+	else if (mlx_data.key == MLX_KEY_KP_6)
+		delta = camera->info.u; // right
+	else if (mlx_data.key == MLX_KEY_KP_4)
+		delta = v_mul(-1, camera->info.u); // left
+	else
+		return (FAILURE);
+	translate_object(selected, delta, objarr);
+	print_vector(selected->location);
+	return (SUCCESS);
 }
 
-static void redraw(t_data *data)
+void	print_help(void)
 {
-	raycast(data);
-	mlx_image_to_window(data->mlx, data->image, 0, 0);
+	printf("--------------\n");
+	printf("HOME: print objects\n");
+	printf("COMMA: this menu\n");
+	printf("First select object with numbers or left click\n");
+	printf("Movement keys (numpad):\n");
+	printf("X: 4 & 6\nY: 8 & 2\nZ: 9 & 1\n");
+	printf("Left click rotates camera\n");
 }
 
 void	keypress(mlx_key_data_t mlx_data, void *param)
 {
 	t_data	*data;
-	static int		selected;
-	static t_vector axis;
-	t_object		*arr;
 
 	data = (t_data *)param;
-	arr = data->objects->arr;
 	if (mlx_data.action == MLX_PRESS)
 	{
 		if (mlx_data.key == MLX_KEY_ESCAPE)
@@ -36,59 +61,12 @@ void	keypress(mlx_key_data_t mlx_data, void *param)
 			mlx_close_window(data->mlx);
 			return ;
 		}
-		if (mlx_data.key == MLX_KEY_TAB)
-		{
-			selected = select_next_object(selected, data->objects);
-			print_object(arr[selected]);
-		}
-		if (mlx_data.key == MLX_KEY_X)
-		{
-			axis = vector(1, 0, 0);
-			printf("Move X\n");
-		}
-		if (mlx_data.key == MLX_KEY_Y)
-		{
-			axis = vector(0, 1, 0);
-			printf("Move Y\n");
-		}
-		if (mlx_data.key == MLX_KEY_Z)
-		{
-			axis = vector(0, 0, 1);
-			printf("Move Z\n");
-		}
-		if (mlx_data.key == MLX_KEY_KP_ADD)
-		{
-			arr[selected].location = v_sum(arr[selected].location, axis);
-			print_vector(arr[selected].location);
+		if (mlx_data.key == MLX_KEY_HOME)
+			print_objects(data->objects);
+		if (mlx_data.key == MLX_KEY_COMMA)
+			print_help();
+		if (translate(mlx_data, data->ui->selected, data->objects) == SUCCESS)
 			redraw(data);
-		}
-		if (mlx_data.key == MLX_KEY_KP_SUBTRACT)
-		{
-			arr[selected].location = v_sub(arr[selected].location, axis);
-			print_vector(arr[selected].location);
-			redraw(data);
-		}
-		if (mlx_data.key == MLX_KEY_ENTER)
-			redraw(data);
-		
-	}
-}
-
-void	rt_mouse(void *param)
-{
-	int32_t	mouse_x;
-	int32_t	mouse_y;
-	t_data	*data;
-	t_vector	new_orientation;
-	t_object	*camera;
-
-	data = (t_data *)param;
-	if (mlx_is_mouse_down(data->mlx, MLX_MOUSE_BUTTON_LEFT))
-	{
-		mlx_get_mouse_pos(data->mlx, &mouse_x, &mouse_y);
-		camera = get_object(data->objects, CAMERA);
-		new_orientation = get_ray(camera, mouse_x, mouse_y).direction;
-		rotate_object(get_object(data->objects, CAMERA), new_orientation);
-		redraw(data);
+		select_object_by_index(mlx_data, data);
 	}
 }

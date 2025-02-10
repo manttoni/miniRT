@@ -24,11 +24,34 @@ static t_objarr	*check_uniques(t_objarr *objarr)
 	return (NULL);
 }
 
-// int	open_and_init(t_objarr *objarr, char *file, int fd)
-// {
-// 	// if (open_and_init(objarr, file, fd))
-// 	// 	return (NULL);
-// }
+/* Calculates all precalculations */
+void	set_precalculations(t_objarr *objarr)
+{
+	size_t	i;
+	t_object	*camera;
+
+	i = 0;
+	camera = get_object(objarr, CAMERA);
+	camera->info = image_plane(camera);
+	while (i < objarr->objects)
+	{
+		if (objarr->arr[i].type == PLANE)
+			precalculate_plane(&objarr->arr[i], camera);
+		i++;
+	}
+}
+
+static int	error_check(int fd, t_objarr *objarr)
+{
+	if (objarr == NULL || fd < 0)
+	{
+		if (fd > 2)
+			close(fd);
+		free_objarr(objarr);
+		return (FAILURE);
+	}
+	return (SUCCESS);
+}
 
 t_objarr	*read_objects(char *file)
 {
@@ -38,13 +61,8 @@ t_objarr	*read_objects(char *file)
 
 	fd = open(file, O_RDONLY);
 	objarr = init_objarr(4);
-	if (objarr == NULL || fd < 0)
-	{
-		if (fd > 2)
-			close(fd);
-		free_objarr(objarr);
+	if (error_check(fd, objarr) == FAILURE)
 		return (NULL);
-	}
 	line = trim_newline(get_next_line(fd));
 	while (line)
 	{
@@ -59,5 +77,6 @@ t_objarr	*read_objects(char *file)
 		line = trim_newline(get_next_line(fd));
 	}
 	close(fd);
+	set_precalculations(objarr);
 	return (check_uniques(objarr));
 }

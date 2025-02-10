@@ -58,6 +58,7 @@ typedef struct s_ray
     t_vector    start;
 	double		distance;
     uint32_t    color;
+	struct s_object	*object;
 }   t_ray;
 
 typedef struct s_camera_info
@@ -73,12 +74,12 @@ typedef struct	s_object
 	t_type			type;
 	uint32_t		color;
 	double			brightness;;
-	double			d;
+	double			numerator;
 	double			diameter;
 	double			height;
 	t_vector		location;
 	t_vector		orientation;
-	int				(*collisionf)(t_ray *, struct s_object);
+	int				(*collisionf)(t_ray *, struct s_object *);
 	int				fov;
 	t_camera_info	info;
 }	t_object;
@@ -95,21 +96,45 @@ typedef struct s_objarr
 	size_t		objects;
 }	t_objarr;
 
+typedef struct s_ui
+{
+	t_object	*selected;
+}	t_ui;
+
+typedef struct s_mouse
+{
+	int32_t	x;
+	int32_t	y;
+	int		left;
+	int		right;
+}	t_mouse;
+
 typedef struct	s_data
 {
 	t_objarr	*objects;
 	mlx_t		*mlx;
 	mlx_image_t	*image;
+	t_ui		*ui;
+	t_mouse		mouse;
 }	t_data;
 
 void		print_object(t_object o);
+/*user_interface.c*/
+void    select_object(t_object *object, t_ui *ui);
+
+/*mouse.c*/
+void	rt_mouse(void *param);
+
+/*image.c*/
+void	redraw(t_data *data);
 
 /*transformation.c*/
-void    rotate_object(t_object *object, t_vector new_orientation);
+void    rotate_object(t_object *object, t_vector new_orientation, t_objarr *objarr);
+void    translate_object(t_object *object, t_vector delta, t_objarr *objarr);
 
 /*collision.c*/
-int			sphere_collision(t_ray *ray, t_object sp);
-int			plane_collision(t_ray *ray, t_object pl);
+int			sphere_collision(t_ray *ray, t_object *sp);
+int			plane_collision(t_ray *ray, t_object *pl);
 
 /*color.c*/
 void		color_pixel(mlx_image_t *image, uint32_t pixel_color, int x, int y);
@@ -123,6 +148,7 @@ int			failure(char *message);
 
 /*file_reader.c*/
 t_objarr	*read_objects(char *file);
+void	set_precalculations(t_objarr *objarr);
 
 /*keyhandler.c*/
 void		keypress(mlx_key_data_t mlx_data, void *param);
@@ -148,6 +174,8 @@ t_type		get_type(char *line);
 int			assign_ambient(t_object *ambient, char **info);
 int			parse_object(t_object *object, char *line);
 t_camera_info	image_plane(t_object *camera);
+void	precalculate_plane(t_object *plane, t_object *camera);
+void	print_objects(t_objarr *objarr);
 
 /*parser.c*/
 double		parse_double(char *str);
