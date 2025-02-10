@@ -22,5 +22,7 @@ void	error_msg(t_data *data)
 		failure("MLX failed to initialize");
 	if (!data->image)
 		failure("No image");
+	if (!data->ui)
+		failure("UI malloc failed");
 	return ;
 }

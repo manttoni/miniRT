@@ -16,6 +16,9 @@ t_ray	get_ray(t_object *camera, int x, int y)
 	return (ray);
 }
 
+/* Shoots a ray towards a pixel in the image plane
+	if it hits something, returns 1, otherwise 0
+	in case of 1, ray has been updated with values from the object it hit */
 int	cast_ray(t_ray *ray, t_objarr *objarr)
 {
 	size_t	i;
@@ -28,7 +31,7 @@ int	cast_ray(t_ray *ray, t_objarr *objarr)
 	while (i < objarr->objects)
 	{
 		if (arr[i].collisionf != NULL)
-			is_collision = max(is_collision, (*(arr[i].collisionf))(ray, arr[i]));
+			is_collision = max(is_collision, (*(arr[i].collisionf))(ray, &arr[i]));
 		i++;
 	}
 	return (is_collision);
@@ -67,7 +70,10 @@ void	raycast(t_data *data)
 			x++;
 		}
 		y++;
+		printf("%d%%\r", ((y * 100) / Y));
 	}
+	printf("Ready\r");
+	fflush(stdout);
 }
 
 

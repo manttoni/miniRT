@@ -37,5 +37,5 @@ t_vector reflect_vector(t_vector light_dir, t_vector normal)
 
 int	is_normalized_vector(t_vector v)
 {
-	return (v_len(v) > 1 + EPSILON || v_len(v) < 1 - EPSILON);
+	return (v_len(v) < 1 + EPSILON || v_len(v) > 1 - EPSILON);
 }

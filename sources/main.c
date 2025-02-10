@@ -1,18 +1,5 @@
 #include "../includes/minirt.h"
 
-void print_objects(t_objarr *objarr)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < objarr->objects)
-	{
-		print_object(objarr->arr[i]);
-		i++;
-	}
-	printf("---------------\n");
-}
-
 static void	the_image(t_data *data)
 {
 	mlx_key_hook(data->mlx, &keypress, data);

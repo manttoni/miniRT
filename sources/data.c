@@ -29,6 +29,8 @@ t_data	*init_data(char *file)
 		return (NULL);
 	}
 	ft_bzero(data, sizeof(t_data));
+	data->mouse.left = 0;
+	data->mouse.right = 0;
 	data->objects = read_objects(file);
 	if (!data->objects)
 	{
@@ -38,6 +40,14 @@ t_data	*init_data(char *file)
 	}
 	if (mlx_and_image(data))
 		return (NULL);
+	data->ui = malloc(sizeof(t_ui));
+	if (data->ui == NULL)
+	{
+		error_msg(data);
+		free_data(data);
+		return (NULL);
+	}
+	ft_memset(data->ui, 0, sizeof(t_ui));
 	return (data);
 }
 
@@ -46,5 +56,6 @@ void	free_data(t_data *data)
 	if (data == NULL)
 		return ;
 	free_objarr(data->objects);
+	free(data->ui);
 	free(data);
 }

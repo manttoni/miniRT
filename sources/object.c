@@ -3,6 +3,11 @@
 
 void print_object(t_object o)
 {
+	if (o.type >= NONE)
+	{
+		printf("Unknown object\n");
+		return ;
+	}
 	printf("---------------\n");
 	if (o.type == CAMERA)
 		printf("Camera: 📷\n");
@@ -30,7 +35,7 @@ void print_object(t_object o)
 		printf("FOV: %d\nView distance: %1.2f\n", o.fov, o.info.view_distance);
 	if (o.type == SPHERE || o.type == CYLINDER)
 		printf("Diameter: %f\n", o.diameter);
-	if (o.type != CAMERA)
+	if (o.type != CAMERA && o.type != LIGHT)
 	{
 		printf("Color: \033[38;2;%d;%d;%dm%06X\033[0m\n",
 			   (o.color >> 24) & 0xFF, (o.color >> 16) & 0xFF,
@@ -38,6 +43,20 @@ void print_object(t_object o)
 	}
 	if (o.type == LIGHT || o.type == AMBIENT)
 		printf("Brightness: %f\n", o.brightness);
+}
+
+void print_objects(t_objarr *objarr)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < objarr->objects)
+	{
+		print_object(objarr->arr[i]);
+		printf("Index: %zu\n", i);
+		i++;
+	}
+	printf("---------------\n");
 }
 
 t_type	get_type(char *line)
@@ -63,6 +82,7 @@ t_type	get_type(char *line)
 	return (NONE);
 }
 
+/* Calculates the distance to the image plane from the camera so that the angle is fov */
 double	calc_view_distance(int fov)
 {
 	double	fov_rad;
@@ -80,6 +100,8 @@ int	assign_ambient(t_object *ambient, char **info)
 	return (SUCCESS);
 }
 
+/* precalculations for image plane basic vectors
+	ray gets values that are initially always the same */
 t_camera_info	image_plane(t_object *camera)
 {
 	t_camera_info	info;
@@ -100,6 +122,7 @@ t_camera_info	image_plane(t_object *camera)
 	info.ray.direction = v_sum(camera->location, info.ray.direction);
 	info.ray.color = BACKGROUND_COLOR;
 	info.ray.distance = DBL_MAX;
+	info.ray.object = NULL;
 	return (info);
 }
 
@@ -111,7 +134,7 @@ static int assign_camera(t_object *camera, char **info)
 	camera->orientation = normalize_vector(camera->orientation);
 	if (camera->fov < 0 || camera->fov > 180)
 		return (failure("FOV not valid"));
-	camera->info = image_plane(camera);
+	//camera->info = image_plane(camera);
 	return (SUCCESS);
 }
 
@@ -135,6 +158,15 @@ static int	assign_sphere(t_object *sphere, char **info)
 	return (SUCCESS);
 }
 
+/* Precalculates numerator which is used in plane_collision */
+void	precalculate_plane(t_object *plane, t_object *camera)
+{
+	double	d;
+
+	d = dot_product(plane->orientation, plane->location);
+	plane->numerator = -dot_product(plane->orientation, camera->location) + d;
+}
+
 static int	assign_plane(t_object *plane, char **info)
 {
 	plane->location = parse_vector(info[1]);
@@ -144,10 +176,9 @@ static int	assign_plane(t_object *plane, char **info)
 		|| (plane->orientation.z > 1.0 || plane->orientation.z < -1.0))
 		return (failure("Orientation should be [1.0, -1.0]"));
 	plane->color = parse_color(info[3]);
-	plane->orientation = normalize_vector(plane->orientation);
-	//if (!is_normalized_vector(plane->orientation))
-	//	return (failure("Plane orientation not normalized"));
-	plane->d = dot_product(plane->orientation, plane->location); // precalculation
+	plane->orientation = normalize_vector(plane->orientation); // for easier testing
+	if (!is_normalized_vector(plane->orientation))
+		return (failure("Plane orientation not normalized"));
 	plane->collisionf = &plane_collision;
 	return (SUCCESS);
 }
