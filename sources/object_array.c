@@ -55,6 +55,7 @@ int add_object(t_objarr *objarr, char *line)
 
 void	free_objarr(t_objarr *objarr)
 {
-	free(objarr->arr);
+	if (objarr->arr)
+		free(objarr->arr);
 	free(objarr);
 }

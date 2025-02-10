@@ -67,7 +67,7 @@ double	calc_view_distance(int fov)
 {
 	double	fov_rad;
 
-	fov_rad = fov * M_PI / 180; // why is vscode saying M_PI is wrong?
+	fov_rad = fov * M_PI / 180;
 	return ((X / 2) / tan(fov_rad / 2));
 }
 
@@ -127,6 +127,8 @@ static int	assign_light(t_object *light, char **info)
 static int	assign_sphere(t_object *sphere, char **info)
 {
 	sphere->location = parse_vector(info[1]);
+	if (info[2][0] == '-')
+		return (FAILURE);
 	sphere->diameter = parse_double(info[2]);
 	sphere->color = parse_color(info[3]);
 	sphere->collisionf = &sphere_collision;
@@ -137,6 +139,10 @@ static int	assign_plane(t_object *plane, char **info)
 {
 	plane->location = parse_vector(info[1]);
 	plane->orientation = parse_vector(info[2]);
+	if ((plane->orientation.x > 1.0 || plane->orientation.x < -1.0)
+		|| (plane->orientation.y > 1.0 || plane->orientation.y < -1.0)
+		|| (plane->orientation.z > 1.0 || plane->orientation.z < -1.0))
+		return (failure("Orientation should be [1.0, -1.0]"));
 	plane->color = parse_color(info[3]);
 	plane->orientation = normalize_vector(plane->orientation);
 	//if (!is_normalized_vector(plane->orientation))
@@ -150,12 +156,14 @@ static int	assign_cylinder(t_object *cylinder, char **info)
 {
 	cylinder->location = parse_vector(info[1]);
 	cylinder->orientation = parse_vector(info[2]);
+	if (info[3][0] == '-')
+		return (FAILURE);
 	cylinder->diameter = parse_double(info[3]);
 	cylinder->height = parse_double(info[4]);
 	cylinder->color = parse_color(info[5]);
 	cylinder->orientation = normalize_vector(cylinder->orientation);
-	if (!is_normalized_vector(cylinder->orientation))
-		return (failure("Cylinder orientation not normalized"));
+	// if (!is_normalized_vector(cylinder->orientation))
+	// 	return (failure("Cylinder orientation not normalized"));
 	return (SUCCESS);
 }
 
@@ -183,7 +191,7 @@ int	parse_object(t_object *object, char *line)
 	char		**info;
 
 	if (validate(line) == NULL)
-		return failure("Validation failed");
+		return (failure("Validation failed"));
 	object->type = get_type(line);
 	info = ft_split(line, ' ');
 	if (assign_values(object, info) == FAILURE)
