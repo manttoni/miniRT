@@ -78,6 +78,7 @@ typedef struct	s_object
 {
 	t_type			type;
 	uint32_t		color;
+	double			brightness;
 	double			numerator;
 	double			diameter;
 	double			height;
@@ -137,6 +138,7 @@ t_vector rotate_vector_y(t_vector v, float theta);
 t_vector rotate_vector_z(t_vector v, float theta);
 
 void		print_object(t_object *o);
+
 /*user_interface.c*/
 void	select_object(t_object *object, t_data *data);
 

@@ -1,0 +1,24 @@
+C 0,0,0 1,0,0 120
+A 1.0 255,255,255
+L 1,1,1 0.0
+
+#front plane is red
+pl 100,0,0 1,0,0 255,0,0
+
+#back plane is red+green
+pl -100,0,0 1,0,0 255,255,0
+
+#-z plane is green
+pl 0,0,-100 0,0,1 0,255,0
+
+#+z plane is blue
+pl 0,0,100 0,0,1 0,0,255
+
+#-y plane is red+blue
+pl 0,-100,0 0,1,0 255,0,255
+
+#+y plane is green+blue
+pl 0,100,0 0,1,0 0,255,255
+
+# objects inside the box
+#cy 0,0,0 1,1,1 10 20 155,155,155

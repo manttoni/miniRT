@@ -98,6 +98,7 @@ int cap_collision(t_ray *ray, t_object *cy, int cap_side) {
     return NO_HIT;
 }
 
+
 int	cylinder_collision(t_ray *ray, t_object *cy)
 {
 	t_vector	oc, proj_dir, oc_proj, coll_point;
@@ -106,7 +107,6 @@ int	cylinder_collision(t_ray *ray, t_object *cy)
 
 	// Vector from cylinder center to ray origin
 	oc = v_sub(ray->start, cy->location);
-
 	// Project ray direction and oc onto the plane perpendicular to cylinder axis
 	proj_dir = v_sub(ray->direction, v_mul(dot_product(ray->direction, cy->orientation), cy->orientation));
 	oc_proj = v_sub(oc, v_mul(dot_product(oc, cy->orientation), cy->orientation));
