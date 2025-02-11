@@ -20,6 +20,10 @@
 # define Y 1000
 # define FAILURE 1
 # define SUCCESS 0
+# define HIT 1
+# define NO_HIT 0
+# define TOP_CYLINDER_CAP 1
+# define BOTTOM_CYLINDER_CAP 0
 //# define RENDER_DISTANCE 150
 
 /* Enums */
@@ -77,6 +81,7 @@ typedef struct	s_object
 	double			numerator;
 	double			diameter;
 	double			height;
+	double			brightness;
 	t_vector		location;
 	t_vector		orientation;
 	int				(*collisionf)(t_ray *, struct s_object *);
@@ -88,7 +93,6 @@ typedef struct s_light
 	t_object	*light;
 	t_vector	light_dir;
 	t_vector	view_dir;
-	double		brightness;
 	double		diffuse;
 	double		specular;
 	double		shine;
@@ -134,6 +138,11 @@ typedef struct	s_data
 	char		*file;
 }	t_data;
 
+/*rotation.c*/
+t_vector rotate_vector_x(t_vector v, float theta);
+t_vector rotate_vector_y(t_vector v, float theta);
+t_vector rotate_vector_z(t_vector v, float theta);
+
 void		print_object(t_object *o);
 /*user_interface.c*/
 void	select_object(t_data *data, t_object *object);
@@ -152,6 +161,7 @@ void	translate_object(t_object *object, t_vector delta, t_objarr *objarr);
 /*collision.c*/
 int			sphere_collision(t_ray *ray, t_object *sp);
 int			plane_collision(t_ray *ray, t_object *pl);
+int			cylinder_collision(t_ray *ray, t_object *cy);
 
 /*color.c*/
 void		color_pixel(mlx_image_t *image, uint32_t pixel_color, int x, int y);
@@ -172,7 +182,8 @@ void		keypress(mlx_key_data_t mlx_data, void *param);
 void		rt_mouse(void *param);
 
 /*lights.c*/
-uint32_t	set_lights(t_ray *ray, t_vector collision, t_vector normal, t_objarr *objarr);
+void	create_light(t_light *light, t_ray *ray, t_vector collision, t_objarr *objarr);
+uint32_t	set_lights(t_data *data, t_ray *ray, t_vector collision, t_vector normal);
 
 /*object_array.c*/
 t_objarr	*init_objarr(size_t capacity);
@@ -190,6 +201,7 @@ uint32_t	parse_color(char *str);
 t_type		get_type(char *line);
 int			assign_ambient(t_object *ambient, char **info);
 int			parse_object(t_object *object, char *line);
+int			assign_light(t_object *light, char **info);
 t_camera_info	image_plane(t_object *camera);
 void	precalculate_plane(t_object *plane, t_object *camera);
 void	print_objects(t_objarr *objarr);

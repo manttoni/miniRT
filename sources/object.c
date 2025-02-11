@@ -79,7 +79,7 @@ static int assign_camera(t_object *camera, char **info)
 	return (SUCCESS);
 }
 
-static int	assign_light(t_object *light, char **info)
+int	assign_light(t_object *light, char **info)
 {
 	light->location = parse_vector(info[1]);
 	light->brightness = parse_double(info[2]);
@@ -136,6 +136,7 @@ static int	assign_cylinder(t_object *cylinder, char **info)
 	cylinder->orientation = normalize_vector(cylinder->orientation);
 	// if (!is_normalized_vector(cylinder->orientation))
 	// 	return (failure("Cylinder orientation not normalized"));
+	cylinder->collisionf = &cylinder_collision;
 	return (SUCCESS);
 }
 

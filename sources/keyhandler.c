@@ -89,6 +89,31 @@ static int	resize_object(mlx_key_data_t mlx_data, t_object *selected)
 	return (FAILURE);
 }
 
+static int	rotate(mlx_key_data_t mlx_data, t_object *selected, t_objarr *objarr)
+{
+	t_object	*camera;
+	float		delta;
+	delta = 0.1;
+	camera = get_object(objarr, CAMERA);
+	if (mlx_data.key == MLX_KEY_LEFT)
+		selected->orientation = rotate_vector_x(selected->orientation, delta);
+	else if (mlx_data.key == MLX_KEY_RIGHT)
+		selected->orientation = rotate_vector_x(selected->orientation, -delta);
+	else if (mlx_data.key == MLX_KEY_UP)
+		selected->orientation = rotate_vector_y(selected->orientation, delta);
+	else if (mlx_data.key == MLX_KEY_DOWN)
+		selected->orientation = rotate_vector_y(selected->orientation, -delta);
+	else if (mlx_data.key == MLX_KEY_DELETE)
+		selected->orientation = rotate_vector_z(selected->orientation, delta);
+	else if (mlx_data.key == MLX_KEY_PAGE_DOWN)
+		selected->orientation = rotate_vector_z(selected->orientation, -delta);
+	else
+		return (FAILURE);
+	set_precalculations(objarr);
+	print_vector(selected->orientation);
+	return (SUCCESS);
+}
+
 void	keypress(mlx_key_data_t mlx_data, void *param)
 {
 	t_data	*data;
@@ -108,6 +133,8 @@ void	keypress(mlx_key_data_t mlx_data, void *param)
 		if (mlx_data.key == MLX_KEY_R)
 			reset_scene(data);
 		if (translate(mlx_data, data->ui->selected, data->objects) == SUCCESS)
+			redraw(data);
+		if (rotate(mlx_data, data->ui->selected, data->objects) == SUCCESS)
 			redraw(data);
 		if (resize_object(mlx_data, data->ui->selected) == SUCCESS)
 			redraw(data);

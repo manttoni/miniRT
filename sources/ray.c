@@ -5,7 +5,7 @@
 		Basic vectors (u and v) of the image plane. Used for finding pixels
 		All rays share some information like starting point and general direction
 		aka camera direction	*/
-t_ray	get_ray(t_object *camera, int x, int y)
+t_ray	get_ray(t_camera *camera, int x, int y)
 {
 	t_ray		ray;
 
@@ -53,7 +53,7 @@ void	raycast(t_data *data)
 		{
 			ray = get_ray(camera, x, y);
 			if (cast_ray(&ray, data->objects))
-				ray.color = set_lights(&ray, ray.end, ray.coll_norm, data->objects);
+				ray.color = set_lights(data, &ray, ray.end, ray.coll_norm);
 			color_pixel(data->image, ray.color, x, y);
 			x++;
 		}

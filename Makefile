@@ -26,7 +26,8 @@ SRC = $(SRC_DIR)main.c\
 	$(SRC_DIR)mouse.c\
 	$(SRC_DIR)user_interface.c\
 	$(SRC_DIR)image.c\
-	$(SRC_DIR)printer.c
+	$(SRC_DIR)printer.c\
+	$(SRC_DIR)rotation.c
 
 FLAGS = -Wall -Werror -Wextra -g -O2
 OFLAGS = -Iinclude -ldl -lglfw -pthread -lm
