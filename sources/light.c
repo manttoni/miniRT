@@ -49,10 +49,10 @@ void	create_light(t_light *light, t_ray *ray, t_vector collision)
 uint32_t	set_lights(t_data *data, t_ray *ray, t_vector collision, t_vector normal)
 {
 	create_light(data->light, ray, collision);
-	if (dot_product(normal, data->light->view_dir) < 0)
-		normal = v_mul(-1, normal);
 	if (!in_the_shadow(collision, data->light->light, data->objects))
 	{
+		if (dot_product(normal, data->light->view_dir) < 0)
+			normal = v_mul(-1, normal);
 		data->light->diffuse = set_diffuse(normal, data->light->light_dir, data->light->light->brightness);
 		data->light->specular = set_specular(normal, data->light->light_dir, data->light->view_dir, data->light->light->brightness, data->light->shine);
 	}

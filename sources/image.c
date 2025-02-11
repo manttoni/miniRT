@@ -9,9 +9,8 @@ void redraw(t_data *data)
 void	reset_scene(t_data *data)
 {
 	free_objarr(data->objects);
-	data->objects = init_objarr(4);
-	read_objects(data, data->file);
-	data->selected = get_object(data->objects, CAMERA);
+	read_objects(data);
+	data->selected = data->camera;
 	printf("Scene resetted\n");
 	redraw(data);
 }

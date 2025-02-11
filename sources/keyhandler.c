@@ -42,9 +42,9 @@ static int	translate(mlx_key_data_t mlx_data, t_object *selected, t_data *data)
 		delta = camera->orientation; // to camera direction
 	else if (mlx_data.key == MLX_KEY_KP_1)
 		delta = v_mul(-1, camera->orientation); // to opposite camera direction
-	else if (mlx_data.key == MLX_KEY_KP_8)
-		delta = data->info.v; // up
 	else if (mlx_data.key == MLX_KEY_KP_2)
+		delta = data->info.v; // up
+	else if (mlx_data.key == MLX_KEY_KP_8)
 		delta = v_mul(-1, data->info.v); // down
 	else if (mlx_data.key == MLX_KEY_KP_6)
 		delta = data->info.u; // right
