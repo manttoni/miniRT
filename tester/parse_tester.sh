@@ -34,7 +34,7 @@ while read line; do
 
 	if [ -t 1 ]; then
 		percent=$(( 100 * i / len ))
-		echo -ne "[                        ] Errors: $(cat invalid.txt | wc -l)\r"
+		echo -ne "[                        ]\r"
 		echo -ne "           $percent%\r"
 		echo -ne "[----------$percent%----------]" | head -c $((1 + percent * 24 / 100))
 		echo -ne "\r"
@@ -44,8 +44,6 @@ while read line; do
     if [[ -z "$line" || "$line" =~ ^[[:space:]]*$ ]]; then
         continue
     fi
-    #echo "------------------------"
-    #echo -e "test input: $line\n"
 
     valgrind -q --leak-check=full --log-file=$valgrind_log ./testmain "$line" >> out.log
     exit_code=$?
@@ -56,19 +54,17 @@ while read line; do
     fi
 done < "$tests"
 
-echo "------------------------"
+echo "--------------------------"
 
 echo -n "Valid inputs: "
 cat valid.txt | wc -l
-cat valid.txt
 
-echo "------------------------"
+echo "--------------------------"
 
 echo -n "Invalid inputs: "
 cat invalid.txt | wc -l
-cat invalid.txt
 
-echo "------------------------"
+echo "--------------------------"
 
 
 if [[ $(grep -c "L" valid.txt) -ne 1 ]]; then
@@ -86,5 +82,3 @@ fi
 
 
 make clean
-rm -f valid.txt
-rm -f invalid.txt

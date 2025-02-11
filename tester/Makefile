@@ -20,7 +20,7 @@ FLAGS = -Wall -Werror -Wextra -g
 #OFLAGS = -Iinclude -ldl -lglfw -pthread -lm
 
 all:
-	cc $(FLAGS) test.c $(SRC_FILES) ../libft/libft.a -lm -o $(NAME)
+	@cc $(FLAGS) test.c $(SRC_FILES) ../libft/libft.a -lm -o $(NAME)
 
 clean:
 	@rm -f $(NAME)
