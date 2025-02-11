@@ -36,7 +36,7 @@ t_data	*init_data(char *file)
 	data->light->light = malloc(sizeof(t_object));
 	data->camera = malloc(sizeof(t_object));
 	data->light->ambient = malloc(sizeof(t_object));
-	if (read_objects(data, file) == FAILURE)
+	if (read_objects(data) == FAILURE)
 	{
 		error_msg(data);
 		free(data);

@@ -167,7 +167,7 @@ void		free_data(t_data *data);
 int			failure(char *message);
 
 /*file_reader.c*/
-int			read_objects(t_data *data, char *file);
+int			read_objects(t_data *data);
 void		set_precalculations(t_data *data);
 
 /*keyhandler.c*/

@@ -52,13 +52,13 @@ static int	error_check(int fd, t_objarr *objarr)
 	return (SUCCESS);
 }
 
-int	read_objects(t_data *data, char *file)
+int	read_objects(t_data *data)
 {
 	char		*line;
 	int			fd;
 	t_objarr	*objarr;
 
-	fd = open(file, O_RDONLY);
+	fd = open(data->file, O_RDONLY);
 	objarr = init_objarr(4);
 	if (error_check(fd, objarr) == FAILURE)
 		return (FAILURE);
