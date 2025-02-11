@@ -32,7 +32,8 @@ t_data	*init_data(char *file)
 	data->mouse.left = 0;
 	data->mouse.right = 0;
 	data->file = file;
-	data->objects = read_objects(file);
+	data->light = malloc(sizeof(t_light));
+	data->objects = read_objects(data, file);
 	if (!data->objects)
 	{
 		error_msg(data);

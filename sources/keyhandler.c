@@ -6,28 +6,28 @@ static void	select_object_by_index(mlx_key_data_t mlx_data, t_data *data)
 {
 	if (mlx_data.key == MLX_KEY_C)
 	{
-		data->ui->selected = get_object(data->objects, CAMERA);
+		data->selected = get_object(data->objects, CAMERA);
 		printf("Object selected: \n");
-    	print_object(data->ui->selected);
+    	print_object(data->selected);
 	}
 	if (mlx_data.key == MLX_KEY_L)
 	{
-		data->ui->selected = get_object(data->objects, LIGHT);
+		data->selected = get_object(data->objects, LIGHT);
 		printf("Object selected: \n");
-    	print_object(data->ui->selected);
+    	print_object(data->selected);
 	}
 	if (mlx_data.key == MLX_KEY_A)
 	{
-		data->ui->selected = get_object(data->objects, AMBIENT);
+		data->selected = get_object(data->objects, AMBIENT);
 		printf("Object selected: \n");
-    	print_object(data->ui->selected);
+    	print_object(data->selected);
 	}
 	if (mlx_data.key >= MLX_KEY_0 && mlx_data.key <= MLX_KEY_9)
-		select_object(&data->objects->arr[mlx_data.key - MLX_KEY_0], data->ui);
+		select_object(&data->objects->arr[mlx_data.key - MLX_KEY_0], data->selected);
 }
 
 /* checks which key is pressed, creates a vector and translates the object in that direction */
-static int	translate(mlx_key_data_t mlx_data, t_object *selected, t_objarr *objarr)
+static int	translate(mlx_key_data_t mlx_data, t_object *selected, t_data *data)
 {
 	t_vector	delta;
 	t_object	*camera;
@@ -35,23 +35,23 @@ static int	translate(mlx_key_data_t mlx_data, t_object *selected, t_objarr *obja
 
 	if (selected == NULL)
 		return (failure("No object selected"));
-	camera = get_object(objarr, CAMERA);
+	camera = data->camera;
 	to_camera = normalize_vector(v_sub(camera->location, selected->location));
 	if (mlx_data.key == MLX_KEY_KP_9)
 		delta = camera->orientation; // to camera direction
 	else if (mlx_data.key == MLX_KEY_KP_1)
 		delta = v_mul(-1, camera->orientation); // to opposite camera direction
 	else if (mlx_data.key == MLX_KEY_KP_8)
-		delta = camera->info.v; // up
+		delta = data->info.v; // up
 	else if (mlx_data.key == MLX_KEY_KP_2)
-		delta = v_mul(-1, camera->info.v); // down
+		delta = v_mul(-1, data->info.v); // down
 	else if (mlx_data.key == MLX_KEY_KP_6)
-		delta = camera->info.u; // right
+		delta = data->info.u; // right
 	else if (mlx_data.key == MLX_KEY_KP_4)
-		delta = v_mul(-1, camera->info.u); // left
+		delta = v_mul(-1, data->info.u); // left
 	else
 		return (FAILURE);
-	translate_object(selected, delta, objarr);
+	translate_object(selected, delta, data);
 	print_vector(selected->location);
 	return (SUCCESS);
 }
@@ -89,12 +89,10 @@ static int	resize_object(mlx_key_data_t mlx_data, t_object *selected)
 	return (FAILURE);
 }
 
-static int	rotate(mlx_key_data_t mlx_data, t_object *selected, t_objarr *objarr)
+static int	rotate(mlx_key_data_t mlx_data, t_object *selected, t_data *data)
 {
-	t_object	*camera;
 	float		delta;
 	delta = 0.1;
-	camera = get_object(objarr, CAMERA);
 	if (mlx_data.key == MLX_KEY_LEFT)
 		selected->orientation = rotate_vector_x(selected->orientation, delta);
 	else if (mlx_data.key == MLX_KEY_RIGHT)
@@ -109,7 +107,7 @@ static int	rotate(mlx_key_data_t mlx_data, t_object *selected, t_objarr *objarr)
 		selected->orientation = rotate_vector_z(selected->orientation, -delta);
 	else
 		return (FAILURE);
-	set_precalculations(objarr);
+	set_precalculations(data);
 	print_vector(selected->orientation);
 	return (SUCCESS);
 }
@@ -132,11 +130,11 @@ void	keypress(mlx_key_data_t mlx_data, void *param)
 			print_help();
 		if (mlx_data.key == MLX_KEY_R)
 			reset_scene(data);
-		if (translate(mlx_data, data->ui->selected, data->objects) == SUCCESS)
+		if (translate(mlx_data, data->selected, data) == SUCCESS)
 			redraw(data);
-		if (rotate(mlx_data, data->ui->selected, data->objects) == SUCCESS)
+		if (rotate(mlx_data, data->selected, data) == SUCCESS)
 			redraw(data);
-		if (resize_object(mlx_data, data->ui->selected) == SUCCESS)
+		if (resize_object(mlx_data, data->selected) == SUCCESS)
 			redraw(data);
 		select_object_by_index(mlx_data, data);
 	}

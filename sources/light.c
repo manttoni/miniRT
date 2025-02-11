@@ -37,7 +37,7 @@ static double	set_diffuse(t_vector normal, t_vector light_dir, double intensity)
 	return (intensity * dot);
 }
 
-void	create_light(t_light *light, t_ray *ray, t_vector collision, t_objarr *objarr)
+void	create_light(t_light *light, t_ray *ray, t_vector collision)
 {
 	light->diffuse = 0.0;
 	light->specular = 0.0;
@@ -48,7 +48,7 @@ void	create_light(t_light *light, t_ray *ray, t_vector collision, t_objarr *obja
 
 uint32_t	set_lights(t_data *data, t_ray *ray, t_vector collision, t_vector normal)
 {
-	create_light(data->light, ray, collision, data->objects);
+	create_light(data->light, ray, collision);
 	if (dot_product(normal, data->light->view_dir) < 0)
 		normal = v_mul(-1, normal);
 	if (!in_the_shadow(collision, data->light->light, data->objects))

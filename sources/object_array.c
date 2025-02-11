@@ -48,20 +48,11 @@ int add_object(t_data *data, char *line)
 	if (validate(line) == NULL)
 		return (failure("Validation failed"));
 	if (line[0] == 'C')
-	{
-		data->camera = parse_object(data->camera, line);
-		return (SUCCESS);
-	}
+		return (parse_object(data->camera, line));
 	if (line[0] == 'L')
-	{
-		data->light->light = parse_object(data->light->light, line);
-		return (SUCCESS);
-	}
+		return (parse_object(data->light->light, line));
 	if (line[0] == 'A')
-	{
-		data->light->ambient = parse_object(data->light->light, line);
-		return (SUCCESS);
-	}
+		return (parse_object(data->light->ambient, line));
 	if (data->objects->capacity == data->objects->objects)
 		if (reallocate(data->objects) == FAILURE)
 			return (FAILURE);

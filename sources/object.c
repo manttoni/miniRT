@@ -43,9 +43,9 @@ int	assign_ambient(t_object *ambient, char **info)
 
 /* precalculations for image plane basic vectors
 	ray gets values that are initially always the same */
-t_camera_info	image_plane(t_object *camera)
+t_image_plane	image_plane(t_object *camera)
 {
-	t_camera_info	info;
+	t_image_plane	info;
 
 	info.view_distance = calc_view_distance(camera->fov);
 	if (camera->orientation.x == 0 && camera->orientation.y == 0)
@@ -100,12 +100,12 @@ static int	assign_sphere(t_object *sphere, char **info)
 }
 
 /* Precalculates numerator which is used in plane_collision */
-void	precalculate_plane(t_object *plane, t_object *camera)
+void	precalculate_plane(t_object *plane, t_image_plane info)
 {
 	double	d;
 
 	d = dot_product(plane->orientation, plane->location);
-	plane->numerator = -dot_product(plane->orientation, camera->location) + d;
+	plane->numerator = -dot_product(plane->orientation, info.ray.start) + d;
 }
 
 static int	assign_plane(t_object *plane, char **info)

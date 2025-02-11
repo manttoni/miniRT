@@ -15,7 +15,7 @@ void camera_light_ambient(t_object *o)
 	}
 	if (o->type == CAMERA)
 	{
-		printf("FOV: %d\nView distance: %1.2f\n", o->fov, o->info.view_distance);
+		// printf("FOV: %d\nView distance: %1.2f\n", o->fov, o->info.view_distance);
 		printf("Orientation: ");
 		print_vector(o->orientation);
 	}
