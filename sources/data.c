@@ -33,8 +33,10 @@ t_data	*init_data(char *file)
 	data->mouse.right = 0;
 	data->file = file;
 	data->light = malloc(sizeof(t_light));
-	data->objects = read_objects(data, file);
-	if (!data->objects)
+	data->light->ambient = malloc(sizeof(t_object));
+	data->light->light = malloc(sizeof(t_object));
+	data->camera = malloc(sizeof(t_object));
+	if (read_objects(data, file) == FAILURE)
 	{
 		error_msg(data);
 		free(data);

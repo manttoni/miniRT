@@ -6,24 +6,27 @@ static void	select_object_by_index(mlx_key_data_t mlx_data, t_data *data)
 {
 	if (mlx_data.key == MLX_KEY_C)
 	{
-		data->selected = get_object(data->objects, CAMERA);
+		data->selected = data->camera;
 		printf("Object selected: \n");
     	print_object(data->selected);
 	}
 	if (mlx_data.key == MLX_KEY_L)
 	{
-		data->selected = get_object(data->objects, LIGHT);
+		data->selected = data->light->light;
 		printf("Object selected: \n");
     	print_object(data->selected);
 	}
 	if (mlx_data.key == MLX_KEY_A)
 	{
-		data->selected = get_object(data->objects, AMBIENT);
+		data->selected = data->light->ambient;
 		printf("Object selected: \n");
     	print_object(data->selected);
 	}
 	if (mlx_data.key >= MLX_KEY_0 && mlx_data.key <= MLX_KEY_9)
-		select_object(&data->objects->arr[mlx_data.key - MLX_KEY_0], data->selected);
+	{
+		if (mlx_data.key - MLX_KEY_0 < data->objects->objects)
+			select_object(&data->objects->arr[mlx_data.key - MLX_KEY_0], data);
+	}
 }
 
 /* checks which key is pressed, creates a vector and translates the object in that direction */

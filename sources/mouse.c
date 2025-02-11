@@ -23,7 +23,7 @@ void right_click(t_data *data)
 	if (cast_ray(&ray, data->objects) == 1)
 	{
 		if (data->selected != ray.object)
-			select_object(ray.object, data->selected);
+			select_object(ray.object, data);
 	}
 }
 
