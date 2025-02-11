@@ -51,92 +51,95 @@ typedef enum e_rgba
 
 typedef struct s_vector
 {
-	double	x;
-	double	y;
-	double	z;
-}	t_vector;
+    double    x;
+    double    y;
+    double    z;
+}    t_vector;
 
 typedef struct s_ray
 {
-	t_vector direction;
-	t_vector coll_norm;
-	t_vector	end;
-	t_vector start;
-	double		distance;
-	uint32_t color;
-	struct s_object	*object;
+    t_vector        direction;
+    t_vector        coll_norm;
+    t_vector        end;
+    t_vector        start;
+    double            distance;
+    uint32_t        color;
+    struct s_object    *object;
 }   t_ray;
 
 typedef struct s_camera_info
 {
-	double			view_distance;
-	t_vector		u;
-	t_vector		v;
-	t_ray			ray;
-}	t_camera_info;
+    double            view_distance;
+    t_vector        u;
+    t_vector        v;
+    t_ray            ray;
+}    t_camera_info;
 
-typedef struct	s_object
+typedef struct    s_object
 {
-	t_type			type;
-	uint32_t		color;
-	double			brightness;
-	double			numerator;
-	double			diameter;
-	double			height;
-	t_vector		location;
-	t_vector		orientation;
-	int				(*collisionf)(t_ray *, struct s_object *);
-	int				fov;
-	t_camera_info	info;
-}	t_object;
+    t_type            type;
+    uint32_t        color;
+    double            numerator;
+    double            diameter;
+    double            height;
+    t_vector        location;
+    t_vector        orientation;
+    int                (*collisionf)(t_ray *, struct s_object *);
+}    t_object;
 
 typedef struct s_light
 {
-	t_object	*ambient;
-	t_object	*light;
-	t_vector	light_dir;
-	t_vector	view_dir;
-	double		diffuse;
-	double		specular;
-	double		shine;
-	uint32_t	color;
-	int			r;
-	int			g;
-	int			b;
+    t_object    *ambient;
+    t_object    *light;
+    t_vector    light_dir;
+    t_vector    view_dir;
+    double        brightness;
+    double        diffuse;
+    double        specular;
+    double        shine;
+    uint32_t    color;
+    int            r;
+    int            g;
+    int            b;
 } t_light;
-/*
-	arr is malloced array of objects
-	capacity is amount of memory allocated
-	objects is amount of objects
-*/
+
 typedef struct s_objarr
 {
-	t_object	*arr;
-	size_t		capacity;
-	size_t		objects;
-}	t_objarr;
-
-typedef struct s_ui
-{
-	t_object	*selected;
-}	t_ui;
+    t_object    *arr;
+    size_t        capacity;
+    size_t        objects;
+}    t_objarr;
 
 typedef struct s_mouse
 {
-	int32_t	x;
-	int32_t	y;
-	int		left;
-	int		right;
-}	t_mouse;
+    int32_t    x;
+    int32_t    y;
+    int        left;
+    int        right;
+}    t_mouse;
 
-typedef struct	s_data
+typedef struct s_camera
 {
-	t_objarr	*objects;
-	mlx_t		*mlx;
-	mlx_image_t	*image;
-	t_ui		*ui;
-	t_mouse		mouse;
-}	t_data;
+    t_type            type;
+    t_vector        location;
+    t_vector        orientation;
+    t_camera_info    info;
+    int                fov;
+} t_camera;
+
+typedef struct    s_data
+{
+    t_objarr    *objects;
+    t_camera    *camera;
+    t_light        *light;
+    t_object    *selected;
+    mlx_t        *mlx;
+    mlx_image_t    *image;
+    t_mouse        mouse;
+    char        *file;
+}    t_data;
+
+int assign_camera(t_camera *camera, char *line);
 
 /*rotation.c*/
 t_vector rotate_vector_x(t_vector v, float theta);
@@ -145,7 +148,7 @@ t_vector rotate_vector_z(t_vector v, float theta);
 
 void		print_object(t_object o);
 /*user_interface.c*/
-void select_object(t_object *object, t_ui *ui);
+void select_object(t_object *object, t_data *data);
 
 /*mouse.c*/
 void	rt_mouse(void *param);

@@ -1,6 +1,6 @@
 #include "../includes/minirt.h"
 #include <math.h>
-
+/*
 void print_object(t_object o)
 {
 	if (o.type >= NONE)
@@ -44,7 +44,7 @@ void print_object(t_object o)
 	if (o.type == LIGHT || o.type == AMBIENT)
 		printf("Brightness: %f\n", o.brightness);
 }
-
+*/
 void print_objects(t_objarr *objarr)
 {
 	size_t	i;
@@ -102,7 +102,7 @@ int	assign_ambient(t_object *ambient, char **info)
 
 /* precalculations for image plane basic vectors
 	ray gets values that are initially always the same */
-t_camera_info	image_plane(t_object *camera)
+t_camera_info	image_plane(t_camera *camera)
 {
 	t_camera_info	info;
 
@@ -126,15 +126,20 @@ t_camera_info	image_plane(t_object *camera)
 	return (info);
 }
 
-static int assign_camera(t_object *camera, char **info)
+int assign_camera(t_camera *camera, char *line)
 {
+	char	**info;
+
+	info = ft_split(line, ' ');
+	if (info == NULL)
+		return (FAILURE);
 	camera->location = parse_vector(info[1]);
 	camera->orientation = parse_vector(info[2]);
 	camera->fov = ft_atoi(info[3]);
 	camera->orientation = normalize_vector(camera->orientation);
+	ft_free_array(info);
 	if (camera->fov < 0 || camera->fov > 180)
 		return (failure("FOV not valid"));
-	//camera->info = image_plane(camera);
 	return (SUCCESS);
 }
 
@@ -205,8 +210,6 @@ static int	assign_values(t_object *object, char **info)
 		return (FAILURE);
 	if (object->type == AMBIENT)
 		return (assign_ambient(object, info));
-	else if (object->type == CAMERA)
-		return (assign_camera(object, info));
 	else if (object->type == LIGHT)
 		return (assign_light(object, info));
 	else if (object->type == SPHERE)
@@ -222,8 +225,6 @@ int	parse_object(t_object *object, char *line)
 {
 	char		**info;
 
-	if (validate(line) == NULL)
-		return (failure("Validation failed"));
 	object->type = get_type(line);
 	info = ft_split(line, ' ');
 	if (assign_values(object, info) == FAILURE)

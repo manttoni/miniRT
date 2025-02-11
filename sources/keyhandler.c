@@ -5,18 +5,18 @@
 static void	select_object_by_index(mlx_key_data_t mlx_data, t_data *data)
 {
 	if (mlx_data.key >= MLX_KEY_0 && mlx_data.key <= MLX_KEY_9)
-		select_object(&data->objects->arr[mlx_data.key - MLX_KEY_0], data->ui);
+		select_object(&data->objects->arr[mlx_data.key - MLX_KEY_0], data);
 }
 
 /* checks which key is pressed, creates a vector and translates the object in that direction */
-static int	translate(mlx_key_data_t mlx_data, t_object *selected, t_objarr *objarr)
+static int	translate(mlx_key_data_t mlx_data, t_object *selected, t_data *data)
 {
 	t_vector	delta;
-	t_object	*camera;
+	t_camera	*camera;
 
 	if (selected == NULL)
 		return (failure("No object selected"));
-	camera = get_object(objarr, CAMERA);
+	camera = data->camera;
 	if (mlx_data.key == MLX_KEY_KP_9)
 		delta = camera->orientation; // to camera direction
 	else if (mlx_data.key == MLX_KEY_KP_1)
@@ -31,7 +31,7 @@ static int	translate(mlx_key_data_t mlx_data, t_object *selected, t_objarr *obja
 		delta = v_mul(-1, camera->info.u); // left
 	else
 		return (FAILURE);
-	translate_object(selected, delta, objarr);
+	translate_object(selected, delta, data->objects);
 	print_vector(selected->location);
 	return (SUCCESS);
 }
@@ -47,13 +47,13 @@ void	print_help(void)
 	printf("Left click rotates camera\n");
 }
 
-static int	rotate(mlx_key_data_t mlx_data, t_object *selected, t_objarr *objarr)
+static int	rotate(mlx_key_data_t mlx_data, t_object *selected, t_data *data)
 {
 	t_object	*camera;
 	float		delta;
 
 	delta = 0.1;
-	camera = get_object(objarr, CAMERA);
+	camera = data->camera;
 	if (mlx_data.key == MLX_KEY_LEFT)
 		selected->orientation = rotate_vector_x(selected->orientation, delta);
 	else if (mlx_data.key == MLX_KEY_RIGHT)
@@ -68,7 +68,7 @@ static int	rotate(mlx_key_data_t mlx_data, t_object *selected, t_objarr *objarr)
 		selected->orientation = rotate_vector_z(selected->orientation, -delta);
 	else
 		return (FAILURE);
-	set_precalculations(objarr);
+	set_precalculations(data->camera);
 	print_vector(selected->orientation);
 	return (SUCCESS);
 }
@@ -86,12 +86,12 @@ void	keypress(mlx_key_data_t mlx_data, void *param)
 			return ;
 		}
 		if (mlx_data.key == MLX_KEY_HOME)
-			print_objects(data->objects);
+			print_objects(data);
 		if (mlx_data.key == MLX_KEY_COMMA)
 			print_help();
-		if (translate(mlx_data, data->ui->selected, data->objects) == SUCCESS)
+		if (translate(mlx_data, data->selected, data->objects) == SUCCESS)
 			redraw(data);
-		if (rotate(mlx_data, data->ui->selected, data->objects) == SUCCESS)
+		if (rotate(mlx_data, data->selected, data->objects) == SUCCESS)
 			redraw(data);
 		select_object_by_index(mlx_data, data);
 	}

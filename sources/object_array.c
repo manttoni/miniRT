@@ -43,16 +43,21 @@ static int	reallocate(t_objarr *objarr)
 /*	Adds an object to the array
 	parse_object parses that object from line
 	if array is full, doubles the arrays allocated memory */
-int add_object(t_objarr *objarr, char *line)
+int add_object(t_data *data, char *line)
 {
-	if (objarr == NULL)
-		return (FAILURE);
-    if (objarr->capacity == objarr->objects)
-        if (reallocate(objarr) == FAILURE)
+	if (validate(line) == NULL)
+		return (failure("Validation failed"));
+	if (line[0] == 'C')
+	{
+		data->camera = assign_camera(data->camera, line);
+		return (SUCCESS);
+	}
+    if (data->objects->capacity == data->objects->objects)
+        if (reallocate(data->objects) == FAILURE)
 			return (FAILURE);
-    if (parse_object(objarr->arr + objarr->objects, line) == FAILURE)
+    if (parse_object(data->objects->arr + data->objects->objects, line) == FAILURE)
 		return (FAILURE);
-	objarr->objects++;
+	data->objects->objects++;
     return (SUCCESS);
 }
 
