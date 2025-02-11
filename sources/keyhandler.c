@@ -38,7 +38,6 @@ static int	translate(mlx_key_data_t mlx_data, t_object *selected, t_data *data)
 	if (selected == NULL)
 		return (failure("No object selected"));
 	camera = data->camera;
-	to_camera = normalize_vector(v_sub(camera->location, selected->location));
 	if (mlx_data.key == MLX_KEY_KP_9)
 		delta = camera->orientation; // to camera direction
 	else if (mlx_data.key == MLX_KEY_KP_1)
@@ -138,7 +137,7 @@ void	keypress(mlx_key_data_t mlx_data, void *param)
 			redraw(data);
 		if (resize_object(mlx_data, data->selected) == SUCCESS)
 			redraw(data);
-		if (rotate(mlx_data, data->ui->selected, data->objects) == SUCCESS)
+		if (rotate(mlx_data, data->selected, data) == SUCCESS)
 			redraw(data);
 		select_object_by_index(mlx_data, data);
 	}

@@ -78,7 +78,6 @@ typedef struct	s_object
 {
 	t_type			type;
 	uint32_t		color;
-	double			brightness;
 	double			numerator;
 	double			diameter;
 	double			height;
