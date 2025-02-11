@@ -13,16 +13,14 @@ static int	translate(mlx_key_data_t mlx_data, t_object *selected, t_objarr *obja
 {
 	t_vector	delta;
 	t_object	*camera;
-	t_vector	to_camera;
 
 	if (selected == NULL)
 		return (failure("No object selected"));
 	camera = get_object(objarr, CAMERA);
-	to_camera = normalize_vector(v_sub(camera->location, selected->location));
 	if (mlx_data.key == MLX_KEY_KP_9)
-		delta = v_mul(-1, to_camera); // away from camera
+		delta = camera->orientation; // to camera direction
 	else if (mlx_data.key == MLX_KEY_KP_1)
-		delta = to_camera; // towards camera
+		delta = v_mul(-1, camera->orientation); // to opposite camera direction
 	else if (mlx_data.key == MLX_KEY_KP_8)
 		delta = camera->info.v; // up
 	else if (mlx_data.key == MLX_KEY_KP_2)
