@@ -20,6 +20,10 @@
 # define Y 1000
 # define FAILURE 1
 # define SUCCESS 0
+# define HIT 1
+# define NO_HIT 0
+# define TOP_CYLINDER_CAP 1
+# define BOTTOM_CYLINDER_CAP 0
 //# define RENDER_DISTANCE 150
 
 /* Enums */
@@ -75,7 +79,7 @@ typedef struct	s_object
 {
 	t_type			type;
 	uint32_t		color;
-	double			brightness;;
+	double			brightness;
 	double			numerator;
 	double			diameter;
 	double			height;
@@ -134,6 +138,11 @@ typedef struct	s_data
 	t_mouse		mouse;
 }	t_data;
 
+/*rotation.c*/
+t_vector rotate_vector_x(t_vector v, float theta);
+t_vector rotate_vector_y(t_vector v, float theta);
+t_vector rotate_vector_z(t_vector v, float theta);
+
 void		print_object(t_object o);
 /*user_interface.c*/
 void select_object(t_object *object, t_ui *ui);
@@ -151,6 +160,7 @@ void translate_object(t_object *object, t_vector delta, t_objarr *objarr);
 /*collision.c*/
 int			sphere_collision(t_ray *ray, t_object *sp);
 int			plane_collision(t_ray *ray, t_object *pl);
+int			cylinder_collision(t_ray *ray, t_object *cy);
 
 /*color.c*/
 void		color_pixel(mlx_image_t *image, uint32_t pixel_color, int x, int y);

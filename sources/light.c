@@ -53,6 +53,8 @@ uint32_t	set_lights(t_ray *ray, t_vector collision, t_vector normal, t_objarr *o
 	t_light	light;
 
 	create_light(&light, ray, collision, objarr);
+	if (dot_product(normal, light.view_dir) < 0)
+		normal = v_mul(-1, normal);
 	if (!in_the_shadow(collision, light.light, objarr))
 	{
 		light.diffuse = set_diffuse(normal, light.light_dir, light.light->brightness);

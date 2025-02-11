@@ -195,6 +195,7 @@ static int	assign_cylinder(t_object *cylinder, char **info)
 	cylinder->orientation = normalize_vector(cylinder->orientation);
 	// if (!is_normalized_vector(cylinder->orientation))
 	// 	return (failure("Cylinder orientation not normalized"));
+	cylinder->collisionf = &cylinder_collision;
 	return (SUCCESS);
 }
 

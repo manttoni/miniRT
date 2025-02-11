@@ -1,0 +1,55 @@
+Error: Validation failed
+Error: Validation failed
+Error: Validation failed
+A 0.4: Failed at check: 1
+Error: Validation failed
+A 0.4 255.0,255,255: Failed at check: 1
+Error: Validation failed
+Error: Brightness should be [0.0, 1.0]
+Error: assign_values FAILURE
+A 0.7 255,-255,255: Failed at check: 1
+Error: Validation failed
+Wrong format(4): A 0.7 255,255,255 45
+Error: Validation failed
+A 0.7 256,255,255: Failed at check: 1
+Error: Validation failed
+Error: Brightness should be [0.0, 1.0]
+Error: assign_values FAILURE
+A  255,255,255: Failed at check: 0
+Error: Validation failed
+C 0,0, 0,0,-1.0 100: Failed at check: 0
+Error: Validation failed
+C 0,0,-1.0 100: Failed at check: 1
+Error: Validation failed
+C 0,0,30 0,0,-1.0: Failed at check: 2
+Error: Validation failed
+C 0 0 30 0,0,-1.0 100: Failed at check: 0
+Error: Validation failed
+C 0, 0, 30 0,0,-1.0 100: Failed at check: 0
+Error: Validation failed
+C 0,0,30 0 0 -1.0 100: Failed at check: 1
+Error: Validation failed
+C 0,0,30 0, 0, -1.0 100: Failed at check: 1
+Error: Validation failed
+C 0,0,30 0,0,-1.0 -20: Failed at check: 2
+Error: Validation failed
+C 0,0,30 100: Failed at check: 1
+Error: Validation failed
+C ,0,30 0,0,-1.0 100: Failed at check: 0
+Error: Validation failed
+C 0,,30 0,0,-1.0 100: Failed at check: 0
+Error: Validation failed
+L ,0,30 0.7: Failed at check: 0
+Error: Validation failed
+L 0.7: Failed at check: 0
+Error: Validation failed
+L 20,0, 0.7: Failed at check: 0
+Error: Validation failed
+L 20,0,30: Failed at check: 1
+Error: Validation failed
+Error: Brightness should be [0.0, 1.0]
+Error: assign_values FAILURE
+Error: Brightness should be [0.0, 1.0]
+Error: assign_values FAILURE
+L 20,30 0.7: Failed at check: 0
+Error: Validation failed
