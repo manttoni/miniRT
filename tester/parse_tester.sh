@@ -23,17 +23,31 @@ make
 # it sorts the inputs into these files
 >valid.txt
 >invalid.txt
+>out.log
 
 valgrind_log=valgrind.log
 
+len=$(wc -l < $tests)
+i=1
+
 while read line; do
+
+	if [ -t 1 ]; then
+		percent=$(( 100 * i / len ))
+		echo -ne "[                        ] Errors: $(cat invalid.txt | wc -l)\r"
+		echo -ne "           $percent%\r"
+		echo -ne "[----------$percent%----------]" | head -c $((1 + percent * 24 / 100))
+		echo -ne "\r"
+		i=$((i + 1))
+	fi
+
     if [[ -z "$line" || "$line" =~ ^[[:space:]]*$ ]]; then
         continue
     fi
-    echo "------------------------"
-    echo -e "test input: $line\n"
+    #echo "------------------------"
+    #echo -e "test input: $line\n"
 
-    valgrind -q --leak-check=full --log-file=$valgrind_log ./testmain "$line"
+    valgrind -q --leak-check=full --log-file=$valgrind_log ./testmain "$line" >> out.log
     exit_code=$?
     if [[ $exit_code -eq 0 ]]; then
         echo "$line" >> valid.txt 
