@@ -23,7 +23,8 @@ static void	select_object_by_index(mlx_key_data_t mlx_data, t_data *data)
     	print_object(data->selected);
 	}
 	if (mlx_data.key >= MLX_KEY_0 && mlx_data.key <= MLX_KEY_9)
-		select_object(&data->objects->arr[mlx_data.key - MLX_KEY_0], data->selected);
+		if (mlx_data.key - MLX_KEY_0 < data->objects->objects)
+			select_object(&data->objects->arr[mlx_data.key - MLX_KEY_0], data->selected);
 }
 
 /* checks which key is pressed, creates a vector and translates the object in that direction */

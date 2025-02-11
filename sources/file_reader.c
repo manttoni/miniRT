@@ -1,6 +1,6 @@
 #include "../includes/minirt.h"
 
-/* Check if objarr has exactly one of A, C and L */
+/* Check if objarr has exactly one of A, C and L 
 static t_objarr	*check_uniques(t_objarr *objarr)
 {
 	size_t	i;
@@ -24,7 +24,7 @@ static t_objarr	*check_uniques(t_objarr *objarr)
 	failure("Needs to have LIGHT, CAMERA, AMBIENT and at least one OBJECT");
 	return (NULL);
 }
-
+*/
 /* Calculates all precalculations */
 void	set_precalculations(t_data  *data)
 {
@@ -52,7 +52,7 @@ static int	error_check(int fd, t_objarr *objarr)
 	return (SUCCESS);
 }
 
-t_objarr	*read_objects(t_data *data, char *file)
+int	read_objects(t_data *data, char *file)
 {
 	char		*line;
 	int			fd;
@@ -61,7 +61,8 @@ t_objarr	*read_objects(t_data *data, char *file)
 	fd = open(file, O_RDONLY);
 	objarr = init_objarr(4);
 	if (error_check(fd, objarr) == FAILURE)
-		return (NULL);
+		return (FAILURE);
+	data->objects = objarr;
 	line = trim_newline(get_next_line(fd));
 	while (line)
 	{
@@ -70,12 +71,12 @@ t_objarr	*read_objects(t_data *data, char *file)
 			free_objarr(objarr);
 			free(line);
 			close(fd);
-			return (NULL);
+			return (FAILURE);
 		}
 		free(line);
 		line = trim_newline(get_next_line(fd));
 	}
 	close(fd);
 	set_precalculations(data);
-	return (check_uniques(objarr));
+	return (SUCCESS);
 }

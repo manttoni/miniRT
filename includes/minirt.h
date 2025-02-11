@@ -138,7 +138,7 @@ t_vector rotate_vector_z(t_vector v, float theta);
 
 void		print_object(t_object *o);
 /*user_interface.c*/
-void	select_object(t_object *object, t_object *selected);
+void	select_object(t_object *object, t_data *data);
 
 /*mouse.c*/
 void	rt_mouse(void *param);
@@ -167,7 +167,7 @@ void		free_data(t_data *data);
 int			failure(char *message);
 
 /*file_reader.c*/
-t_objarr	*read_objects(t_data *data, char *file);
+int			read_objects(t_data *data, char *file);
 void		set_precalculations(t_data *data);
 
 /*keyhandler.c*/
