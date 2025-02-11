@@ -49,17 +49,17 @@ int add_object(t_data *data, char *line)
 		return (failure("Validation failed"));
 	if (line[0] == 'C')
 	{
-		data->camera = assign_camera(data->camera, line);
+		data->camera = parse_object(data->camera, line);
 		return (SUCCESS);
 	}
 	if (line[0] == 'L')
 	{
-		data->light->light = assign_light(data->light->light, line);
+		data->light->light = parse_object(data->light->light, line);
 		return (SUCCESS);
 	}
 	if (line[0] == 'A')
 	{
-		data->light->light = assign_light(data->light->light, line);
+		data->light->ambient = parse_object(data->light->light, line);
 		return (SUCCESS);
 	}
 	if (data->objects->capacity == data->objects->objects)

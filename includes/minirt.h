@@ -85,6 +85,7 @@ typedef struct	s_object
 	t_vector		location;
 	t_vector		orientation;
 	int				(*collisionf)(t_ray *, struct s_object *);
+	int 			fov;
 }	t_object;
 
 typedef struct s_light
@@ -117,20 +118,12 @@ typedef struct s_mouse
 	int		right;
 }	t_mouse;
 
-typedef struct s_camera
-{
-	t_type			type;
-	t_vector		location;
-	t_vector		orientation;
-	t_camera_info	info;
-	int				fov;
-} t_camera;
-
 typedef struct	s_data
 {
 	t_objarr	*objects;
-	t_camera	*camera;
+	t_object	*camera;
 	t_light		*light;
+	t_camera_info	info;
 	t_object	*selected;
 	mlx_t		*mlx;
 	mlx_image_t	*image;
