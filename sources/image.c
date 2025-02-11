@@ -2,7 +2,6 @@
 
 void redraw(t_data *data)
 {
-	printf("Sphere diameter: %f\n", data->objects->arr[4].diameter);
 	raycast(data);
 	mlx_image_to_window(data->mlx, data->image, 0, 0);
 }
