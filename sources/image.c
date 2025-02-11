@@ -5,3 +5,13 @@ void redraw(t_data *data)
 	raycast(data);
 	mlx_image_to_window(data->mlx, data->image, 0, 0);
 }
+
+void	reset_scene(t_data *data)
+{
+	free_objarr(data->objects);
+	data->objects = init_objarr(4);
+	read_objects(data, data->file);
+	data->selected = get_object(data->objects, CAMERA);
+	printf("Scene resetted\n");
+	redraw(data);
+}

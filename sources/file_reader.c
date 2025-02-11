@@ -1,43 +1,41 @@
 #include "../includes/minirt.h"
 
 /* Check if objarr has exactly one of A, C and L */
-static t_objarr	*check_uniques(t_objarr *objarr)
-{
-	size_t	i;
-	size_t	types[3];
+// static t_objarr	*check_uniques(t_objarr *objarr)
+// {
+// 	size_t	i;
+// 	size_t	types[3];
 
-	i = 0;
-	ft_memset(types, 0, 3 * sizeof(size_t));
-	while (i < objarr->objects)
-	{
-		if (objarr->arr[i].type == AMBIENT)
-			types[0]++;
-		else if (objarr->arr[i].type == CAMERA)
-			types[1]++;
-		else if (objarr->arr[i].type == LIGHT)
-			types[2]++;
-		i++;
-	}
-	if (types[0] * types[1] * types[2] == 1 && objarr->objects >= 4)
-		return (objarr);
-	free_objarr(objarr);
-	failure("Needs to have LIGHT, CAMERA, AMBIENT and at least one OBJECT");
-	return (NULL);
-}
+// 	i = 0;
+// 	ft_memset(types, 0, 3 * sizeof(size_t));
+// 	while (i < objarr->objects)
+// 	{
+// 		if (objarr->arr[i].type == AMBIENT)
+// 			types[0]++;
+// 		else if (objarr->arr[i].type == CAMERA)
+// 			types[1]++;
+// 		else if (objarr->arr[i].type == LIGHT)
+// 			types[2]++;
+// 		i++;
+// 	}
+// 	if (types[0] * types[1] * types[2] == 1 && objarr->objects >= 4)
+// 		return (objarr);
+// 	free_objarr(objarr);
+// 	failure("Needs to have LIGHT, CAMERA, AMBIENT and at least one OBJECT");
+// 	return (NULL);
+// }
 
 /* Calculates all precalculations */
-void	set_precalculations(t_objarr *objarr)
+void	set_precalculations(t_data  *data)
 {
 	size_t	i;
-	t_object	*camera;
 
 	i = 0;
-	camera = get_object(objarr, CAMERA);
-	camera->info = image_plane(camera);
-	while (i < objarr->objects)
+	data->info = image_plane(data->camera);
+	while (i < data->objects->objects)
 	{
-		if (objarr->arr[i].type == PLANE)
-			precalculate_plane(&objarr->arr[i], camera);
+		if (data->objects->arr[i].type == PLANE)
+			precalculate_plane(&data->objects->arr[i], data->info);
 		i++;
 	}
 }
@@ -54,7 +52,7 @@ static int	error_check(int fd, t_objarr *objarr)
 	return (SUCCESS);
 }
 
-t_objarr	*read_objects(char *file)
+int	read_objects(t_data *data, char *file)
 {
 	char		*line;
 	int			fd;
@@ -63,21 +61,22 @@ t_objarr	*read_objects(char *file)
 	fd = open(file, O_RDONLY);
 	objarr = init_objarr(4);
 	if (error_check(fd, objarr) == FAILURE)
-		return (NULL);
+		return (FAILURE);
+	data->objects = objarr;
 	line = trim_newline(get_next_line(fd));
 	while (line)
 	{
-		if (*line != '\0' && *line != '#' && add_object(objarr, line) == FAILURE)
+		if (*line != '\0' && *line != '#' && add_object(data, line) == FAILURE)
 		{
 			free_objarr(objarr);
 			free(line);
 			close(fd);
-			return (NULL);
+			return (FAILURE);
 		}
 		free(line);
 		line = trim_newline(get_next_line(fd));
 	}
 	close(fd);
-	set_precalculations(objarr);
-	return (check_uniques(objarr));
+	set_precalculations(data);
+	return (SUCCESS);
 }

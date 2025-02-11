@@ -31,8 +31,12 @@ t_data	*init_data(char *file)
 	ft_bzero(data, sizeof(t_data));
 	data->mouse.left = 0;
 	data->mouse.right = 0;
-	data->objects = read_objects(file);
-	if (!data->objects)
+	data->file = file;
+	data->light = malloc(sizeof(t_light));
+	data->light->ambient = malloc(sizeof(t_object));
+	data->light->light = malloc(sizeof(t_object));
+	data->camera = malloc(sizeof(t_object));
+	if (read_objects(data, file) == FAILURE)
 	{
 		error_msg(data);
 		free(data);
@@ -40,14 +44,7 @@ t_data	*init_data(char *file)
 	}
 	if (mlx_and_image(data))
 		return (NULL);
-	data->ui = malloc(sizeof(t_ui));
-	if (data->ui == NULL)
-	{
-		error_msg(data);
-		free_data(data);
-		return (NULL);
-	}
-	ft_memset(data->ui, 0, sizeof(t_ui));
+	data->selected = data->camera;
 	return (data);
 }
 
@@ -56,6 +53,5 @@ void	free_data(t_data *data)
 	if (data == NULL)
 		return ;
 	free_objarr(data->objects);
-	free(data->ui);
 	free(data);
 }

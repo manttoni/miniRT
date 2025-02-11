@@ -37,10 +37,8 @@ static double	set_diffuse(t_vector normal, t_vector light_dir, double intensity)
 	return (intensity * dot);
 }
 
-static void	create_light(t_light *light, t_ray *ray, t_vector collision, t_objarr *objarr)
+void	create_light(t_light *light, t_ray *ray, t_vector collision)
 {
-	light->ambient = get_object(objarr, AMBIENT);
-	light->light = get_object(objarr, LIGHT);
 	light->diffuse = 0.0;
 	light->specular = 0.0;
 	light->shine = 32.0;
@@ -48,21 +46,19 @@ static void	create_light(t_light *light, t_ray *ray, t_vector collision, t_objar
 	light->view_dir = normalize_vector(v_sub(ray->start, collision));
 }
 
-uint32_t	set_lights(t_ray *ray, t_vector collision, t_vector normal, t_objarr *objarr)
+uint32_t	set_lights(t_data *data, t_ray *ray, t_vector collision, t_vector normal)
 {
-	t_light	light;
-
-	create_light(&light, ray, collision, objarr);
-	if (dot_product(normal, light.view_dir) < 0)
+	create_light(data->light, ray, collision);
+	if (dot_product(normal, data->light->view_dir) < 0)
 		normal = v_mul(-1, normal);
-	if (!in_the_shadow(collision, light.light, objarr))
+	if (!in_the_shadow(collision, data->light->light, data->objects))
 	{
-		light.diffuse = set_diffuse(normal, light.light_dir, light.light->brightness);
-		light.specular = set_specular(normal, light.light_dir, light.view_dir, light.light->brightness, light.shine);
+		data->light->diffuse = set_diffuse(normal, data->light->light_dir, data->light->light->brightness);
+		data->light->specular = set_specular(normal, data->light->light_dir, data->light->view_dir, data->light->light->brightness, data->light->shine);
 	}
-	light.r = min(255, (light.ambient->brightness + light.diffuse + light.specular) * ((ray->color >> 24) & 0xff));
-	light.g = min(255, (light.ambient->brightness + light.diffuse + light.specular) * ((ray->color >> 16) & 0xff));
-	light.b = min(255, (light.ambient->brightness + light.diffuse + light.specular) * ((ray->color >> 8) & 0xff));
-	light.color = (light.r << 24 | light.g << 16 | light.b << 8 | 255);
-	return (light.color);
+	data->light->r = min(255, (data->light->ambient->brightness + data->light->diffuse + data->light->specular) * ((ray->color >> 24) & 0xff));
+	data->light->g = min(255, (data->light->ambient->brightness + data->light->diffuse + data->light->specular) * ((ray->color >> 16) & 0xff));
+	data->light->b = min(255, (data->light->ambient->brightness + data->light->diffuse + data->light->specular) * ((ray->color >> 8) & 0xff));
+	data->light->color = (data->light->r << 24 | data->light->g << 16 | data->light->b << 8 | 255);
+	return (data->light->color);
 }

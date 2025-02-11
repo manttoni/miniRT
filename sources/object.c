@@ -1,63 +1,4 @@
 #include "../includes/minirt.h"
-#include <math.h>
-
-void print_object(t_object o)
-{
-	if (o.type >= NONE)
-	{
-		printf("Unknown object\n");
-		return ;
-	}
-	printf("---------------\n");
-	if (o.type == CAMERA)
-		printf("Camera: 📷\n");
-	else if (o.type == SPHERE)
-		printf("Sphere: ⚪\n");
-	else if (o.type == PLANE)
-		printf("Plane: ✈️\n");
-	else if (o.type == AMBIENT)
-		printf("Ambient light: 🌓\n");
-	else if (o.type == LIGHT)
-		printf("Light: 💡\n");
-	else if (o.type == CYLINDER)
-		printf("Cylinder: 🛢\n");
-	if (o.type != AMBIENT)
-	{
-		printf("Location: ");
-		print_vector(o.location);
-	}
-	if (o.type == CAMERA || o.type == PLANE || o.type == CYLINDER)
-	{
-		printf("Orientation: ");
-		print_vector(o.orientation);
-	}
-	if (o.type == CAMERA)
-		printf("FOV: %d\nView distance: %1.2f\n", o.fov, o.info.view_distance);
-	if (o.type == SPHERE || o.type == CYLINDER)
-		printf("Diameter: %f\n", o.diameter);
-	if (o.type != CAMERA && o.type != LIGHT)
-	{
-		printf("Color: \033[38;2;%d;%d;%dm%06X\033[0m\n",
-			   (o.color >> 24) & 0xFF, (o.color >> 16) & 0xFF,
-			   (o.color >> 8) & 0xFF, o.color);
-	}
-	if (o.type == LIGHT || o.type == AMBIENT)
-		printf("Brightness: %f\n", o.brightness);
-}
-
-void print_objects(t_objarr *objarr)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < objarr->objects)
-	{
-		print_object(objarr->arr[i]);
-		printf("Index: %zu\n", i);
-		i++;
-	}
-	printf("---------------\n");
-}
 
 t_type	get_type(char *line)
 {
@@ -102,9 +43,9 @@ int	assign_ambient(t_object *ambient, char **info)
 
 /* precalculations for image plane basic vectors
 	ray gets values that are initially always the same */
-t_camera_info	image_plane(t_object *camera)
+t_image_plane	image_plane(t_object *camera)
 {
-	t_camera_info	info;
+	t_image_plane	info;
 
 	info.view_distance = calc_view_distance(camera->fov);
 	if (camera->orientation.x == 0 && camera->orientation.y == 0)
@@ -138,7 +79,7 @@ static int assign_camera(t_object *camera, char **info)
 	return (SUCCESS);
 }
 
-static int	assign_light(t_object *light, char **info)
+int	assign_light(t_object *light, char **info)
 {
 	light->location = parse_vector(info[1]);
 	light->brightness = parse_double(info[2]);
@@ -159,12 +100,12 @@ static int	assign_sphere(t_object *sphere, char **info)
 }
 
 /* Precalculates numerator which is used in plane_collision */
-void	precalculate_plane(t_object *plane, t_object *camera)
+void	precalculate_plane(t_object *plane, t_image_plane info)
 {
 	double	d;
 
 	d = dot_product(plane->orientation, plane->location);
-	plane->numerator = -dot_product(plane->orientation, camera->location) + d;
+	plane->numerator = -dot_product(plane->orientation, info.ray.start) + d;
 }
 
 static int	assign_plane(t_object *plane, char **info)

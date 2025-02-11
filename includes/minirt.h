@@ -48,7 +48,6 @@ typedef enum e_rgba
 
 /* Structs */
 
-
 typedef struct s_vector
 {
 	double	x;
@@ -58,22 +57,22 @@ typedef struct s_vector
 
 typedef struct s_ray
 {
-	t_vector direction;
-	t_vector coll_norm;
-	t_vector	end;
-	t_vector start;
-	double		distance;
-	uint32_t color;
+	t_vector		direction;
+	t_vector		coll_norm;
+	t_vector		end;
+	t_vector		start;
+	double			distance;
+	uint32_t		color;
 	struct s_object	*object;
 }   t_ray;
 
-typedef struct s_camera_info
+typedef struct s_image_plane
 {
 	double			view_distance;
 	t_vector		u;
 	t_vector		v;
 	t_ray			ray;
-}	t_camera_info;
+}	t_image_plane;
 
 typedef struct	s_object
 {
@@ -83,11 +82,11 @@ typedef struct	s_object
 	double			numerator;
 	double			diameter;
 	double			height;
+	double			brightness;
 	t_vector		location;
 	t_vector		orientation;
 	int				(*collisionf)(t_ray *, struct s_object *);
-	int				fov;
-	t_camera_info	info;
+	int 			fov;
 }	t_object;
 
 typedef struct s_light
@@ -104,22 +103,13 @@ typedef struct s_light
 	int			g;
 	int			b;
 } t_light;
-/*
-	arr is malloced array of objects
-	capacity is amount of memory allocated
-	objects is amount of objects
-*/
+
 typedef struct s_objarr
 {
 	t_object	*arr;
 	size_t		capacity;
 	size_t		objects;
 }	t_objarr;
-
-typedef struct s_ui
-{
-	t_object	*selected;
-}	t_ui;
 
 typedef struct s_mouse
 {
@@ -132,10 +122,14 @@ typedef struct s_mouse
 typedef struct	s_data
 {
 	t_objarr	*objects;
+	t_object	*camera;
+	t_light		*light;
+	t_image_plane	info;
+	t_object	*selected;
 	mlx_t		*mlx;
 	mlx_image_t	*image;
-	t_ui		*ui;
 	t_mouse		mouse;
+	char		*file;
 }	t_data;
 
 /*rotation.c*/
@@ -143,19 +137,21 @@ t_vector rotate_vector_x(t_vector v, float theta);
 t_vector rotate_vector_y(t_vector v, float theta);
 t_vector rotate_vector_z(t_vector v, float theta);
 
-void		print_object(t_object o);
+void		print_object(t_object *o);
+
 /*user_interface.c*/
-void select_object(t_object *object, t_ui *ui);
+void	select_object(t_object *object, t_data *data);
 
 /*mouse.c*/
 void	rt_mouse(void *param);
 
 /*image.c*/
 void	redraw(t_data *data);
+void	reset_scene(t_data *data);
 
 /*transformation.c*/
-void rotate_object(t_object *object, t_vector new_orientation, t_objarr *objarr);
-void translate_object(t_object *object, t_vector delta, t_objarr *objarr);
+void	rotate_object(t_object *object, t_vector new_orientation, t_data *data);
+void	translate_object(t_object *object, t_vector delta, t_data *data);
 
 /*collision.c*/
 int			sphere_collision(t_ray *ray, t_object *sp);
@@ -173,19 +169,20 @@ void		free_data(t_data *data);
 int			failure(char *message);
 
 /*file_reader.c*/
-t_objarr	*read_objects(char *file);
-void	set_precalculations(t_objarr *objarr);
+int			read_objects(t_data *data, char *file);
+void		set_precalculations(t_data *data);
 
 /*keyhandler.c*/
 void		keypress(mlx_key_data_t mlx_data, void *param);
 void		rt_mouse(void *param);
 
 /*lights.c*/
-uint32_t	set_lights(t_ray *ray, t_vector collision, t_vector normal, t_objarr *objarr);
+void	create_light(t_light *light, t_ray *ray, t_vector collision);
+uint32_t	set_lights(t_data *data, t_ray *ray, t_vector collision, t_vector normal);
 
 /*object_array.c*/
 t_objarr	*init_objarr(size_t capacity);
-int 		add_object(t_objarr *objarr, char *line);
+int 		add_object(t_data *data, char *line);
 void		free_objarr(t_objarr *objarr);
 
 /*object_getters.c*/
@@ -199,8 +196,9 @@ uint32_t	parse_color(char *str);
 t_type		get_type(char *line);
 int			assign_ambient(t_object *ambient, char **info);
 int			parse_object(t_object *object, char *line);
-t_camera_info	image_plane(t_object *camera);
-void	precalculate_plane(t_object *plane, t_object *camera);
+int			assign_light(t_object *light, char **info);
+t_image_plane	image_plane(t_object *camera);
+void	precalculate_plane(t_object *plane, t_image_plane info);
 void	print_objects(t_objarr *objarr);
 
 /*parser.c*/
@@ -209,7 +207,7 @@ double		parse_double(char *str);
 /*ray.c*/
 int			cast_ray(t_ray *ray, t_objarr *objarr);
 void		raycast(t_data *data);
-t_ray		get_ray(t_object *camera, int x, int y);
+t_ray		get_ray(t_image_plane info, int x, int y);
 
 /*utils.c*/
 int			min(int a, int b);
