@@ -4,6 +4,24 @@
 /* select an object by its index in the array, visible in terminal. only 0-9 */
 static void	select_object_by_index(mlx_key_data_t mlx_data, t_data *data)
 {
+	if (mlx_data.key == MLX_KEY_C)
+	{
+		data->ui->selected = get_object(data->objects, CAMERA);
+		printf("Object selected: \n");
+    	print_object(data->ui->selected);
+	}
+	if (mlx_data.key == MLX_KEY_L)
+	{
+		data->ui->selected = get_object(data->objects, LIGHT);
+		printf("Object selected: \n");
+    	print_object(data->ui->selected);
+	}
+	if (mlx_data.key == MLX_KEY_A)
+	{
+		data->ui->selected = get_object(data->objects, AMBIENT);
+		printf("Object selected: \n");
+    	print_object(data->ui->selected);
+	}
 	if (mlx_data.key >= MLX_KEY_0 && mlx_data.key <= MLX_KEY_9)
 		select_object(&data->objects->arr[mlx_data.key - MLX_KEY_0], data->ui);
 }
@@ -20,9 +38,9 @@ static int	translate(mlx_key_data_t mlx_data, t_object *selected, t_objarr *obja
 	camera = get_object(objarr, CAMERA);
 	to_camera = normalize_vector(v_sub(camera->location, selected->location));
 	if (mlx_data.key == MLX_KEY_KP_9)
-		delta = v_mul(-1, to_camera); // away from camera
+		delta = camera->orientation; // to camera direction
 	else if (mlx_data.key == MLX_KEY_KP_1)
-		delta = to_camera; // towards camera
+		delta = v_mul(-1, camera->orientation); // to opposite camera direction
 	else if (mlx_data.key == MLX_KEY_KP_8)
 		delta = camera->info.v; // up
 	else if (mlx_data.key == MLX_KEY_KP_2)
@@ -49,6 +67,28 @@ void	print_help(void)
 	printf("Left click rotates camera\n");
 }
 
+static int	resize_object(mlx_key_data_t mlx_data, t_object *selected)
+{
+	if (selected->type == SPHERE || selected->type == CYLINDER)
+	{
+		if (mlx_data.key == MLX_KEY_KP_ADD)
+		{
+			selected->diameter += 1;
+			if (selected->diameter > DBL_MAX)
+				selected->diameter = DBL_MAX;
+			return (SUCCESS);
+		}
+		else if (mlx_data.key == MLX_KEY_KP_SUBTRACT)
+		{
+			selected->diameter -= 1;
+			if (selected->diameter <= 0)
+				selected->diameter = 1.0;
+			return(SUCCESS);
+		}
+	}
+	return (FAILURE);
+}
+
 void	keypress(mlx_key_data_t mlx_data, void *param)
 {
 	t_data	*data;
@@ -65,7 +105,11 @@ void	keypress(mlx_key_data_t mlx_data, void *param)
 			print_objects(data->objects);
 		if (mlx_data.key == MLX_KEY_COMMA)
 			print_help();
+		if (mlx_data.key == MLX_KEY_R)
+			reset_scene(data);
 		if (translate(mlx_data, data->ui->selected, data->objects) == SUCCESS)
+			redraw(data);
+		if (resize_object(mlx_data, data->ui->selected) == SUCCESS)
 			redraw(data);
 		select_object_by_index(mlx_data, data);
 	}

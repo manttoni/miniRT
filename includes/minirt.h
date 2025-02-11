@@ -44,7 +44,6 @@ typedef enum e_rgba
 
 /* Structs */
 
-
 typedef struct s_vector
 {
 	double	x;
@@ -54,12 +53,12 @@ typedef struct s_vector
 
 typedef struct s_ray
 {
-	t_vector direction;
-	t_vector coll_norm;
-	t_vector	end;
-	t_vector start;
-	double		distance;
-	uint32_t color;
+	t_vector		direction;
+	t_vector		coll_norm;
+	t_vector		end;
+	t_vector		start;
+	double			distance;
+	uint32_t		color;
 	struct s_object	*object;
 }   t_ray;
 
@@ -75,15 +74,12 @@ typedef struct	s_object
 {
 	t_type			type;
 	uint32_t		color;
-	double			brightness;;
 	double			numerator;
 	double			diameter;
 	double			height;
 	t_vector		location;
 	t_vector		orientation;
 	int				(*collisionf)(t_ray *, struct s_object *);
-	int				fov;
-	t_camera_info	info;
 }	t_object;
 
 typedef struct s_light
@@ -92,6 +88,7 @@ typedef struct s_light
 	t_object	*light;
 	t_vector	light_dir;
 	t_vector	view_dir;
+	double		brightness;
 	double		diffuse;
 	double		specular;
 	double		shine;
@@ -100,22 +97,13 @@ typedef struct s_light
 	int			g;
 	int			b;
 } t_light;
-/*
-	arr is malloced array of objects
-	capacity is amount of memory allocated
-	objects is amount of objects
-*/
+
 typedef struct s_objarr
 {
 	t_object	*arr;
 	size_t		capacity;
 	size_t		objects;
 }	t_objarr;
-
-typedef struct s_ui
-{
-	t_object	*selected;
-}	t_ui;
 
 typedef struct s_mouse
 {
@@ -125,28 +113,41 @@ typedef struct s_mouse
 	int		right;
 }	t_mouse;
 
+typedef struct s_camera
+{
+	t_type			type;
+	t_vector		location;
+	t_vector		orientation;
+	t_camera_info	info;
+	int				fov;
+} t_camera;
+
 typedef struct	s_data
 {
 	t_objarr	*objects;
+	t_camera	*camera;
+	t_light		*light;
+	t_object	*selected;
 	mlx_t		*mlx;
 	mlx_image_t	*image;
-	t_ui		*ui;
 	t_mouse		mouse;
+	char		*file;
 }	t_data;
 
-void		print_object(t_object o);
+void		print_object(t_object *o);
 /*user_interface.c*/
-void select_object(t_object *object, t_ui *ui);
+void	select_object(t_data *data, t_object *object);
 
 /*mouse.c*/
 void	rt_mouse(void *param);
 
 /*image.c*/
 void	redraw(t_data *data);
+void	reset_scene(t_data *data);
 
 /*transformation.c*/
-void rotate_object(t_object *object, t_vector new_orientation, t_objarr *objarr);
-void translate_object(t_object *object, t_vector delta, t_objarr *objarr);
+void	rotate_object(t_object *object, t_vector new_orientation, t_objarr *objarr);
+void	translate_object(t_object *object, t_vector delta, t_objarr *objarr);
 
 /*collision.c*/
 int			sphere_collision(t_ray *ray, t_object *sp);
@@ -164,7 +165,7 @@ int			failure(char *message);
 
 /*file_reader.c*/
 t_objarr	*read_objects(char *file);
-void	set_precalculations(t_objarr *objarr);
+void		set_precalculations(t_objarr *objarr);
 
 /*keyhandler.c*/
 void		keypress(mlx_key_data_t mlx_data, void *param);

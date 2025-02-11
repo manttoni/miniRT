@@ -31,6 +31,7 @@ t_data	*init_data(char *file)
 	ft_bzero(data, sizeof(t_data));
 	data->mouse.left = 0;
 	data->mouse.right = 0;
+	data->file = file;
 	data->objects = read_objects(file);
 	if (!data->objects)
 	{
@@ -47,7 +48,7 @@ t_data	*init_data(char *file)
 		free_data(data);
 		return (NULL);
 	}
-	ft_memset(data->ui, 0, sizeof(t_ui));
+	data->selected = get_object(data->objects, CAMERA);
 	return (data);
 }
 
