@@ -56,12 +56,12 @@ done < "$tests"
 
 echo "--------------------------"
 
-echo -n "Valid inputs: "
+echo -n "valid.txt lines: "
 cat valid.txt | wc -l
 
 echo "--------------------------"
 
-echo -n "Invalid inputs: "
+echo -n "invalid.txt lines: "
 cat invalid.txt | wc -l
 
 echo "--------------------------"
