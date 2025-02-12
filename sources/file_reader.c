@@ -1,45 +1,5 @@
 #include "../includes/minirt.h"
 
-/* Check if objarr has exactly one of A, C and L */
-// static t_objarr	*check_uniques(t_objarr *objarr)
-// {
-// 	size_t	i;
-// 	size_t	types[3];
-
-// 	i = 0;
-// 	ft_memset(types, 0, 3 * sizeof(size_t));
-// 	while (i < objarr->objects)
-// 	{
-// 		if (objarr->arr[i].type == AMBIENT)
-// 			types[0]++;
-// 		else if (objarr->arr[i].type == CAMERA)
-// 			types[1]++;
-// 		else if (objarr->arr[i].type == LIGHT)
-// 			types[2]++;
-// 		i++;
-// 	}
-// 	if (types[0] * types[1] * types[2] == 1 && objarr->objects >= 4)
-// 		return (objarr);
-// 	free_objarr(objarr);
-// 	failure("Needs to have LIGHT, CAMERA, AMBIENT and at least one OBJECT");
-// 	return (NULL);
-// }
-
-/* Calculates all precalculations */
-void	set_precalculations(t_data  *data)
-{
-	size_t	i;
-
-	i = 0;
-	data->info = image_plane(data->camera);
-	while (i < data->objects->objects)
-	{
-		if (data->objects->arr[i].type == PLANE)
-			precalculate_plane(&data->objects->arr[i], data->info);
-		i++;
-	}
-}
-
 static int	error_check(int fd, t_objarr *objarr)
 {
 	if (objarr == NULL || fd < 0)

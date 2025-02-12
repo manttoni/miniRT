@@ -30,8 +30,8 @@ int	cast_ray(t_ray *ray, t_objarr *objarr)
 	arr = objarr->arr;
 	while (i < objarr->objects)
 	{
-		if (arr[i].collisionf != NULL)
-			is_collision = max(is_collision, (*(arr[i].collisionf))(ray, &arr[i]));
+		if ((*(arr[i].collisionf))(ray, &arr[i]) == HIT)
+			is_collision = 1;
 		i++;
 	}
 	return (is_collision);
@@ -42,9 +42,7 @@ void	raycast(t_data *data)
 	int	x;
 	int	y;
 	t_ray ray;
-	t_object *camera;
 
-	camera = get_object(data->objects, CAMERA);
 	y = 0;
 	while (y < Y)
 	{

@@ -136,6 +136,7 @@ t_vector rotate_vector_x(t_vector v, float theta);
 t_vector rotate_vector_y(t_vector v, float theta);
 t_vector rotate_vector_z(t_vector v, float theta);
 
+
 void		print_object(t_object *o);
 
 /*user_interface.c*/
@@ -169,7 +170,6 @@ int			failure(char *message);
 
 /*file_reader.c*/
 int			read_objects(t_data *data);
-void		set_precalculations(t_data *data);
 
 /*keyhandler.c*/
 void		keypress(mlx_key_data_t mlx_data, void *param);
@@ -191,13 +191,28 @@ t_object	*get_object(t_objarr *objarr, t_type type);
 t_vector	parse_vector(char *str);
 uint32_t	parse_color(char *str);
 
+/*precalculations.c*/
+t_image_plane	image_plane(t_object *camera);
+void		set_precalculations(t_data *data);
+void	precalculate_plane(t_object *plane, t_image_plane info);
+
+/*sphere.c*/
+int	assign_sphere(t_object *sphere, char **info);
+
+/*plane.c*/
+int	assign_plane(t_object *plane, char **info);
+
+/*cylinder.c*/
+int	assign_cylinder(t_object *cylinder, char **info);
+
+/*camera.c*/
+int assign_camera(t_object *camera, char **info);
+
 /*object.c*/
 t_type		get_type(char *line);
 int			assign_ambient(t_object *ambient, char **info);
 int			parse_object(t_object *object, char *line);
 int			assign_light(t_object *light, char **info);
-t_image_plane	image_plane(t_object *camera);
-void	precalculate_plane(t_object *plane, t_image_plane info);
 void	print_objects(t_objarr *objarr);
 
 /*parser.c*/

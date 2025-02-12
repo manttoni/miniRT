@@ -12,7 +12,6 @@ SRC = $(SRC_DIR)main.c\
 	$(SRC_DIR)light.c\
 	$(SRC_DIR)object.c\
 	$(SRC_DIR)object_array.c\
-	$(SRC_DIR)object_getters.c\
 	$(SRC_DIR)object_parser.c\
 	$(SRC_DIR)parser.c\
 	$(SRC_DIR)ray.c\
@@ -27,7 +26,13 @@ SRC = $(SRC_DIR)main.c\
 	$(SRC_DIR)user_interface.c\
 	$(SRC_DIR)image.c\
 	$(SRC_DIR)printer.c\
-	$(SRC_DIR)rotation.c
+	$(SRC_DIR)rotation.c\
+	$(SRC_DIR)plane.c\
+	$(SRC_DIR)sphere.c\
+	$(SRC_DIR)cylinder.c\
+	$(SRC_DIR)camera.c\
+	$(SRC_DIR)precalculations.c
+
 
 FLAGS = -Wall -Werror -Wextra -g -O2
 OFLAGS = -Iinclude -ldl -lglfw -pthread -lm
