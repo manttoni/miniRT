@@ -42,9 +42,7 @@ void	raycast(t_data *data)
 	int	x;
 	int	y;
 	t_ray ray;
-	t_object *camera;
 
-	camera = get_object(data->objects, CAMERA);
 	y = 0;
 	while (y < Y)
 	{
@@ -52,8 +50,21 @@ void	raycast(t_data *data)
 		while (x < X)
 		{
 			ray = get_ray(data->info, x, y);
+			// if (ray.color != BACKGROUND_COLOR)
+			// {
+			// 	printf("Before color: \033[38;2;%d;%d;%dm%06X\033[0m\n",
+			// 	(ray.color) & 0xFF, (ray.color >> 8) & 0xFF,
+			// 	(ray.color >> 16) & 0xFF, ray.color);
+			// }
 			if (cast_ray(&ray, data->objects))
 				ray.color = set_lights(data, &ray, ray.end, ray.coll_norm);
+			// if (ray.color != BACKGROUND_COLOR)
+			// {
+			// 	printf("Coordinates:\nX: %d Y: %d\n", x, y);
+			// 	printf("After color: \033[38;2;%d;%d;%dm%06X\033[0m\n",
+			// 	(ray.color >> 24) & 0xFF, (ray.color >> 16) & 0xFF,
+			// 	(ray.color >> 8) & 0xFF, ray.color);
+			// }
 			color_pixel(data->image, ray.color, x, y);
 			x++;
 		}

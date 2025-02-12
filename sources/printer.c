@@ -1,32 +1,30 @@
 #include "../includes/minirt.h"
 
-void camera_light_ambient(t_object *o)
+void camera_light_ambient(t_data *data)
 {
-	if (o->type == CAMERA)
+	if (data->camera->type == CAMERA)
+	{
 		printf("Camera: 📷\n");
-	else if (o->type == AMBIENT)
-		printf("Ambient light: 🌓\n");
-	else if (o->type == LIGHT)
-		printf("Light: 💡\n");
-	if (o->type != AMBIENT)
-	{
-		printf("Location: ");
-		print_vector(o->location);
-	}
-	if (o->type == CAMERA)
-	{
-		// printf("FOV: %d\nView distance: %1.2f\n", o->fov, o->info.view_distance);
 		printf("Orientation: ");
-		print_vector(o->orientation);
+		print_vector(data->camera->orientation);
 	}
-	if (o->type != CAMERA && o->type != LIGHT)
+	printf("---------------\n");
+	if (data->light->light->type == LIGHT)
 	{
-		printf("Color: \033[38;2;%d;%d;%dm%06X\033[0m\n",
-			   (o->color >> 24) & 0xFF, (o->color >> 16) & 0xFF,
-			   (o->color >> 8) & 0xFF, o->color);
+		printf("Light: 💡\n");
+		printf("Location: ");
+		print_vector(data->light->light->location);
+		printf("Brightness: %f\n", data->light->light->brightness);
 	}
-	if (o->type == LIGHT || o->type == AMBIENT)
-		printf("Brightness: %f\n", o->brightness);
+	printf("---------------\n");
+	if (data->light->ambient->type == AMBIENT)
+	{
+		printf("Ambient light: 🌓\n");
+		printf("Brightness: %f\n", data->light->ambient->brightness);
+		printf("Color: \033[38;2;%d;%d;%dm%06X\033[0m\n",
+			   (data->light->ambient->color >> 24) & 0xFF, (data->light->ambient->color >> 16) & 0xFF,
+			   (data->light->ambient->color >> 8) & 0xFF, data->light->ambient->color);
+	}
 }
 
 void the_objects(t_object *o)
@@ -59,20 +57,19 @@ void	print_object(t_object *o)
 		return ;
 	}
 	printf("---------------\n");
-	if (o->type == CAMERA || o->type == AMBIENT || o->type == LIGHT)
-		camera_light_ambient(o);
 	if (o->type == SPHERE || o->type == PLANE || o->type == CYLINDER)
 		the_objects(o);
 }
 
-void print_objects(t_objarr *objarr)
+void print_objects(t_data *data)
 {
 	size_t	i;
 
 	i = 0;
-	while (i < objarr->objects)
+	camera_light_ambient(data);
+	while (i < data->objects->objects)
 	{
-		print_object(&objarr->arr[i]);
+		print_object(&data->objects->arr[i]);
 		printf("Index: %zu\n", i);
 		i++;
 	}

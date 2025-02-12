@@ -34,7 +34,7 @@ int main(int argc, char **argv)
 	data = init_data(argv[1]);
 	if (data == NULL)
 		return (1);
-	print_objects(data->objects);
+	print_objects(data);
 	raycast(data);
 	the_image(data);
 	free_data(data);

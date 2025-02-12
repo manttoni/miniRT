@@ -15,26 +15,26 @@ static int	in_the_shadow(t_vector collision, t_object *light, t_objarr *objarr)
 	return (0);
 }
 
-static double	set_specular(t_vector norm, t_vector l_dir, t_vector v_dir, double intensity, double shine)
+static double	set_specular(t_vector norm, t_light *light)
 {
 	t_vector	halfway;
 	double		dot;
 
-	halfway = normalize_vector(v_sum(l_dir, v_dir));
+	halfway = normalize_vector(v_sum(light->light_dir, light->view_dir));
 	dot = dot_product(norm, halfway);
 	if (dot < 0)
 		return (0);
-	return (intensity * pow(dot, shine));
+	return (light->light->brightness * pow(dot, light->shine));
 }
 
-static double	set_diffuse(t_vector normal, t_vector light_dir, double intensity)
+static double	set_diffuse(t_vector normal, t_light *light)
 {
 	double	dot;
 
-	dot = dot_product(normal, light_dir);
+	dot = dot_product(normal, light->light_dir);
 	if (dot < 0)
 		return (0);
-	return (intensity * dot);
+	return (light->light->brightness * dot);
 }
 
 void	create_light(t_light *light, t_ray *ray, t_vector collision)
@@ -49,12 +49,12 @@ void	create_light(t_light *light, t_ray *ray, t_vector collision)
 uint32_t	set_lights(t_data *data, t_ray *ray, t_vector collision, t_vector normal)
 {
 	create_light(data->light, ray, collision);
+	if (dot_product(normal, data->light->view_dir) < 0)
+		normal = v_mul(-1, normal);
 	if (!in_the_shadow(collision, data->light->light, data->objects))
 	{
-		if (dot_product(normal, data->light->view_dir) < 0)
-			normal = v_mul(-1, normal);
-		data->light->diffuse = set_diffuse(normal, data->light->light_dir, data->light->light->brightness);
-		data->light->specular = set_specular(normal, data->light->light_dir, data->light->view_dir, data->light->light->brightness, data->light->shine);
+		data->light->diffuse = set_diffuse(normal, data->light);
+		data->light->specular = set_specular(normal, data->light);
 	}
 	data->light->r = min(255, (data->light->ambient->brightness + data->light->diffuse + data->light->specular) * ((ray->color >> 24) & 0xff));
 	data->light->g = min(255, (data->light->ambient->brightness + data->light->diffuse + data->light->specular) * ((ray->color >> 16) & 0xff));
