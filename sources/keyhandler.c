@@ -126,7 +126,7 @@ void	keypress(mlx_key_data_t mlx_data, void *param)
 			return ;
 		}
 		if (mlx_data.key == MLX_KEY_HOME)
-			print_objects(data->objects);
+			print_objects(data);
 		if (mlx_data.key == MLX_KEY_COMMA)
 			print_help();
 		if (mlx_data.key == MLX_KEY_R)

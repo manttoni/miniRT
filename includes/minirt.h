@@ -213,7 +213,10 @@ t_type		get_type(char *line);
 int			assign_ambient(t_object *ambient, char **info);
 int			parse_object(t_object *object, char *line);
 int			assign_light(t_object *light, char **info);
-void	print_objects(t_objarr *objarr);
+t_image_plane	image_plane(t_object *camera);
+void	precalculate_plane(t_object *plane, t_image_plane info);
+void	print_objects(t_data *data);
+
 
 /*parser.c*/
 double		parse_double(char *str);
