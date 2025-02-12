@@ -1,5 +1,13 @@
 #include "../includes/minirt.h"
 
+void	camera_checks(int (**checks)(char *))
+{
+		checks[0] = &is_vector;
+		checks[1] = &is_vector;
+		checks[2] = &is_int;
+		checks[3] = NULL;
+}
+
 int assign_camera(t_object *camera, char **info)
 {
 	camera->location = parse_vector(info[1]);
