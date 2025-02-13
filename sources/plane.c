@@ -1,6 +1,12 @@
 #include "../includes/minirt.h"
 
-
+void	plane_checks(int (**checks)(char *))
+{
+	checks[0] = &is_vector;
+	checks[1] = &is_vector;
+	checks[2] = &is_color;
+	checks[3] = NULL;
+}
 
 int	assign_plane(t_object *plane, char **info)
 {

@@ -45,14 +45,14 @@ static int	reallocate(t_objarr *objarr)
 	if array is full, doubles the arrays allocated memory */
 int add_object(t_data *data, char *line)
 {
-	if (validate(line) == NULL)
+	if (validate(line) == FAILURE)
 		return (failure("Validation failed"));
 	if (line[0] == 'C')
 		return (parse_object(data->camera, line));
 	if (line[0] == 'L')
 		return (parse_object(data->light->light, line));
 	if (line[0] == 'A')
-		return (parse_object(data->light->ambient, line));
+		return (parse_object(data->ambient->ambient, line));
 	if (data->objects->capacity == data->objects->objects)
 		if (reallocate(data->objects) == FAILURE)
 			return (FAILURE);

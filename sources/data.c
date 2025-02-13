@@ -1,4 +1,3 @@
-
 #include "../includes/minirt.h"
 
 static int	mlx_and_image(t_data *data)
@@ -18,6 +17,15 @@ static int	mlx_and_image(t_data *data)
 	return (0);
 }
 
+void	data_mallocs(t_data *data)
+{
+	data->light = malloc(sizeof(t_light));
+	data->light->light = malloc(sizeof(t_object));
+	data->ambient = malloc(sizeof(t_ambient));
+	data->ambient->ambient = malloc(sizeof(t_object));
+	data->camera = malloc(sizeof(t_object));
+}
+
 t_data	*init_data(char *file)
 {
 	t_data	*data;
@@ -32,10 +40,7 @@ t_data	*init_data(char *file)
 	data->mouse.left = 0;
 	data->mouse.right = 0;
 	data->file = file;
-	data->light = malloc(sizeof(t_light));
-	data->light->ambient = malloc(sizeof(t_object));
-	data->light->light = malloc(sizeof(t_object));
-	data->camera = malloc(sizeof(t_object));
+	data_mallocs(data);
 	if (read_objects(data) == FAILURE)
 	{
 		error_msg(data);

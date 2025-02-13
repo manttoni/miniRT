@@ -8,19 +8,19 @@ static void	select_object_by_index(mlx_key_data_t mlx_data, t_data *data)
 	{
 		data->selected = data->camera;
 		printf("Object selected: \n");
-    	print_object(data->selected);
+    	camera_light_ambient(data->camera, NULL, NULL);
 	}
 	if (mlx_data.key == MLX_KEY_L)
 	{
 		data->selected = data->light->light;
 		printf("Object selected: \n");
-    	print_object(data->selected);
+    	camera_light_ambient(NULL, data->light->light, NULL);
 	}
 	if (mlx_data.key == MLX_KEY_A)
 	{
-		data->selected = data->light->ambient;
+		data->selected = data->ambient->ambient;
 		printf("Object selected: \n");
-    	print_object(data->selected);
+    	camera_light_ambient(NULL, NULL, data->ambient->ambient);
 	}
 	if (mlx_data.key >= MLX_KEY_0 && mlx_data.key <= MLX_KEY_9)
 	{

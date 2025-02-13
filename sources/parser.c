@@ -32,5 +32,6 @@ double	parse_double(char *str)
 	if (dot == NULL)
 		return (sign * (double)int_part);
 	fract_part = ft_atoi(dot + 1);
-	return ((sign * int_part) + (sign * fract_part / pow(10, fract_len(dot + 1))));
+	return ((sign * int_part)
+		+ (sign * fract_part / pow(10, fract_len(dot + 1))));
 }
