@@ -5,26 +5,11 @@ static int	in_the_shadow(t_vector collision, t_object *light, t_objarr *objarr)
 	t_ray	shadow;
 
 	shadow.direction = normalize_vector(v_sub(light->location, collision));
-	shadow.start = v_sum(collision, v_mul(0.1, shadow.direction));
+	shadow.start = v_sum(collision, v_mul(EPSILON, shadow.direction));
 	shadow.distance = DBL_MAX;
 	if (cast_ray(&shadow, objarr))
-	{
 		if (shadow.distance + EPSILON < v_dist(light->location, collision))
-		{
-			// printf("Ray origin: ");
-			// print_vector(shadow.start);
-			// printf("Light location: ");
-			// print_vector(light->location);
-			// printf("Shadowed by: ");
-			// print_vector(shadow.end);
-			// printf("Shadow distance: %f\n", shadow.distance);
-			// printf("Distance to light: %f\n", v_dist(light->location, collision));
-			// printf("Difference: %f\n",shadow.distance- v_dist(light->location, collision));
-			// printf("original offset: %f\n", v_dist(v_sum(collision, v_mul(0.001, shadow.direction)), collision));
-			// printf("----------\n");
 			return (1);
-		}
-	}
 	return (0);
 }
 
