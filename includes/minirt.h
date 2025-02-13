@@ -130,6 +130,14 @@ typedef struct	s_data
 	char		*file;
 }	t_data;
 
+typedef struct s_disc
+{
+	double	a;
+	double	b;
+	double	c;
+	double	discriminant;
+}	t_disc;
+
 /*rotation.c*/
 t_vector rotate_vector_x(t_vector v, float theta);
 t_vector rotate_vector_y(t_vector v, float theta);
