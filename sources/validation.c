@@ -3,31 +3,13 @@
 static void assign_checks(t_type type, int (**checks)(char *))
 {
 	if (type == AMBIENT)
-	{
-		checks[0] = &is_double;
-		checks[1] = &is_color;
-		checks[2] = NULL;
-	}
+		ambient_checks(checks);
 	else if (type == CAMERA)
-	{
-		checks[0] = &is_vector;
-		checks[1] = &is_vector;
-		checks[2] = &is_int;
-		checks[3] = NULL;
-	}
+		camera_checks(checks);
 	else if (type == LIGHT)
-	{
-		checks[0] = &is_vector;
-		checks[1] = &is_double;
-		checks[2] = NULL;
-	}
+		lights_checks(checks);
 	else if (type == SPHERE)
-	{
-		checks[0] = &is_vector;
-		checks[1] = &is_double;
-		checks[2] = &is_color;
-		checks[3] = NULL;
-	}
+		sphere_checks(checks);
 	else if (type == PLANE)
 	{
 		checks[0] = &is_vector;
@@ -35,7 +17,7 @@ static void assign_checks(t_type type, int (**checks)(char *))
 		checks[2] = &is_color;
 		checks[3] = NULL;
 	}
-	else
+	else if (type == CYLINDER)
 	{
 		checks[0] = &is_vector;
 		checks[1] = &is_vector;
@@ -47,7 +29,7 @@ static void assign_checks(t_type type, int (**checks)(char *))
 }
 
 /* Jumps to the next 'token' of the line read from the line
-	first to end of 'token' and then skips all spaces 
+	first to end of 'token' and then skips all spaces
 	returns NULL if there are no more 'tokens' */
 static char *next_value(char *ptr)
 {
@@ -59,7 +41,7 @@ static char *next_value(char *ptr)
 	return (ptr);
 }
 
-/* Checks validity of line read from file by looping through validation functions 
+/* Checks validity of line read from file by looping through validation functions
 	every value must be correct, and there must not be any extra values */
 char *validate(char *line)
 {

@@ -1,17 +1,6 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include "../MLX42/include/MLX42/MLX42.h"
-# include "../libft/includes/libft.h"
-# include <stdlib.h>
-# include <errno.h>
-# include <stdint.h>
-# include <math.h>
-# include <fcntl.h>
-# include <stdio.h>
-# include <error.h>
-# include <float.h>
-# include <float.h>
 
 /* Defines */
 # define EPSILON 0.001
@@ -24,7 +13,17 @@
 # define NO_HIT 0
 # define TOP_CYLINDER_CAP 1
 # define BOTTOM_CYLINDER_CAP 0
-//# define RENDER_DISTANCE 150
+
+# include "../MLX42/include/MLX42/MLX42.h"
+# include "../libft/includes/libft.h"
+# include <stdlib.h>
+# include <errno.h>
+# include <float.h>
+# include <stdint.h>
+# include <math.h>
+# include <fcntl.h>
+# include <stdio.h>
+# include <error.h>
 
 /* Enums */
 typedef enum e_type
@@ -176,6 +175,8 @@ void		keypress(mlx_key_data_t mlx_data, void *param);
 void		rt_mouse(void *param);
 
 /*lights.c*/
+void	ambient_checks(int (**checks)(char *));
+void	lights_checks(int (**checks)(char *));
 void	create_light(t_light *light, t_ray *ray, t_vector collision);
 uint32_t	set_lights(t_data *data, t_ray *ray, t_vector collision, t_vector normal);
 
@@ -197,6 +198,7 @@ void		set_precalculations(t_data *data);
 void	precalculate_plane(t_object *plane, t_image_plane info);
 
 /*sphere.c*/
+void	sphere_checks(int (**checks)(char *));
 int	assign_sphere(t_object *sphere, char **info);
 
 /*plane.c*/
@@ -206,6 +208,7 @@ int	assign_plane(t_object *plane, char **info);
 int	assign_cylinder(t_object *cylinder, char **info);
 
 /*camera.c*/
+void	camera_checks(int (**checks)(char *));
 int assign_camera(t_object *camera, char **info);
 
 /*object.c*/
