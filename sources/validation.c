@@ -1,6 +1,6 @@
 #include "../includes/minirt.h"
 
-static void assign_checks(t_type type, int (**checks)(char *))
+static void	assign_checks(t_type type, int (**checks)(char *))
 {
 	if (type == AMBIENT)
 		ambient_checks(checks);
@@ -11,27 +11,15 @@ static void assign_checks(t_type type, int (**checks)(char *))
 	else if (type == SPHERE)
 		sphere_checks(checks);
 	else if (type == PLANE)
-	{
-		checks[0] = &is_vector;
-		checks[1] = &is_vector;
-		checks[2] = &is_color;
-		checks[3] = NULL;
-	}
+		plane_checks(checks);
 	else if (type == CYLINDER)
-	{
-		checks[0] = &is_vector;
-		checks[1] = &is_vector;
-		checks[2] = &is_double;
-		checks[3] = &is_double;
-		checks[4] = &is_color;
-		checks[5] = NULL;
-	}
+		cylinder_checks(checks);
 }
 
 /* Jumps to the next 'token' of the line read from the line
 	first to end of 'token' and then skips all spaces
 	returns NULL if there are no more 'tokens' */
-static char *next_value(char *ptr)
+static char	*next_value(char *ptr)
 {
 	ptr = ft_strchr(ptr, ' ');
 	if (ptr == NULL)
@@ -41,36 +29,32 @@ static char *next_value(char *ptr)
 	return (ptr);
 }
 
-/* Checks validity of line read from file by looping through validation functions
-	every value must be correct, and there must not be any extra values */
-char *validate(char *line)
+/* Checks validity of line read from file by looping through
+	validation functions every value must be correct,
+	and there must not be any extra values */
+int	validate(char *line)
 {
-	int (*checks[6])(char *);
-	char *ptr;
-	int i;
+	int		(*checks[6])(char *);
+	int		i;
 	t_type	type;
 
 	type = get_type(line);
 	if (line == NULL || ft_isspace(*line) || *line == '\0' || type == NONE)
-		return (NULL);
+		return (FAILURE);
 	assign_checks(type, checks);
-	ptr = line;
 	i = 0;
 	while (checks[i] != NULL)
 	{
-		ptr = next_value(ptr);
-		if (ptr == NULL || (checks[i])(ptr) == 0)
+		line = next_value(line);
+		if (line == NULL || (checks[i])(line) == 0)
 		{
 			printf("%s: Failed at check: %d\n", line, i);
-			return (NULL);
+			return (FAILURE);
 		}
 		i++;
 	}
-	ptr = next_value(ptr);
-	if (ptr != NULL && *ptr != '\0')
-	{
-		printf("Wrong format(%c): %s\n", *ptr, line);
-		return (NULL);
-	}
-	return (line);
+	line = next_value(line);
+	if (line != NULL && *line != '\0')
+		return (FAILURE);
+	return (SUCCESS);
 }

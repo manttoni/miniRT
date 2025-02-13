@@ -1,34 +1,37 @@
 #include "../includes/minirt.h"
 
-void camera_light_ambient(t_data *data)
+void	camera_light_ambient(t_object *c, t_object *l, t_object *a)
 {
-	if (data->camera->type == CAMERA)
+	printf("---------------\n");
+	if (c)
 	{
 		printf("Camera: 📷\n");
 		printf("Orientation: ");
-		print_vector(data->camera->orientation);
+		print_vector(c->orientation);
+		printf("---------------\n");
 	}
-	printf("---------------\n");
-	if (data->light->light->type == LIGHT)
+	if (l)
 	{
 		printf("Light: 💡\n");
 		printf("Location: ");
-		print_vector(data->light->light->location);
-		printf("Brightness: %f\n", data->light->light->brightness);
+		print_vector(l->location);
+		printf("Brightness: %f\n", l->brightness);
+		printf("---------------\n");
 	}
-	printf("---------------\n");
-	if (data->light->ambient->type == AMBIENT)
+	if (a)
 	{
 		printf("Ambient light: 🌓\n");
-		printf("Brightness: %f\n", data->light->ambient->brightness);
+		printf("Brightness: %f\n", a->brightness);
 		printf("Color: \033[38;2;%d;%d;%dm%06X\033[0m\n",
-			   (data->light->ambient->color >> 24) & 0xFF, (data->light->ambient->color >> 16) & 0xFF,
-			   (data->light->ambient->color >> 8) & 0xFF, data->light->ambient->color);
+			(a->color >> 24) & 0xFF, (a->color >> 16) & 0xFF,
+			(a->color >> 8) & 0xFF, a->color);
+		printf("---------------\n");
 	}
 }
 
-void the_objects(t_object *o)
+void	the_objects(t_object *o)
 {
+	printf("---------------\n");
 	if (o->type == SPHERE)
 		printf("Sphere: ⚪\n");
 	else if (o->type == PLANE)
@@ -47,31 +50,26 @@ void the_objects(t_object *o)
 	printf("Color: \033[38;2;%d;%d;%dm%06X\033[0m\n",
 		(o->color >> 24) & 0xFF, (o->color >> 16) & 0xFF,
 		(o->color >> 8) & 0xFF, o->color);
-}
-
-void	print_object(t_object *o)
-{
-	if (o->type >= NONE)
-	{
-		printf("Unknown object\n");
-		return ;
-	}
 	printf("---------------\n");
-	if (o->type == SPHERE || o->type == PLANE || o->type == CYLINDER)
-		the_objects(o);
 }
 
-void print_objects(t_data *data)
+void	print_vector(t_vector v)
+{
+	printf("x: %1.2f, y: %1.2f, z: %1.2f, len: %1.2f\n",
+		v.x, v.y, v.z, v_len(v));
+}
+
+void	print_objects(t_data *data)
 {
 	size_t	i;
 
 	i = 0;
-	camera_light_ambient(data);
+	camera_light_ambient(data->camera, data->light->light,
+		data->ambient->ambient);
 	while (i < data->objects->objects)
 	{
-		print_object(&data->objects->arr[i]);
+		the_objects(&data->objects->arr[i]);
 		printf("Index: %zu\n", i);
 		i++;
 	}
-	printf("---------------\n");
 }

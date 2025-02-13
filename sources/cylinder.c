@@ -1,5 +1,15 @@
 #include "../includes/minirt.h"
 
+void	cylinder_checks(int (**checks)(char *))
+{
+	checks[0] = &is_vector;
+	checks[1] = &is_vector;
+	checks[2] = &is_double;
+	checks[3] = &is_double;
+	checks[4] = &is_color;
+	checks[5] = NULL;
+}
+
 int	assign_cylinder(t_object *cylinder, char **info)
 {
 	cylinder->location = parse_vector(info[1]);

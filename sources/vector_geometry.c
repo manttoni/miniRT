@@ -14,7 +14,7 @@ double	v_angle(t_vector a, t_vector b)
 	cos_theta = dot / (v_len(a) * v_len(b));
 	if (cos_theta > 1.0)
 		cos_theta = 1.0;
-    if (cos_theta < -1.0)
+	if (cos_theta < -1.0)
 		cos_theta = -1.0;
 	return (acos(cos_theta));
 }
@@ -29,5 +29,5 @@ t_vector	normalize_vector(t_vector v)
 	double	len;
 
 	len = v_len(v);
-	return (t_vector){v.x / len, v.y / len, v.z / len};
+	return ((t_vector){v.x / len, v.y / len, v.z / len});
 }

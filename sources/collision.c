@@ -1,5 +1,17 @@
 #include "../includes/minirt.h"
 
+t_vector compute_normal_curved(t_vector collision_point, t_object *cy)
+{
+	t_vector to_point;
+	t_vector projection;
+	t_vector normal;
+
+    to_point = v_sub(collision_point, cy->location);
+    projection = v_mul(dot_product(to_point, cy->orientation), cy->orientation);
+    normal = v_sub(to_point, projection);
+    return (normalize_vector(normal));
+}
+
 static void	update_ray(t_ray *ray, t_object *object, double t)
 {
 	ray->color = object->color;
@@ -10,145 +22,124 @@ static void	update_ray(t_ray *ray, t_object *object, double t)
 	if (object->type == PLANE)
 		ray->coll_norm = object->orientation;
 	if (object->type == CYLINDER)
-		ray->coll_norm = vector(0,1,0);
+		ray->coll_norm = compute_normal_curved(ray->end, object);
 	ray->object = object;
 }
 
-/*	numerator is a precalculated value stored in t_object */
 int plane_collision(t_ray *ray, t_object *pl)
 {
-	double denominator;
-	double t;
+	double	denominator;
+	double	numerator;
+	double	t;
 	double	d;
 
 	d = dot_product(pl->orientation, pl->location);
-	ray->start = v_sum(ray->start, vector(0.0001, 0.0001, 0.0001));
-	pl->numerator = -dot_product(pl->orientation, ray->start) + d;
+	numerator = -dot_product(pl->orientation, ray->start) + d;
 	denominator = dot_product(pl->orientation, ray->direction);
 	if (fabs(denominator) < EPSILON)
 		return (NO_HIT);
-	t = pl->numerator / denominator;
-	if (t < 0.1 || t >= ray->distance)
+	t = numerator / denominator;
+	if (t < EPSILON || t >= ray->distance)
 		return (NO_HIT);
 	update_ray(ray, pl, t);
 	return (HIT);
 }
 
-/* if ray collides with sp, ray updates its variables
-	and func returns 1, otherwise 0*/
-int	sphere_collision(t_ray *ray, t_object *sp)
+/* Calculate collision point for curved surfaces using t_disc struct to help with variables */
+double calc_t(double *t, t_vector v1, t_vector v2, double r)
 {
-	double	a;
-	double	b;
-	double	c;
-	double	discriminant;
 	double	t1;
 	double	t2;
-	t_vector oc;
+	t_disc	disc;
+
+	disc.a = dot_product(v1, v1);
+	disc.b = 2 * dot_product(v1, v2);
+	disc.c = dot_product(v2, v2) - r * r;
+	disc.discriminant = disc.b * disc.b - 4 * disc.a * disc.c;
+	if (disc.discriminant < 0)
+		return (FAILURE);
+	t1 = (-disc.b - sqrt(disc.discriminant)) / (2 * disc.a);
+	t2 = (-disc.b + sqrt(disc.discriminant)) / (2 * disc.a);
+	if (t1 < 0 && t2 < 0)
+		return (FAILURE);
+	if (t1 > 0)
+		*t = t1;
+	else
+		*t = t2;
+	return (SUCCESS);
+}
+
+int	sphere_collision(t_ray *ray, t_object *sp)
+{
+	t_vector	oc;
+	double		t;
 
 	oc = v_sub(ray->start, sp->location);
-	a = dot_product(ray->direction, ray->direction);
-	b = 2 * dot_product(ray->direction, oc);
-	c = dot_product(oc, oc) - (sp->diameter / 2) * (sp->diameter / 2);
-	discriminant = b * b - 4 * a * c;
-	if (discriminant < 0)
-		return (NO_HIT);
-	t1 = (-b - sqrt(discriminant)) / (2 * a);
-	t2 = (-b + sqrt(discriminant)) / (2 * a);
-	if (t1 < 0 && t2 < 0)
-		return (NO_HIT);
-	double t = (t1 > 0) ? t1 : t2;
-	if (t >= ray->distance)
+	if (calc_t(&t, ray->direction, oc, sp->diameter / 2) == FAILURE || t >= ray->distance)
 		return (NO_HIT);
 	update_ray(ray, sp, t);
 	return (HIT);
 }
 
-// Function to check if the ray intersects a cylinder's cap
-int cap_collision(t_ray *ray, t_object *cy, int cap_side) {
+/* sign comes from which cap it is, -1 for "bottom" */
+int cap_collision(t_ray *ray, t_object *cy, int sign) {
 	t_vector cap_center, cap_normal, intersection_point;
-	double t;
+	double t, denom;
 
-	// Set the normal depending on which cap (top or bottom)
-	cap_normal = cy->orientation; // top cap: same as cylinder orientation
-	if (cap_side == BOTTOM_CYLINDER_CAP)
-	{
-		cap_normal = v_mul(-1, cy->orientation); // bottom cap: opposite of cylinder orientation
-	}
-
-	// Set the cap center based on whether it's the top or bottom cap
-	cap_center = v_sum(cy->location, v_mul(cap_side == TOP_CYLINDER_CAP ? cy->height / 2 : -cy->height / 2, cy->orientation));
-
-	// Calculate intersection with the plane of the cap
-	double denom = dot_product(ray->direction, cap_normal);
+	cap_normal = v_mul(sign, cy->orientation);
+	cap_center = v_sum(cy->location, v_mul(cy->height / 2, cap_normal));
+	denom = dot_product(ray->direction, cap_normal);
 	if (fabs(denom) < EPSILON)
-	{
-		return NO_HIT; // The ray is parallel to the cap, no intersection
-	}
-
+		return NO_HIT;
 	t = dot_product(v_sub(cap_center, ray->start), cap_normal) / denom;
-
 	if (t < 0 || t >= ray->distance)
-	{
-		return NO_HIT; // The intersection occurs behind the ray's origin or beyond the ray's distance
-	}
-
-	// Calculate the intersection point
+		return NO_HIT;
 	intersection_point = v_sum(ray->start, v_mul(t, ray->direction));
-
-	// Check if the intersection point is within the cap's radius
 	if (dot_product(v_sub(intersection_point, cap_center), v_sub(intersection_point, cap_center)) <= (cy->diameter / 2) * (cy->diameter / 2))
 	{
-		update_ray(ray, cy, t);
-		return HIT;
+		if (t < ray->distance)
+		{
+			update_ray(ray, cy, t);
+			ray->coll_norm = cap_normal; // override norm set in update_ray because this is the cap
+			return HIT;
+		}
 	}
-
 	return NO_HIT;
 }
 
-
-int	cylinder_collision(t_ray *ray, t_object *cy)
+int	check_caps(t_ray *ray, t_object *cy)
 {
-	t_vector	oc, proj_dir, oc_proj, coll_point;
-	double		a, b, c, discriminant, t1, t2, t;
+	int	hit;
+
+	if (cap_collision(ray, cy, 1) == HIT)
+		hit = HIT;
+	if (cap_collision(ray, cy, -1) == HIT)
+		hit = HIT;
+	return (hit);
+}
+
+int cylinder_collision(t_ray *ray, t_object *cy)
+{
+	double	t;
+	t_vector	proj_dir;
+	t_vector	oc_proj;
+	t_vector	oc;
+	t_vector	coll_point;
 	double		height_proj;
 
-	// Vector from cylinder center to ray origin
-	oc = v_sub(ray->start, cy->location);
-	// Project ray direction and oc onto the plane perpendicular to cylinder axis
+    oc = v_sub(ray->start, cy->location);
 	proj_dir = v_sub(ray->direction, v_mul(dot_product(ray->direction, cy->orientation), cy->orientation));
-	oc_proj = v_sub(oc, v_mul(dot_product(oc, cy->orientation), cy->orientation));
+    oc_proj = v_sub(oc, v_mul(dot_product(oc, cy->orientation), cy->orientation));
 
-	// Solve quadratic equation for curved surface intersection
-	a = dot_product(proj_dir, proj_dir);
-	b = 2 * dot_product(proj_dir, oc_proj);
-	c = dot_product(oc_proj, oc_proj) - (cy->diameter / 2) * (cy->diameter / 2);
-	discriminant = b * b - 4 * a * c;
+	if (calc_t(&t, proj_dir, oc_proj, cy->diameter / 2) == FAILURE || t > ray->distance)
+		return (check_caps(ray, cy));
 
-	if (discriminant < 0)
-		return (NO_HIT);
-
-	// Find closest valid intersection
-	t1 = (-b - sqrt(discriminant)) / (2 * a);
-	t2 = (-b + sqrt(discriminant)) / (2 * a);
-	t = (t1 > 0) ? t1 : t2;
-	if (t < 0 || t >= ray->distance)
-		return (NO_HIT);
-
-	// Compute collision point
-	coll_point = v_sum(ray->start, v_mul(t, ray->direction));
-
-	// Check if inside cylinder height range
-	height_proj = dot_product(v_sub(coll_point, cy->location), cy->orientation);
-	if (height_proj < -cy->height / 2 || height_proj > cy->height / 2)
-		return (NO_HIT);
-
-	if (cap_collision(ray, cy, TOP_CYLINDER_CAP) == HIT && ray->distance < t)
-		return (HIT);
-	if (cap_collision(ray, cy, BOTTOM_CYLINDER_CAP) == HIT && ray->distance < t)
-		return (HIT);
-
-	// Update ray with collision data
-	update_ray(ray, cy, t);
-	return (HIT);
+    coll_point = v_sum(ray->start, v_mul(t, ray->direction));
+    height_proj = dot_product(v_sub(coll_point, cy->location), cy->orientation);
+    if (fabs(height_proj) > cy->height / 2)
+        return (check_caps(ray, cy));
+    update_ray(ray, cy, t);
+	check_caps(ray, cy);
+    return (HIT);
 }
+

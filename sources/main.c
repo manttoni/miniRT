@@ -3,7 +3,7 @@
 static void	the_image(t_data *data)
 {
 	mlx_key_hook(data->mlx, &keypress, data);
-	mlx_image_to_window(data->mlx, data->image , 0, 0);
+	mlx_image_to_window(data->mlx, data->image, 0, 0);
 	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
 	mlx_loop_hook(data->mlx, &rt_mouse, data);
 	mlx_loop(data->mlx);
@@ -20,7 +20,7 @@ static int	format_validation(char *str)
 	return (0);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_data	*data;
 

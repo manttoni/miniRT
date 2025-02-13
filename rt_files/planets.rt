@@ -1,40 +1,40 @@
 # Ambient Light
-A 0.1 0,0,255
+A 0.1 76,76,117
 
 # Camera: Positioned at (0,0,50), looking toward the center of the system
-C -30,50,0 0.5,-0.5,0 90
+C 0,0,1 1,0,0 90
 
 # Light Source (Sun as the light)
-L 0,0,0 1.0
+L 0,0,0 0.8
 
 # Sun (Large sphere, yellow)
 # sp 0,0,0 10 255,204,0
 
-# Planets (Positioned along the X-axis, increasing distance from the Sun)
+# Planets (Positioned with some variation in Y and Z)
 
 # Mercury (Smallest, gray)
-sp 15,0,-4 1.5 169,169,169
+sp 14,2,-3 1.5 169,169,169
 
 # Venus (Slightly larger, yellowish)
-sp 20,0,9 2.0 204,153,51
+sp 18,-3,5 2.0 204,153,51
 
 # Earth (Blue and green)
-sp 21,0,-11 2.5 51,153,255
+sp 24,4,-2 2.5 51,153,255
 
 # Mars (Smaller, red)
-sp 17,0,24 2.0 255,51,51
+sp 29,-5,6 2.0 255,51,51
 
 # Jupiter (Largest planet, brownish-orange)
-sp -20,0,0 6.0 204,102,51
+sp 38,3,-4 6.0 204,102,51
 
 # Saturn (Large, pale yellow)
-sp 32,0,-36 5.5 230,200,140
+sp 48,-6,3 5.5 230,200,140
 
 # Uranus (Bluish-green)
-sp 60,0,0 4.0 102,204,255
+sp 58,5,-7 4.0 102,204,255
 
 # Neptune (Deep blue)
-sp 70,0,0 4.0 0,0,255
+sp 68,-4,2 4.0 0,0,255
 
 # Background Plane (Black space behind the planets)
-# pl 0,-15,-100 0,0,1 0,0,0
+pl 80,0,0 1,0,0 0,0,0
