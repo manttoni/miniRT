@@ -19,12 +19,16 @@ int plane_collision(t_ray *ray, t_object *pl)
 {
 	double denominator;
 	double t;
+	double	d;
 
+	d = dot_product(pl->orientation, pl->location);
+	ray->start = v_sum(ray->start, vector(0.0001, 0.0001, 0.0001));
+	pl->numerator = -dot_product(pl->orientation, ray->start) + d;
 	denominator = dot_product(pl->orientation, ray->direction);
 	if (fabs(denominator) < EPSILON)
 		return (NO_HIT);
 	t = pl->numerator / denominator;
-	if (t < EPSILON || t >= ray->distance)
+	if (t < 0.1 || t >= ray->distance)
 		return (NO_HIT);
 	update_ray(ray, pl, t);
 	return (HIT);
