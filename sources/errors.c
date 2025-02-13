@@ -1,9 +1,9 @@
 #include "../includes/minirt.h"
 
-int failure(char *message)
+int	failure(char *message)
 {
-    printf("Error\n\t%s\n", message);
-    return (FAILURE);
+	printf("Error\n\t%s\n", message);
+	return (FAILURE);
 }
 
 void	error_msg(t_data *data)

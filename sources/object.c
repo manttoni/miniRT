@@ -64,8 +64,6 @@ int	parse_object(t_object *object, char *line)
 {
 	char		**info;
 
-	if (validate(line) == NULL)
-		return (failure("Validation failed"));
 	object->type = get_type(line);
 	info = ft_split(line, ' ');
 	if (assign_values(object, info) == FAILURE)
