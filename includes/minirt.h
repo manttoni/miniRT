@@ -146,9 +146,10 @@ typedef struct s_disc
 }	t_disc;
 
 /*rotation.c*/
-t_vector		rotate_vector_x(t_vector v, float theta);
-t_vector		rotate_vector_y(t_vector v, float theta);
-t_vector		rotate_vector_z(t_vector v, float theta);
+void rotate_vector(t_vector *v, t_vector k, float theta);
+// t_vector		rotate_vector_x(t_vector v, float theta);
+// t_vector		rotate_vector_y(t_vector v, float theta);
+// t_vector		rotate_vector_z(t_vector v, float theta);
 
 /*printer.c*/
 void			camera_light_ambient(t_object *c, t_object *l, t_object *a);
@@ -167,8 +168,8 @@ void			redraw(t_data *data);
 void			reset_scene(t_data *data);
 
 /*transformation.c*/
-void			rotate_object(t_object *object, t_vector new_orientation, t_data *data);
-void			translate_object(t_object *object, t_vector delta, t_data *data);
+void			rotate_object(t_object *object, t_vector new_orientation);
+void			translate_object(t_object *object, t_vector delta);
 
 /*collision.c*/
 int				sphere_collision(t_ray *ray, t_object *sp);

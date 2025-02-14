@@ -3,13 +3,11 @@
 /* Rotates camera to look at the cursor*/
 void left_click(t_data *data)
 {
-	t_object *camera;
 	t_vector new_orientation;
 
 	mlx_get_mouse_pos(data->mlx, &(data->mouse.x), &(data->mouse.y));
-	camera = data->camera;
 	new_orientation = get_ray(data->info, data->mouse.x, data->mouse.y).direction;
-	rotate_object(data->camera, new_orientation, data);
+	rotate_object(data->camera, new_orientation);
 	redraw(data);
 }
 

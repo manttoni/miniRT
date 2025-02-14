@@ -49,7 +49,8 @@ t_data	*init_data(char *file)
 	}
 	if (mlx_and_image(data))
 		return (NULL);
-	data->selected = data->camera;
+	print_objects(data);
+	select_object(data->camera, data);
 	return (data);
 }
 
