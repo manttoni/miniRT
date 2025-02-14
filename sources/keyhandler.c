@@ -170,6 +170,8 @@ void	keypress(mlx_key_data_t mlx_data, void *param)
 			redraw(data);
 		if (change_value(mlx_data, data->selected) == SUCCESS)
 			redraw(data);
+		if (mlx_data.key == MLX_KEY_INSERT)
+			save_scene(data); // includes forbidden functions so deleteme before eval
 		select_object_by_index(mlx_data, data);
 	}
 }

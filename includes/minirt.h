@@ -145,6 +145,8 @@ typedef struct s_disc
 	double	discriminant;
 }	t_disc;
 
+void save_scene(t_data *data); // deleteme before eval
+
 /*rotation.c*/
 void rotate_vector(t_vector *v, t_vector k, float theta);
 // t_vector		rotate_vector_x(t_vector v, float theta);

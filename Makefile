@@ -32,7 +32,8 @@ SRC = $(SRC_DIR)main.c\
 	$(SRC_DIR)sphere.c\
 	$(SRC_DIR)cylinder.c\
 	$(SRC_DIR)camera.c\
-	$(SRC_DIR)precalculations.c
+	$(SRC_DIR)precalculations.c\
+	$(SRC_DIR)FORBIDDEN_FILE.c
 
 
 FLAGS = -Wall -Werror -Wextra -g -O2
