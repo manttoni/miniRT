@@ -13,10 +13,6 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt update
-        sudo apt install -y libgl1-mesa-dev xorg-dev
-
-    - name: Configure CMake
-      run: cmake -S . -B build
-
-    - name: Build Project
-      run: cmake --build build
+        sudo apt install -y libgl1-mesa-dev xorg-dev libglfw3
+    - name: Compile miniRT
+      run: make
