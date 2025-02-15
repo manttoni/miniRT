@@ -14,5 +14,9 @@ jobs:
       run: |
         sudo apt update
         sudo apt install -y libgl1-mesa-dev xorg-dev
-    - name: Compile miniRT
-      run: make
+
+    - name: Configure CMake
+      run: cmake -S . -B build
+
+    - name: Build Project
+      run: cmake --build build
