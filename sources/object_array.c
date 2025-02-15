@@ -42,7 +42,8 @@ static int	reallocate(t_objarr *objarr)
 
 /*	Adds an object to the array
 	parse_object parses that object from line
-	if array is full, doubles the arrays allocated memory */
+	if array is full, doubles the arrays allocated memory 
+	CLA are instead put in data */
 int add_object(t_data *data, char *line)
 {
 	if (validate(line) == FAILURE)

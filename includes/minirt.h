@@ -145,11 +145,13 @@ typedef struct s_disc
 	double	discriminant;
 }	t_disc;
 
+/*collision utils.c*/
+t_vector compute_normal_curved(t_vector collision_point, t_object *cy);
+void update_ray(t_ray *ray, t_object *object, double t);
+double calc_t(double *t, t_vector v1, t_vector v2, double r);
+
 /*rotation.c*/
 void rotate_vector(t_vector *v, t_vector k, float theta);
-// t_vector		rotate_vector_x(t_vector v, float theta);
-// t_vector		rotate_vector_y(t_vector v, float theta);
-// t_vector		rotate_vector_z(t_vector v, float theta);
 
 /*printer.c*/
 void			camera_light_ambient(t_object *c, t_object *l, t_object *a);
