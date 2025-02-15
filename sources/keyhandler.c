@@ -70,6 +70,9 @@ void	print_help(void)
 
 static int	resize_object(mlx_key_data_t mlx_data, t_object *selected)
 {
+	double	delta;
+
+	delta = 1;
 	if (mlx_data.key == MLX_KEY_KP_ADD)
 	{
 		selected->diameter += 1;
@@ -83,6 +86,16 @@ static int	resize_object(mlx_key_data_t mlx_data, t_object *selected)
 		if (selected->diameter <= 0)
 			selected->diameter = 1.0;
 		return(SUCCESS);
+	}
+	if (mlx_data.key == MLX_KEY_PAGE_DOWN && selected->height - delta > 0)
+	{
+		selected->height -= delta;
+		return (SUCCESS);
+	}
+	if (mlx_data.key == MLX_KEY_PAGE_UP && selected->height + delta < DBL_MAX)
+	{
+		selected->height += delta;
+		return (SUCCESS);
 	}
 	return (FAILURE);
 }
