@@ -18,6 +18,7 @@ double	parse_double(char *str)
 	int		fract_part;
 	int		sign;
 	char	*dot;
+	char	*comma;
 
 	sign = 1;
 	if (*str == '-')
@@ -27,9 +28,10 @@ double	parse_double(char *str)
 	}
 	int_part = 0;
 	dot = ft_strchr(str, '.');
+	comma = ft_strchr(str, ',');
 	if (*str != '.')
 		int_part = ft_atoi(str);
-	if (dot == NULL)
+	if (dot == NULL || (comma != NULL && comma < dot))
 		return (sign * (double)int_part);
 	fract_part = ft_atoi(dot + 1);
 	return ((sign * int_part)
