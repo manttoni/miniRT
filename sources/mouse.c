@@ -5,7 +5,6 @@ void left_click(t_data *data)
 {
 	t_vector new_orientation;
 
-	mlx_get_mouse_pos(data->mlx, &(data->mouse.x), &(data->mouse.y));
 	new_orientation = get_ray(data->info, data->mouse.x, data->mouse.y).direction;
 	rotate_object(data->camera, new_orientation);
 	redraw(data);
@@ -16,7 +15,6 @@ void right_click(t_data *data)
 {
 	t_ray ray;
 
-	mlx_get_mouse_pos(data->mlx, &(data->mouse.x), &(data->mouse.y));
 	ray = get_ray(data->info, data->mouse.x, data->mouse.y);
 	if (cast_ray(&ray, data->objects) == 1)
 	{
@@ -31,6 +29,11 @@ void	rt_mouse(void *param)
 	t_data	*data;
 
 	data = (t_data *)param;
+	mlx_get_mouse_pos(data->mlx, &(data->mouse.x), &(data->mouse.y));
+	data->mouse.x *= (double)X / data->mlx->width;
+	data->mouse.y *= (double)Y / data->mlx->height;
+	// printf("Window size: %d %d\n", data->mlx->width, data->mlx->height);
+	// printf("Mouse %d %d\n", data->mouse.x, data->mouse.y);
 	if (mlx_is_mouse_down(data->mlx, MLX_MOUSE_BUTTON_LEFT) && !data->mouse.left)
 	{
 		data->mouse.left = 1;
