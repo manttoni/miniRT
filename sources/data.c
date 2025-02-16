@@ -6,13 +6,13 @@ static int	mlx_and_image(t_data *data)
 	if (data->mlx == NULL)
 	{
 		error_msg(data);
-		return (FAILURE);
+		return (failure("MLX initialization failed"));
 	}
 	data->image = mlx_new_image(data->mlx, X, Y);
 	if (data->image == NULL)
 	{
 		error_msg(data);
-		return (FAILURE);
+		return (failure("image initialization failed"));
 	}
 	return (SUCCESS);
 }
@@ -20,17 +20,17 @@ static int	mlx_and_image(t_data *data)
 int data_mallocs(t_data *data, char *file)
 {
 	if (data == NULL)
-		return (FAILURE);
+		return (failure("malloc failed"));
 	ft_bzero(data, sizeof(t_data));
 	ft_bzero(&(data->mouse), sizeof(t_mouse));
 	data->file = file;
 	data->ambient = malloc(sizeof(t_ambient));
 	data->light = malloc(sizeof(t_light));
 	if (data->ambient == NULL || data->light == NULL)
-		return (FAILURE);
+		return (failure("malloc failed"));
 	data->camera = malloc(sizeof(t_object) * 3);
 	if (data->camera == NULL)
-		return (FAILURE);
+		return (failure("malloc failed"));
 	data->light->light = data->camera + 1;
 	data->ambient->ambient = data->camera + 2;
 	return (SUCCESS);

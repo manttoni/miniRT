@@ -17,7 +17,7 @@ static int	format_validation(char *str)
 	len = ft_strlen(str);
 	if (ft_strncmp(&str[len - 3], ".rt", 3) != 0)
 		return (failure("Wrong file type"));
-	return (0);
+	return (SUCCESS);
 }
 
 int	main(int argc, char **argv)
@@ -27,16 +27,13 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 	{
 		printf("Error\n\tWrong amount of arguments!\n");
-		return (1);
+		return (FAILURE);
 	}
-	if (format_validation(argv[1]))
-		return (1);
+	if (format_validation(argv[1]) == FAILURE)
+		return (failure("argv validation failed"));
 	data = init_data(argv[1]);
 	if (data == NULL)
-	{
-		error_msg(data);
-		return (1);
-	}
+		return (failure("data initialization failed"));
 	raycast(data);
 	the_image(data);
 	free_data(data);
