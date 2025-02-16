@@ -73,3 +73,17 @@ void	print_objects(t_data *data)
 		i++;
 	}
 }
+
+void	print_help(void)
+{
+	printf("--------------\n");
+	printf("HOME: print objects\n");
+	printf("COMMA: this menu\n");
+	printf("Select object: right click, number keys and C L A\n");
+	printf("Movement keys (numpad):\n");
+	printf("L/R: 4 & 6\nUP/DOWN: 8 & 2\nFORWARD/BACK: 9 & 1\n");
+	printf("Left click rotates camera\n");
+	printf("Arrow keys rotate selected object\n");
+	printf("Numpad + and - change brightness, fov or diameter\n");
+	printf("Page up and down change cylinder height\n");
+}

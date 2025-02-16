@@ -17,7 +17,7 @@ int	assign_plane(t_object *plane, char **info)
 		|| (plane->orientation.z > 1.0 || plane->orientation.z < -1.0))
 		return (failure("Orientation should be [1.0, -1.0]"));
 	plane->color = parse_color(info[3]);
-	plane->orientation = normalize_vector(plane->orientation); // for easier testing
+	plane->orientation = normalize_vector(plane->orientation); // delete this line before eval
 	if (!is_normalized_vector(plane->orientation))
 		return (failure("Plane orientation not normalized"));
 	plane->collisionf = &plane_collision;

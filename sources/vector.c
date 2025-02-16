@@ -1,6 +1,6 @@
 #include "../includes/minirt.h"
 
-double	dot_product(t_vector v1, t_vector v2)
+double	dot(t_vector v1, t_vector v2)
 {
 	return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
 }
@@ -27,7 +27,7 @@ t_vector	vector(double x, double y, double z)
 
 t_vector	reflect_vector(t_vector light_dir, t_vector normal)
 {
-	return (v_sub(v_mul(2 * dot_product(normal, light_dir), normal),
+	return (v_sub(v_mul(2 * dot(normal, light_dir), normal),
 			light_dir));
 }
 

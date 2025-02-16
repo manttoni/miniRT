@@ -2,6 +2,7 @@
 
 void	redraw(t_data *data)
 {
+	set_precalculations(data);
 	raycast(data);
 	mlx_image_to_window(data->mlx, data->image, 0, 0);
 }

@@ -1,10 +1,10 @@
 #include "../includes/minirt.h"
 
 /* Checks if the string is a valid double until the next space or terminator */
-int is_double(char *ptr)
+int	is_double(char *ptr)
 {
-	int periods;
-	int digits;
+	int	periods;
+	int	digits;
 
 	periods = 0;
 	digits = 0;
@@ -26,10 +26,10 @@ int is_double(char *ptr)
 }
 
 /* same as is_double, but can end with ',' */
-static int is_cs_double(char *ptr)
+static int	is_cs_double(char *ptr)
 {
-	int periods;
-	int digits;
+	int	periods;
+	int	digits;
 
 	periods = 0;
 	digits = 0;
@@ -51,10 +51,10 @@ static int is_cs_double(char *ptr)
 }
 
 /* Checks if the string is a valid color until the next space or terminator */
-int is_color(char *ptr)
+int	is_color(char *ptr)
 {
-	int commas;
-	int values;
+	int	commas;
+	int	values;
 
 	commas = 0;
 	values = 0;
@@ -65,7 +65,7 @@ int is_color(char *ptr)
 		while (ft_isdigit(*ptr))
 			ptr++;
 		if (*ptr != ',')
-			break;
+			break ;
 		commas++;
 		ptr++;
 	}
@@ -76,10 +76,10 @@ int is_color(char *ptr)
 
 /* Checks if the string is a valid vector until the next space or terminator
 	uses is_cs_double to validate individual coordinates */
-int is_vector(char *ptr)
+int	is_vector(char *ptr)
 {
-	int commas;
-	int doubles;
+	int	commas;
+	int	doubles;
 
 	commas = 0;
 	doubles = 0;
@@ -90,7 +90,7 @@ int is_vector(char *ptr)
 		while (ft_isdigit(*ptr) || *ptr == '.' || *ptr == '-')
 			ptr++;
 		if (*ptr != ',')
-			break;
+			break ;
 		commas++;
 		ptr++;
 	}
@@ -99,7 +99,7 @@ int is_vector(char *ptr)
 	return (doubles == 3 && commas == 2);
 }
 
-int is_int(char *ptr)
+int	is_int(char *ptr)
 {
 	while (!ft_isspace(*ptr) && *ptr != '\0')
 	{
@@ -109,4 +109,3 @@ int is_int(char *ptr)
 	}
 	return (1);
 }
-
