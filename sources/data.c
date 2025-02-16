@@ -17,13 +17,18 @@ static int	mlx_and_image(t_data *data)
 	return (0);
 }
 
-void	data_mallocs(t_data *data)
+int data_mallocs(t_data *data)
 {
-	data->light = malloc(sizeof(t_light));
-	data->light->light = malloc(sizeof(t_object));
 	data->ambient = malloc(sizeof(t_ambient));
-	data->ambient->ambient = malloc(sizeof(t_object));
-	data->camera = malloc(sizeof(t_object));
+	data->light = malloc(sizeof(t_light));
+	if (data->ambient == NULL || data->light == NULL)
+		return (FAILURE);
+	data->camera = malloc(sizeof(t_object) * 3);
+	if (data->camera == NULL)
+		return (FAILURE);
+	data->light->light = data->camera + 1;
+	data->ambient->ambient = data->camera + 2;
+	return (SUCCESS);
 }
 
 t_data	*init_data(char *file)
@@ -40,8 +45,7 @@ t_data	*init_data(char *file)
 	data->mouse.left = 0;
 	data->mouse.right = 0;
 	data->file = file;
-	data_mallocs(data);
-	if (read_objects(data) == FAILURE)
+	if (data_mallocs(data) == FAILURE || read_objects(data) == FAILURE)
 	{
 		error_msg(data);
 		free(data);
@@ -59,5 +63,8 @@ void	free_data(t_data *data)
 	if (data == NULL)
 		return ;
 	free_objarr(data->objects);
+	free(data->light);
+	free(data->ambient);
+	free(data->camera);
 	free(data);
 }
