@@ -26,7 +26,7 @@ t_image_plane image_plane(t_object *camera)
 	info.v = normalize_vector(cross_product(camera->orientation, info.u));
 
 	// Ensure v is always consistently oriented to avoid flipping
-	if (dot_product(info.v, up) < 0)
+	if (dot(info.v, up) < 0)
 		info.v = v_mul(-1, info.v);
 
 	// Set ray properties
@@ -46,9 +46,9 @@ void	precalculate_plane(t_object *plane, t_image_plane info)
 {
 	double	d;
 
-	d = dot_product(plane->orientation, plane->location);
+	d = dot(plane->orientation, plane->location);
 	info.ray.start = v_sum(info.ray.start, vector(0.0001, 0.0001, 0.0001));
-	plane->numerator = -dot_product(plane->orientation, info.ray.start) + d;
+	plane->numerator = -dot(plane->orientation, info.ray.start) + d;
 }
 
 

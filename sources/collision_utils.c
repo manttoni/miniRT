@@ -7,7 +7,7 @@ t_vector compute_normal_curved(t_vector collision_point, t_object *cy)
 	t_vector normal;
 
     to_point = v_sub(collision_point, cy->location);
-    projection = v_mul(dot_product(to_point, cy->orientation), cy->orientation);
+    projection = v_mul(dot(to_point, cy->orientation), cy->orientation);
     normal = v_sub(to_point, projection);
     return (normalize_vector(normal));
 }
@@ -33,9 +33,9 @@ double calc_t(double *t, t_vector v1, t_vector v2, double r)
 	double	t2;
 	t_disc	disc;
 
-	disc.a = dot_product(v1, v1);
-	disc.b = 2 * dot_product(v1, v2);
-	disc.c = dot_product(v2, v2) - r * r;
+	disc.a = dot(v1, v1);
+	disc.b = 2 * dot(v1, v2);
+	disc.c = dot(v2, v2) - r * r;
 	disc.discriminant = disc.b * disc.b - 4 * disc.a * disc.c;
 	if (disc.discriminant < 0)
 		return (FAILURE);

@@ -145,6 +145,15 @@ typedef struct s_disc
 	double	discriminant;
 }	t_disc;
 
+typedef struct s_cylinder_coll
+{
+	t_vector	proj_dir;
+	t_vector	oc_proj;
+	t_vector	oc;
+	t_vector	coll_point;
+	double		height_proj;
+}	t_cylinder_coll;
+
 /*collision utils.c*/
 t_vector compute_normal_curved(t_vector collision_point, t_object *cy);
 void update_ray(t_ray *ray, t_object *object, double t);
@@ -271,7 +280,7 @@ int				is_int(char *ptr);
 t_vector		reflect_vector(t_vector light_dir, t_vector normal);
 t_vector		vector(double x, double y, double z);
 t_vector		cross_product(t_vector v1, t_vector v2);
-double			dot_product(t_vector v1, t_vector v2);
+double			dot(t_vector v1, t_vector v2);
 int				is_normalized_vector(t_vector v);
 
 /*vector_geometry.c*/

@@ -26,7 +26,7 @@ void rotate_vector(t_vector *v, t_vector k, float theta) {
     k = normalize_vector(k);
 
     // Compute dot product k . v
-    float dot_kv = dot_product(k, *v);
+    float dot_kv = dot(k, *v);
 
     // Compute cross product k x v
     t_vector cross_kv = cross_product(k, *v);

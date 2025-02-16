@@ -7,9 +7,9 @@ int plane_collision(t_ray *ray, t_object *pl)
 	double	t;
 	double	d;
 
-	d = dot_product(pl->orientation, pl->location);
-	numerator = -dot_product(pl->orientation, ray->start) + d;
-	denominator = dot_product(pl->orientation, ray->direction);
+	d = dot(pl->orientation, pl->location);
+	numerator = -dot(pl->orientation, ray->start) + d;
+	denominator = dot(pl->orientation, ray->direction);
 	if (fabs(denominator) < EPSILON)
 		return (NO_HIT);
 	t = numerator / denominator;
@@ -38,14 +38,14 @@ int cap_collision(t_ray *ray, t_object *cy, int sign) {
 
 	cap_normal = v_mul(sign, cy->orientation);
 	cap_center = v_sum(cy->location, v_mul(cy->height / 2, cap_normal));
-	denom = dot_product(ray->direction, cap_normal);
+	denom = dot(ray->direction, cap_normal);
 	if (fabs(denom) < EPSILON)
 		return NO_HIT;
-	t = dot_product(v_sub(cap_center, ray->start), cap_normal) / denom;
+	t = dot(v_sub(cap_center, ray->start), cap_normal) / denom;
 	if (t < 0 || t >= ray->distance)
 		return NO_HIT;
 	intersection_point = v_sum(ray->start, v_mul(t, ray->direction));
-	if (dot_product(v_sub(intersection_point, cap_center), v_sub(intersection_point, cap_center)) <= (cy->diameter / 2) * (cy->diameter / 2))
+	if (dot(v_sub(intersection_point, cap_center), v_sub(intersection_point, cap_center)) <= (cy->diameter / 2) * (cy->diameter / 2))
 	{
 		if (t < ray->distance)
 		{
@@ -70,26 +70,24 @@ int	check_caps(t_ray *ray, t_object *cy)
 
 int cylinder_collision(t_ray *ray, t_object *cy)
 {
-	double	t;
-	t_vector	proj_dir;
-	t_vector	oc_proj;
-	t_vector	oc;
-	t_vector	coll_point;
-	double		height_proj;
+	double			t;
+	t_cylinder_coll	c;
+	t_vector		mul1;
+	t_vector		mul2;
 
-    oc = v_sub(ray->start, cy->location);
-	proj_dir = v_sub(ray->direction, v_mul(dot_product(ray->direction, cy->orientation), cy->orientation));
-    oc_proj = v_sub(oc, v_mul(dot_product(oc, cy->orientation), cy->orientation));
-
-	if (calc_t(&t, proj_dir, oc_proj, cy->diameter / 2) == FAILURE || t > ray->distance)
+	c.oc = v_sub(ray->start, cy->location);
+	mul1 = v_mul(dot(ray->direction, cy->orientation), cy->orientation);
+	c.proj_dir = v_sub(ray->direction, mul1);
+	mul2 = v_mul(dot(c.oc, cy->orientation), cy->orientation);
+	c.oc_proj = v_sub(c.oc, mul2);
+	if (calc_t(&t, c.proj_dir, c.oc_proj, cy->diameter / 2) == FAILURE
+		|| t > ray->distance)
 		return (check_caps(ray, cy));
-
-    coll_point = v_sum(ray->start, v_mul(t, ray->direction));
-    height_proj = dot_product(v_sub(coll_point, cy->location), cy->orientation);
-    if (fabs(height_proj) > cy->height / 2)
-        return (check_caps(ray, cy));
-    update_ray(ray, cy, t);
+	c.coll_point = v_sum(ray->start, v_mul(t, ray->direction));
+	c.height_proj = dot(v_sub(c.coll_point, cy->location), cy->orientation);
+	if (fabs(c.height_proj) > cy->height / 2)
+		return (check_caps(ray, cy));
+	update_ray(ray, cy, t);
 	check_caps(ray, cy);
-    return (HIT);
+	return (HIT);
 }
-
