@@ -1,7 +1,6 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
-
 /* Defines */
 # define EPSILON 0.001
 # define BACKGROUND_COLOR 0x000000ff
@@ -46,7 +45,6 @@ typedef enum e_rgba
 }	t_rgba;
 
 /* Structs */
-
 typedef struct s_vector
 {
 	double	x;
@@ -63,7 +61,7 @@ typedef struct s_ray
 	double			distance;
 	uint32_t		color;
 	struct s_object	*object;
-}   t_ray;
+}	t_ray;
 
 typedef struct s_image_plane
 {
@@ -73,26 +71,24 @@ typedef struct s_image_plane
 	t_ray		ray;
 }	t_image_plane;
 
-typedef struct	s_object
+typedef struct s_object
 {
 	t_type		type;
 	uint32_t	color;
-	double		numerator;
 	double		diameter;
 	double		height;
 	double		brightness;
 	t_vector	location;
 	t_vector	orientation;
 	int			(*collisionf)(t_ray *, struct s_object *);
-	int 		fov;
+	int			fov;
 }	t_object;
 
-
-typedef struct	s_ambient
+typedef struct s_ambient
 {
 	t_object	*ambient;
 	t_vector	ambient_col;
-} t_ambient;
+}	t_ambient;
 
 typedef struct s_light
 {
@@ -106,7 +102,7 @@ typedef struct s_light
 	int			r;
 	int			g;
 	int			b;
-} t_light;
+}	t_light;
 
 typedef struct s_objarr
 {
@@ -123,7 +119,7 @@ typedef struct s_mouse
 	int		right;
 }	t_mouse;
 
-typedef struct	s_data
+typedef struct s_data
 {
 	t_objarr		*objects;
 	t_object		*camera;
@@ -154,7 +150,7 @@ typedef struct s_cylinder_coll
 	double		height_proj;
 }	t_cylinder_coll;
 
-typedef struct	s_cap_collision
+typedef struct s_cap_collision
 {
 	t_vector	center;
 	t_vector	cap_normal;
@@ -164,12 +160,12 @@ typedef struct	s_cap_collision
 }	t_cap_collision;
 
 /*collision utils.c*/
-t_vector compute_normal_curved(t_vector collision_point, t_object *cy);
-void update_ray(t_ray *ray, t_object *object, double t);
-double calc_t(double *t, t_vector v1, t_vector v2, double r);
+t_vector		compute_normal_curved(t_vector collision_point, t_object *cy);
+void			update_ray(t_ray *ray, t_object *object, double t);
+double			calc_t(double *t, t_vector v1, t_vector v2, double r);
 
 /*rotation.c*/
-void rotate_vector(t_vector *v, t_vector k, float theta);
+void			rotate_vector(t_vector *v, t_vector k, float theta);
 
 /*printer.c*/
 void			camera_light_ambient(t_object *c, t_object *l, t_object *a);
@@ -198,7 +194,7 @@ int				plane_collision(t_ray *ray, t_object *pl);
 int				cylinder_collision(t_ray *ray, t_object *cy);
 
 /*color.c*/
-void			color_pixel(mlx_image_t *image, uint32_t pixel_color, int x, int y);
+void			color_pixel(mlx_image_t *i, uint32_t pixel_c, int x, int y);
 
 /*data*/
 t_data			*init_data(char *file);
@@ -215,24 +211,24 @@ void			keypress(mlx_key_data_t mlx_data, void *param);
 void			rt_mouse(void *param);
 
 /*keyhandler2.c*/
-int	change_fov(mlx_key_data_t mlx_data, t_object *selected);
-int	adjust_brightness(mlx_key_data_t mlx_data, t_object *selected);
-int	resize_object(mlx_key_data_t mlx_data, t_object *selected);
+int				change_fov(mlx_key_data_t mlx_data, t_object *selected);
+int				adjust_brightness(mlx_key_data_t mlx_data, t_object *selected);
+int				resize_object(mlx_key_data_t mlx_data, t_object *selected);
 
 /*lights.c*/
 void			ambient_checks(int (**checks)(char *));
 void			lights_checks(int (**checks)(char *));
 void			create_light(t_light *light, t_ray *ray, t_vector collision);
-uint32_t		set_lights(t_data *data, t_ray *ray, t_vector collision, t_vector normal);
+uint32_t		set_lights(t_data *d, t_ray *r, t_vector coll, t_vector norm);
 
 /*light_utils.c*/
-int				in_the_shadow(t_vector collision, t_object *light, t_objarr *objarr);
+int				in_the_shadow(t_vector coll, t_object *light, t_objarr *oj);
 double			set_specular(t_vector norm, t_light *light);
 double			set_diffuse(t_vector normal, t_light *light);
 
 /*object_array.c*/
 t_objarr		*init_objarr(size_t capacity);
-int 			add_object(t_data *data, char *line);
+int				add_object(t_data *data, char *line);
 void			free_objarr(t_objarr *objarr);
 
 /*object_parser.c*/

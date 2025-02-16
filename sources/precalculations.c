@@ -33,7 +33,7 @@ t_image_plane	image_plane(t_object *camera)
 	return (info);
 }
 
-/* Precalculates numerator which is used in plane_collision */
+/* Precalculates numerator which is used in plane_collision 
 void	precalculate_plane(t_object *plane, t_image_plane info)
 {
 	double	d;
@@ -41,7 +41,7 @@ void	precalculate_plane(t_object *plane, t_image_plane info)
 	d = dot(plane->orientation, plane->location);
 	info.ray.start = v_sum(info.ray.start, vector(0.0001, 0.0001, 0.0001));
 	plane->numerator = -dot(plane->orientation, info.ray.start) + d;
-}
+}*/
 
 /* Calculates all precalculations
     image_plane for u,v,view_distance, base ray*/
