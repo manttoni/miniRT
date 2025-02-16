@@ -45,7 +45,7 @@ t_data	*init_data(char *file)
 		|| read_objects(data) == FAILURE
 		|| mlx_and_image(data) == FAILURE)
 	{
-		free(data);
+		free_data(data);
 		return (NULL);
 	}
 	print_objects(data);
