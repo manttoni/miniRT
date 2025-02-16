@@ -17,7 +17,7 @@ static int	mlx_and_image(t_data *data)
 	return (SUCCESS);
 }
 
-int data_mallocs(t_data *data, char *file)
+int	data_mallocs(t_data *data, char *file)
 {
 	if (data == NULL)
 		return (failure("malloc failed"));

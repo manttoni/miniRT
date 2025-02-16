@@ -1,4 +1,3 @@
-
 #include "../includes/minirt.h"
 
 /* select an object by its index in the array, visible in terminal. only 0-9 */
@@ -8,19 +7,19 @@ static void	select_object_by_index(mlx_key_data_t mlx_data, t_data *data)
 	{
 		data->selected = data->camera;
 		printf("Object selected: \n");
-    	camera_light_ambient(data->camera, NULL, NULL);
+		camera_light_ambient(data->camera, NULL, NULL);
 	}
 	if (mlx_data.key == MLX_KEY_L)
 	{
 		data->selected = data->light->light;
 		printf("Object selected: \n");
-    	camera_light_ambient(NULL, data->light->light, NULL);
+		camera_light_ambient(NULL, data->light->light, NULL);
 	}
 	if (mlx_data.key == MLX_KEY_A)
 	{
 		data->selected = data->ambient->ambient;
 		printf("Object selected: \n");
-    	camera_light_ambient(NULL, NULL, data->ambient->ambient);
+		camera_light_ambient(NULL, NULL, data->ambient->ambient);
 	}
 	if (mlx_data.key >= MLX_KEY_0 && mlx_data.key <= MLX_KEY_9)
 	{
@@ -29,7 +28,8 @@ static void	select_object_by_index(mlx_key_data_t mlx_data, t_data *data)
 	}
 }
 
-/* checks which key is pressed, creates a vector and translates the object in that direction */
+/* checks which key is pressed, creates a vector 
+and translates the object in that direction */
 static int	translate(mlx_key_data_t mlx_data, t_object *selected, t_data *data)
 {
 	t_vector	delta;
@@ -39,95 +39,21 @@ static int	translate(mlx_key_data_t mlx_data, t_object *selected, t_data *data)
 		return (failure("No object selected"));
 	camera = data->camera;
 	if (mlx_data.key == MLX_KEY_KP_9)
-		delta = camera->orientation; // to camera direction
+		delta = camera->orientation;
 	else if (mlx_data.key == MLX_KEY_KP_1)
-		delta = v_mul(-1, camera->orientation); // to opposite camera direction
+		delta = v_mul(-1, camera->orientation);
 	else if (mlx_data.key == MLX_KEY_KP_2)
-		delta = data->info.v; // up
+		delta = data->info.v;
 	else if (mlx_data.key == MLX_KEY_KP_8)
-		delta = v_mul(-1, data->info.v); // down
+		delta = v_mul(-1, data->info.v);
 	else if (mlx_data.key == MLX_KEY_KP_6)
-		delta = data->info.u; // right
+		delta = data->info.u;
 	else if (mlx_data.key == MLX_KEY_KP_4)
-		delta = v_mul(-1, data->info.u); // left
+		delta = v_mul(-1, data->info.u);
 	else
 		return (FAILURE);
 	translate_object(selected, delta);
 	print_vector(selected->location);
-	return (SUCCESS);
-}
-
-void	print_help(void)
-{
-	printf("--------------\n");
-	printf("HOME: print objects\n");
-	printf("COMMA: this menu\n");
-	printf("Select object: right click, number keys and C L A\n");
-	printf("Movement keys (numpad):\n");
-	printf("L/R: 4 & 6\nUP/DOWN: 8 & 2\nFORWARD/BACK: 9 & 1\n");
-	printf("Left click rotates camera\n");
-	printf("Arrow keys rotate selected object\n");
-	printf("Numpad + and - change brightness, fov or diameter\n");
-	printf("Page up and down change cylinder height\n");
-}
-
-static int	resize_object(mlx_key_data_t mlx_data, t_object *selected)
-{
-	double	delta;
-
-	delta = 1;
-	if (mlx_data.key == MLX_KEY_KP_ADD)
-	{
-		selected->diameter += 1;
-		if (selected->diameter > DBL_MAX)
-			selected->diameter = DBL_MAX;
-		return (SUCCESS);
-	}
-	else if (mlx_data.key == MLX_KEY_KP_SUBTRACT)
-	{
-		selected->diameter -= 1;
-		if (selected->diameter <= 0)
-			selected->diameter = 1.0;
-		return(SUCCESS);
-	}
-	if (mlx_data.key == MLX_KEY_PAGE_DOWN && selected->height - delta > 0)
-	{
-		selected->height -= delta;
-		return (SUCCESS);
-	}
-	if (mlx_data.key == MLX_KEY_PAGE_UP && selected->height + delta < DBL_MAX)
-	{
-		selected->height += delta;
-		return (SUCCESS);
-	}
-	return (FAILURE);
-}
-
-static int	adjust_brightness(mlx_key_data_t mlx_data, t_object *selected)
-{
-	double	delta;
-
-	delta = 0.1;
-	if (mlx_data.key == MLX_KEY_KP_ADD && selected->brightness + delta <= 1)
-		selected->brightness += delta;
-	else if (mlx_data.key == MLX_KEY_KP_SUBTRACT && selected->brightness - delta >= 0)
-		selected->brightness -= delta;
-	else
-		return (FAILURE);
-	return (SUCCESS);
-}
-
-static int	change_fov(mlx_key_data_t mlx_data, t_object *selected)
-{
-	double	delta;
-
-	delta = 10;
-	if (mlx_data.key == MLX_KEY_KP_ADD && selected->fov + delta <= 180)
-		selected->fov += delta;
-	else if (mlx_data.key == MLX_KEY_KP_SUBTRACT && selected->fov - delta >= 0)
-		selected->fov -= delta;
-	else
-		return (FAILURE);
 	return (SUCCESS);
 }
 
@@ -147,7 +73,6 @@ static int	rotate(mlx_key_data_t mlx_data, t_object *selected, t_data *data)
 	float		d;
 
 	d = 0.1;
-
 	if (mlx_data.key == MLX_KEY_LEFT)
 		rotate_vector(&(selected->orientation), data->info.v, -d);
 	else if (mlx_data.key == MLX_KEY_RIGHT)

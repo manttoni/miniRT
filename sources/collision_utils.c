@@ -1,15 +1,15 @@
 #include "../includes/minirt.h"
 
-t_vector compute_normal_curved(t_vector collision_point, t_object *cy)
+t_vector	compute_normal_curved(t_vector collision_point, t_object *cy)
 {
-	t_vector to_point;
-	t_vector projection;
-	t_vector normal;
+	t_vector	to_point;
+	t_vector	projection;
+	t_vector	normal;
 
-    to_point = v_sub(collision_point, cy->location);
-    projection = v_mul(dot(to_point, cy->orientation), cy->orientation);
-    normal = v_sub(to_point, projection);
-    return (normalize_vector(normal));
+	to_point = v_sub(collision_point, cy->location);
+	projection = v_mul(dot(to_point, cy->orientation), cy->orientation);
+	normal = v_sub(to_point, projection);
+	return (normalize_vector(normal));
 }
 
 void	update_ray(t_ray *ray, t_object *object, double t)
@@ -26,8 +26,9 @@ void	update_ray(t_ray *ray, t_object *object, double t)
 	ray->object = object;
 }
 
-/* Calculate collision point for curved surfaces using t_disc struct to help with variables */
-double calc_t(double *t, t_vector v1, t_vector v2, double r)
+/* Calculate collision point for curved surfaces
+using t_disc struct to help with variables */
+double	calc_t(double *t, t_vector v1, t_vector v2, double r)
 {
 	double	t1;
 	double	t2;

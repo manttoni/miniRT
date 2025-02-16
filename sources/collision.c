@@ -1,6 +1,6 @@
 #include "../includes/minirt.h"
 
-int plane_collision(t_ray *ray, t_object *pl)
+int	plane_collision(t_ray *ray, t_object *pl)
 {
 	double	denominator;
 	double	numerator;
@@ -25,36 +25,38 @@ int	sphere_collision(t_ray *ray, t_object *sp)
 	double		t;
 
 	oc = v_sub(ray->start, sp->location);
-	if (calc_t(&t, ray->direction, oc, sp->diameter / 2) == FAILURE || t >= ray->distance)
+	if (calc_t(&t, ray->direction, oc, sp->diameter / 2) == FAILURE
+		|| t >= ray->distance)
 		return (NO_HIT);
 	update_ray(ray, sp, t);
 	return (HIT);
 }
 
 /* sign comes from which cap it is, -1 for "bottom" */
-int cap_collision(t_ray *ray, t_object *cy, int sign) {
-	t_vector cap_center, cap_normal, intersection_point;
-	double t, denom;
+int	cap_collision(t_ray *ray, t_object *cy, int sign)
+{
+	t_cap_collision	c;
 
-	cap_normal = v_mul(sign, cy->orientation);
-	cap_center = v_sum(cy->location, v_mul(cy->height / 2, cap_normal));
-	denom = dot(ray->direction, cap_normal);
-	if (fabs(denom) < EPSILON)
-		return NO_HIT;
-	t = dot(v_sub(cap_center, ray->start), cap_normal) / denom;
-	if (t < 0 || t >= ray->distance)
-		return NO_HIT;
-	intersection_point = v_sum(ray->start, v_mul(t, ray->direction));
-	if (dot(v_sub(intersection_point, cap_center), v_sub(intersection_point, cap_center)) <= (cy->diameter / 2) * (cy->diameter / 2))
+	c.cap_normal = v_mul(sign, cy->orientation);
+	c.center = v_sum(cy->location, v_mul(cy->height / 2, c.cap_normal));
+	c.denom = dot(ray->direction, c.cap_normal);
+	if (fabs(c.denom) < EPSILON)
+		return (NO_HIT);
+	c.t = dot(v_sub(c.center, ray->start), c.cap_normal) / c.denom;
+	if (c.t < 0 || c.t >= ray->distance)
+		return (NO_HIT);
+	c.collision = v_sum(ray->start, v_mul(c.t, ray->direction));
+	if (dot(v_sub(c.collision, c.center), v_sub(c.collision, c.center))
+		<= (cy->diameter / 2) * (cy->diameter / 2))
 	{
-		if (t < ray->distance)
+		if (c.t < ray->distance)
 		{
-			update_ray(ray, cy, t);
-			ray->coll_norm = cap_normal; // override norm set in update_ray because this is the cap
-			return HIT;
+			update_ray(ray, cy, c.t);
+			ray->coll_norm = c.cap_normal;
+			return (HIT);
 		}
 	}
-	return NO_HIT;
+	return (NO_HIT);
 }
 
 int	check_caps(t_ray *ray, t_object *cy)
@@ -68,7 +70,7 @@ int	check_caps(t_ray *ray, t_object *cy)
 	return (hit);
 }
 
-int cylinder_collision(t_ray *ray, t_object *cy)
+int	cylinder_collision(t_ray *ray, t_object *cy)
 {
 	double			t;
 	t_cylinder_coll	c;

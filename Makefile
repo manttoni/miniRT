@@ -9,6 +9,7 @@ SRC = $(SRC_DIR)main.c\
 	$(SRC_DIR)errors.c\
 	$(SRC_DIR)file_reader.c\
 	$(SRC_DIR)keyhandler.c\
+	$(SRC_DIR)keyhandler2.c\
 	$(SRC_DIR)light.c\
 	$(SRC_DIR)light_utils.c\
 	$(SRC_DIR)object.c\

@@ -21,8 +21,8 @@ t_ray	get_ray(t_image_plane info, int x, int y)
 	in case of 1, ray has been updated with values from the object it hit */
 int	cast_ray(t_ray *ray, t_objarr *objarr)
 {
-	size_t	i;
-	int		is_collision;
+	size_t		i;
+	int			is_collision;
 	t_object	*arr;
 
 	is_collision = 0;
@@ -39,9 +39,9 @@ int	cast_ray(t_ray *ray, t_objarr *objarr)
 
 void	raycast(t_data *data)
 {
-	int	x;
-	int	y;
-	t_ray ray;
+	int		x;
+	int		y;
+	t_ray	ray;
 
 	y = 0;
 	while (y < Y)
@@ -52,12 +52,6 @@ void	raycast(t_data *data)
 			ray = get_ray(data->info, x, y);
 			if (cast_ray(&ray, data->objects))
 				ray.color = set_lights(data, &ray, ray.end, ray.coll_norm);
-			// if (ray.color != BACKGROUND_COLOR)
-			// {
-			// 	printf("After color: \033[38;2;%d;%d;%dm%06X\033[0m\n",
-			// 	(ray.color) & 0xFF, (ray.color >> 8) & 0xFF,
-			// 	(ray.color >> 16) & 0xFF, ray.color);
-			// }
 			color_pixel(data->image, ray.color, x, y);
 			x++;
 		}
@@ -66,5 +60,3 @@ void	raycast(t_data *data)
 	printf("Ready\r");
 	fflush(stdout);
 }
-
-

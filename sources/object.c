@@ -2,8 +2,9 @@
 
 t_type	get_type(char *line)
 {
-	char *shapes[7];
-	int i;
+	char	*shapes[7];
+	int		i;
+
 	shapes[CAMERA] = "C ";
 	shapes[LIGHT] = "L ";
 	shapes[AMBIENT] = "A ";

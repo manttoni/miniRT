@@ -154,6 +154,15 @@ typedef struct s_cylinder_coll
 	double		height_proj;
 }	t_cylinder_coll;
 
+typedef struct	s_cap_collision
+{
+	t_vector	center;
+	t_vector	cap_normal;
+	t_vector	collision;
+	double		t;
+	double		denom;
+}	t_cap_collision;
+
 /*collision utils.c*/
 t_vector compute_normal_curved(t_vector collision_point, t_object *cy);
 void update_ray(t_ray *ray, t_object *object, double t);
@@ -167,6 +176,7 @@ void			camera_light_ambient(t_object *c, t_object *l, t_object *a);
 void			the_objects(t_object *o);
 void			print_vector(t_vector v);
 void			print_object(t_object *o);
+void			print_help(void);
 
 /*user_interface.c*/
 void			select_object(t_object *object, t_data *data);
@@ -203,6 +213,11 @@ int				read_objects(t_data *data);
 /*keyhandler.c*/
 void			keypress(mlx_key_data_t mlx_data, void *param);
 void			rt_mouse(void *param);
+
+/*keyhandler2.c*/
+int	change_fov(mlx_key_data_t mlx_data, t_object *selected);
+int	adjust_brightness(mlx_key_data_t mlx_data, t_object *selected);
+int	resize_object(mlx_key_data_t mlx_data, t_object *selected);
 
 /*lights.c*/
 void			ambient_checks(int (**checks)(char *));

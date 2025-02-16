@@ -14,25 +14,25 @@ void	translate_object(t_object *object, t_vector delta)
 
 // Rodrigues' rotation formula
 // Function to rotate a vector v around an arbitrary axis k by angle theta
-void rotate_vector(t_vector *v, t_vector k, float theta) {
-    printf("Rotating vector: ");
-    print_vector(*v);
-    printf("Around vector: ");
-    print_vector(k);
-    float cosTheta = cos(theta);
-    float sinTheta = sin(theta);
+void	rotate_vector(t_vector *v, t_vector k, float theta)
+{
+	float		cos_theta;
+	float		sin_theta;
+	float		dot_kv;
+	t_vector	cross_kv;
 
-    // Ensure k is a unit vector
-    k = normalize_vector(k);
-
-    // Compute dot product k . v
-    float dot_kv = dot(k, *v);
-
-    // Compute cross product k x v
-    t_vector cross_kv = cross_product(k, *v);
-
-    // Compute rotated vector using Rodrigues' formula
-    v->x = v->x * cosTheta + cross_kv.x * sinTheta + k.x * dot_kv * (1 - cosTheta);
-    v->y = v->y * cosTheta + cross_kv.y * sinTheta + k.y * dot_kv * (1 - cosTheta);
-    v->z = v->z * cosTheta + cross_kv.z * sinTheta + k.z * dot_kv * (1 - cosTheta);
+	cos_theta = cos(theta);
+	sin_theta = sin(theta);
+	k = normalize_vector(k);
+	dot_kv = dot(k, *v);
+	cross_kv = cross_product(k, *v);
+	v->x = v->x * cos_theta
+		+ cross_kv.x * sin_theta
+		+ k.x * dot_kv * (1 - cos_theta);
+	v->y = v->y * cos_theta
+		+ cross_kv.y * sin_theta
+		+ k.y * dot_kv * (1 - cos_theta);
+	v->z = v->z * cos_theta
+		+ cross_kv.z * sin_theta
+		+ k.z * dot_kv * (1 - cos_theta);
 }
