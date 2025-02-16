@@ -33,7 +33,10 @@ int	main(int argc, char **argv)
 		return (1);
 	data = init_data(argv[1]);
 	if (data == NULL)
+	{
+		error_msg(data);
 		return (1);
+	}
 	raycast(data);
 	the_image(data);
 	free_data(data);

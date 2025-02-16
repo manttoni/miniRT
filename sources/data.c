@@ -6,19 +6,24 @@ static int	mlx_and_image(t_data *data)
 	if (data->mlx == NULL)
 	{
 		error_msg(data);
-		return (1);
+		return (FAILURE);
 	}
 	data->image = mlx_new_image(data->mlx, X, Y);
 	if (data->image == NULL)
 	{
 		error_msg(data);
-		return (1);
+		return (FAILURE);
 	}
-	return (0);
+	return (SUCCESS);
 }
 
-int data_mallocs(t_data *data)
+int data_mallocs(t_data *data, char *file)
 {
+	if (data == NULL)
+		return (FAILURE);
+	ft_bzero(data, sizeof(t_data));
+	ft_bzero(&(data->mouse), sizeof(t_mouse));
+	data->file = file;
 	data->ambient = malloc(sizeof(t_ambient));
 	data->light = malloc(sizeof(t_light));
 	if (data->ambient == NULL || data->light == NULL)
@@ -36,23 +41,13 @@ t_data	*init_data(char *file)
 	t_data	*data;
 
 	data = malloc(sizeof(t_data));
-	if (data == NULL)
+	if (data_mallocs(data, file) == FAILURE
+		|| read_objects(data) == FAILURE
+		|| mlx_and_image(data) == FAILURE)
 	{
-		error_msg(data);
-		return (NULL);
-	}
-	ft_bzero(data, sizeof(t_data));
-	data->mouse.left = 0;
-	data->mouse.right = 0;
-	data->file = file;
-	if (data_mallocs(data) == FAILURE || read_objects(data) == FAILURE)
-	{
-		error_msg(data);
 		free(data);
 		return (NULL);
 	}
-	if (mlx_and_image(data))
-		return (NULL);
 	print_objects(data);
 	select_object(data->camera, data);
 	return (data);
