@@ -81,6 +81,7 @@ typedef struct s_object
 	t_vector	location;
 	t_vector	orientation;
 	int			(*collisionf)(t_ray *, struct s_object *);
+	void		(*print_object)(struct s_object *);
 	int			fov;
 }	t_object;
 
@@ -168,11 +169,10 @@ double			calc_t(double *t, t_vector v1, t_vector v2, double r);
 void			rotate_vector(t_vector *v, t_vector k, float theta);
 
 /*printer.c*/
-void			camera_light_ambient(t_object *c, t_object *l, t_object *a);
-void			the_objects(t_object *o);
+void			print_objects(t_data *data);
 void			print_vector(t_vector v);
-void			print_object(t_object *o);
 void			print_help(void);
+void			print_color(uint32_t color);
 
 /*user_interface.c*/
 void			select_object(t_object *object, t_data *data);
@@ -225,6 +225,8 @@ uint32_t		set_lights(t_data *d, t_ray *r, t_vector coll, t_vector norm);
 int				in_the_shadow(t_vector coll, t_object *light, t_objarr *oj);
 double			set_specular(t_vector norm, t_light *light);
 double			set_diffuse(t_vector normal, t_light *light);
+void			print_light(t_object *l);
+void			print_ambient(t_object *a);
 
 /*object_array.c*/
 t_objarr		*init_objarr(size_t capacity);
@@ -243,18 +245,22 @@ void			precalculate_plane(t_object *plane, t_image_plane info);
 /*sphere.c*/
 void			sphere_checks(int (**checks)(char *));
 int				assign_sphere(t_object *sphere, char **info);
+void			print_sphere(t_object *s);
 
 /*plane.c*/
 void			plane_checks(int (**checks)(char *));
 int				assign_plane(t_object *plane, char **info);
+void			print_plane(t_object *p);
 
 /*cylinder.c*/
 void			cylinder_checks(int (**checks)(char *));
 int				assign_cylinder(t_object *cylinder, char **info);
+void			print_cylinder(t_object *c);
 
 /*camera.c*/
 void			camera_checks(int (**checks)(char *));
 int				assign_camera(t_object *camera, char **info);
+void			print_camera(t_object *camera);
 
 /*object.c*/
 t_type			get_type(char *line);

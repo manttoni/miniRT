@@ -36,3 +36,19 @@ double	set_diffuse(t_vector normal, t_light *light)
 		return (0);
 	return (light->light->brightness * dot_p);
 }
+
+void	print_light(t_object *l)
+{
+		printf("Light: 💡\n");
+		printf("Location: ");
+		print_vector(l->location);
+		printf("Brightness: %f\n", l->brightness);
+}
+
+void	print_ambient(t_object *a)
+{
+		printf("Ambient: 🌓\n");
+		printf("Brightness: %f\n", a->brightness);
+		printf("Color: ");
+		print_color(a->color);
+}

@@ -5,5 +5,5 @@ void	select_object(t_object *object, t_data *data)
 {
 	data->selected = object;
 	printf("Object selected: \n");
-	the_objects(object);
+	object->print_object(object);
 }

@@ -4,23 +4,11 @@
 static void	select_object_by_index(mlx_key_data_t mlx_data, t_data *data)
 {
 	if (mlx_data.key == MLX_KEY_C)
-	{
-		data->selected = data->camera;
-		printf("Object selected: \n");
-		camera_light_ambient(data->camera, NULL, NULL);
-	}
+		select_object(data->camera, data);
 	if (mlx_data.key == MLX_KEY_L)
-	{
-		data->selected = data->light->light;
-		printf("Object selected: \n");
-		camera_light_ambient(NULL, data->light->light, NULL);
-	}
+		select_object(data->light->light, data);
 	if (mlx_data.key == MLX_KEY_A)
-	{
-		data->selected = data->ambient->ambient;
-		printf("Object selected: \n");
-		camera_light_ambient(NULL, NULL, data->ambient->ambient);
-	}
+		select_object(data->ambient->ambient, data);
 	if (mlx_data.key >= MLX_KEY_0 && mlx_data.key <= MLX_KEY_9)
 	{
 		if (mlx_data.key - MLX_KEY_0 < data->objects->objects)

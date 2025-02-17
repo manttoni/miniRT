@@ -21,5 +21,17 @@ int	assign_plane(t_object *plane, char **info)
 	if (!is_normalized_vector(plane->orientation))
 		return (failure("Plane orientation not normalized"));
 	plane->collisionf = &plane_collision;
+	plane->print_object = &print_plane;
 	return (SUCCESS);
+}
+
+void	print_plane(t_object *p)
+{
+	printf("Plane: ✈️\n");
+	printf("Location: ");
+	print_vector(p->location);
+	printf("Orientation: ");
+	print_vector(p->orientation);
+	printf("Color: ");
+	print_color(p->color);
 }

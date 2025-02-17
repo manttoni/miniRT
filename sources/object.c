@@ -30,6 +30,7 @@ int	assign_ambient(t_object *ambient, char **info)
 	ambient->color = parse_color(info[2]);
 	if (ambient->brightness < 0.0 || ambient->brightness > 1.0)
 		return (failure("Brightness should be [0.0, 1.0]"));
+	ambient->print_object = &print_ambient;
 	return (SUCCESS);
 }
 
@@ -39,6 +40,7 @@ int	assign_light(t_object *light, char **info)
 	light->brightness = parse_double(info[2]);
 	if (light->brightness > 1.0 || light->brightness < 0.0)
 		return (failure("Brightness should be [0.0, 1.0]"));
+	light->print_object = &print_light;
 	return (SUCCESS);
 }
 

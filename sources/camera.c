@@ -16,5 +16,15 @@ int	assign_camera(t_object *camera, char **info)
 	camera->orientation = normalize_vector(camera->orientation); // delete this line before eval
 	if (camera->fov < 0 || camera->fov > 180)
 		return (failure("FOV not valid"));
+	camera->print_object = &print_camera;
 	return (SUCCESS);
+}
+
+void	print_camera(t_object *c)
+{
+	printf("Camera: 📷\n");
+	printf("Location: ");
+	print_vector(c->orientation);
+	printf("Orientation: ");
+	print_vector(c->orientation);
 }
