@@ -87,7 +87,7 @@ void	raycast(t_data *data)
 		while (x < X)
 		{
 			ray = get_ray(data->info, x, y);
-			if (cast_ray(&ray, data, 10) == HIT)
+			if (cast_ray(&ray, data, 0) == HIT)
 				ray.color = set_lights(data, &ray, ray.end, ray.coll_norm);
 			// if (ray.color == BACKGROUND_COLOR)
 			// {

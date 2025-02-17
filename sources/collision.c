@@ -65,6 +65,7 @@ int	check_caps(t_ray *ray, t_object *cy)
 {
 	int	hit;
 
+	hit = NO_HIT;
 	if (cap_collision(ray, cy, 1) == HIT)
 		hit = HIT;
 	if (cap_collision(ray, cy, -1) == HIT)
