@@ -5,7 +5,7 @@ A 0.1 76,76,117
 C 0,0,1 1,0,0 90
 
 # Light Source (Sun as the light)
-L 0,0,0 0.8
+L 0,0,0 0.4
 
 # Sun (Large sphere, yellow)
 # sp 0,0,0 10 255,204,0
@@ -37,4 +37,4 @@ sp 58,5,-7 4.0 102,204,255
 sp 68,-4,2 4.0 0,0,255
 
 # Background Plane (Black space behind the planets)
-pl 80,0,0 1,0,0 0,0,0
+# pl 80,0,0 1,0,0 0,0,0
