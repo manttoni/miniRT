@@ -16,5 +16,16 @@ int	assign_sphere(t_object *sphere, char **info)
 	sphere->diameter = parse_double(info[2]);
 	sphere->color = parse_color(info[3]);
 	sphere->collisionf = &sphere_collision;
+	sphere->print_object = &print_sphere;
 	return (SUCCESS);
+}
+
+void	print_sphere(t_object *s)
+{
+	printf("Sphere:   ⚪\n");
+	printf("Location: ");
+	print_vector(s->location);
+	printf("Diameter: %f\n", s->diameter);
+	printf("Color: ");
+	print_color(s->color);
 }

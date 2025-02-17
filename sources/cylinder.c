@@ -23,5 +23,19 @@ int	assign_cylinder(t_object *cylinder, char **info)
 	if (!is_normalized_vector(cylinder->orientation))
 		return (failure("Cylinder orientation not normalized"));
 	cylinder->collisionf = &cylinder_collision;
+	cylinder->print_object = &print_cylinder;
 	return (SUCCESS);
+}
+
+void	print_cylinder(t_object *c)
+{
+	printf("Cylinder: 🛢️\n");
+	printf("Location: ");
+	print_vector(c->location);
+	printf("Orientation: ");
+	print_vector(c->orientation);
+	printf("Diameter: %f\n", c->diameter);
+	printf("Height: %f\n", c->height);
+	printf("Color: ");
+	print_color(c->color);
 }

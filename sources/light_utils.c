@@ -1,6 +1,6 @@
 #include "../includes/minirt.h"
 
-double	in_the_shadow(t_vector collision, t_object *light, t_objarr *objarr)
+double	in_the_shadow(t_vector collision, t_object *light, t_data *data)
 {
 	t_ray	shadow;
 	double	light_dist;
@@ -10,7 +10,7 @@ double	in_the_shadow(t_vector collision, t_object *light, t_objarr *objarr)
 	shadow.direction = normalize_vector(v_sub(light->location, collision));
 	shadow.start = v_sum(collision, v_mul(EPSILON, shadow.direction));
 	shadow.distance = DBL_MAX;
-	if (cast_ray(&shadow, objarr))
+	if (cast_ray(&shadow, data, 0))
 	{
 		light_dist = v_dist(light->location, collision);
 		if (shadow.distance + EPSILON < v_dist(light->location, collision))
@@ -39,4 +39,20 @@ double	set_diffuse(t_vector normal, t_light *light)
 	if (dot_p < 0)
 		return (0);
 	return (light->light->brightness * dot_p);
+}
+
+void	print_light(t_object *l)
+{
+	printf("Light:    💡\n");
+	printf("Location: ");
+	print_vector(l->location);
+	printf("Brightness: %f\n", l->brightness);
+}
+
+void	print_ambient(t_object *a)
+{
+	printf("Ambient:  🌓\n");
+	printf("Brightness: %f\n", a->brightness);
+	printf("Color: ");
+	print_color(a->color);
 }

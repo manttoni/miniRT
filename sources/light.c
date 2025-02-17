@@ -45,18 +45,20 @@ uint32_t	set_lights(t_data *data, t_ray *ray, t_vector collision, t_vector norma
 
 	shadow_f = 1.0;
 	create_light(data->light, ray, collision);
-	if (dot(normal, data->light->light_dir) < 0)
-		normal = v_mul(-1, normal);
+	// if (dot(normal, data->light->light_dir) < 0)
+	// 	normal = v_mul(-1, normal);
 	data->ambient->ambient_col.x = ((data->ambient->ambient->color >> 24) & 0xff) / 255.0;
 	data->ambient->ambient_col.y = ((data->ambient->ambient->color >> 16) & 0xff) / 255.0;
 	data->ambient->ambient_col.z = ((data->ambient->ambient->color >> 8) & 0xff) / 255.0;
 	data->ambient->ambient_col = v_mul(data->ambient->ambient->brightness, data->ambient->ambient_col);
 	final_col = data->ambient->ambient_col;
-	shadow_f = in_the_shadow(collision, data->light->light, data->objects);
+
+	shadow_f = in_the_shadow(collision, data->light->light, data);
 	coloring_light(data, ray, &final_col, normal, shadow_f);
 	// final_col.x += final_col.x * shadow_f + data->ambient->ambient_col.x * (1 - shadow_f);
 	// final_col.y += final_col.y * shadow_f + data->ambient->ambient_col.y * (1 - shadow_f);
 	// final_col.z += final_col.z * shadow_f + data->ambient->ambient_col.z * (1 - shadow_f);
+
 	data->light->r = min(255, (int)(final_col.x * 255));
 	data->light->g = min(255, (int)(final_col.y * 255));
 	data->light->b = min(255, (int)(final_col.z * 255));

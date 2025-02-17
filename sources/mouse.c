@@ -16,7 +16,7 @@ void	right_click(t_data *data)
 	t_ray	ray;
 
 	ray = get_ray(data->info, data->mouse.x, data->mouse.y);
-	if (cast_ray(&ray, data->objects) == 1)
+	if (cast_ray(&ray, data, 0) == 1)
 	{
 		if (data->selected != ray.object)
 			select_object(ray.object, data);
