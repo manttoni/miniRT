@@ -1,18 +1,22 @@
 #include "../includes/minirt.h"
 
-int	in_the_shadow(t_vector collision, t_object *light, t_objarr *objarr)
+double	in_the_shadow(t_vector collision, t_object *light, t_objarr *objarr)
 {
 	t_ray	shadow;
+	double	light_dist;
 
+
+	light_dist = 0.0;
 	shadow.direction = normalize_vector(v_sub(light->location, collision));
 	shadow.start = v_sum(collision, v_mul(EPSILON, shadow.direction));
 	shadow.distance = DBL_MAX;
 	if (cast_ray(&shadow, objarr))
 	{
+		light_dist = v_dist(light->location, collision);
 		if (shadow.distance + EPSILON < v_dist(light->location, collision))
-			return (1);
+			return (fmax(0.2, shadow.distance / light_dist));
 	}
-	return (0);
+	return (1.0);
 }
 
 double	set_specular(t_vector norm, t_light *light)
