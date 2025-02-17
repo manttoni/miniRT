@@ -1,13 +1,13 @@
 #include "../includes/minirt.h"
 
-int	in_the_shadow(t_vector collision, t_object *light, t_objarr *objarr)
+int	in_the_shadow(t_vector collision, t_object *light, t_data *data)
 {
 	t_ray	shadow;
 
 	shadow.direction = normalize_vector(v_sub(light->location, collision));
 	shadow.start = v_sum(collision, v_mul(EPSILON, shadow.direction));
 	shadow.distance = DBL_MAX;
-	if (cast_ray(&shadow, objarr))
+	if (cast_ray(&shadow, data, 0))
 	{
 		if (shadow.distance + EPSILON < v_dist(light->location, collision))
 			return (1);

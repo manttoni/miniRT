@@ -23,6 +23,8 @@ void	update_ray(t_ray *ray, t_object *object, double t)
 		ray->coll_norm = object->orientation;
 	if (object->type == CYLINDER)
 		ray->coll_norm = compute_normal_curved(ray->end, object);
+	if (dot(ray->coll_norm, ray->direction) <= 0)
+		ray->coll_norm = v_mul(-1, ray->coll_norm);
 	ray->object = object;
 }
 
