@@ -222,7 +222,7 @@ void			create_light(t_light *light, t_ray *ray, t_vector collision);
 uint32_t		set_lights(t_data *d, t_ray *r, t_vector coll, t_vector norm);
 
 /*light_utils.c*/
-int				in_the_shadow(t_vector coll, t_object *light, t_data *data);
+double				in_the_shadow(t_vector coll, t_object *light, t_data *data);
 double			set_specular(t_vector norm, t_light *light);
 double			set_diffuse(t_vector normal, t_light *light);
 void			print_light(t_object *l);

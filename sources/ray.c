@@ -89,7 +89,7 @@ void	raycast(t_data *data)
 			ray = get_ray(data->info, x, y);
 			if (cast_ray(&ray, data, 10) == HIT)
 				ray.color = set_lights(data, &ray, ray.end, ray.coll_norm);
-			// if (ray.color != BACKGROUND_COLOR)
+			// if (ray.color == BACKGROUND_COLOR)
 			// {
 			// 	printf("After color: \033[38;2;%d;%d;%dm%06X\033[0m\n",
 			// 	(ray.color >> 24) & 0xFF, (ray.color >> 8) & 0xFF,
