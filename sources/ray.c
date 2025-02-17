@@ -55,7 +55,7 @@ void	raycast(t_data *data)
 			// if (ray.color != BACKGROUND_COLOR)
 			// {
 			// 	printf("After color: \033[38;2;%d;%d;%dm%06X\033[0m\n",
-			// 	(ray.color) & 0xFF, (ray.color >> 8) & 0xFF,
+			// 	(ray.color >> 24) & 0xFF, (ray.color >> 8) & 0xFF,
 			// 	(ray.color >> 16) & 0xFF, ray.color);
 			// }
 			color_pixel(data->image, ray.color, x, y);
