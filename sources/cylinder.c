@@ -19,9 +19,9 @@ int	assign_cylinder(t_object *cylinder, char **info)
 	cylinder->diameter = parse_double(info[3]);
 	cylinder->height = parse_double(info[4]);
 	cylinder->color = parse_color(info[5]);
-	cylinder->orientation = normalize_vector(cylinder->orientation);
-	// if (!is_normalized_vector(cylinder->orientation))
-	// 	return (failure("Cylinder orientation not normalized"));
+	cylinder->orientation = normalize_vector(cylinder->orientation); // delete this line before eval
+	if (!is_normalized_vector(cylinder->orientation))
+		return (failure("Cylinder orientation not normalized"));
 	cylinder->collisionf = &cylinder_collision;
 	return (SUCCESS);
 }

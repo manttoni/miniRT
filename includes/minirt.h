@@ -1,7 +1,6 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
-
 /* Defines */
 # define EPSILON 0.001
 # define BACKGROUND_COLOR 0x000000ff
@@ -46,7 +45,6 @@ typedef enum e_rgba
 }	t_rgba;
 
 /* Structs */
-
 typedef struct s_vector
 {
 	double	x;
@@ -63,7 +61,7 @@ typedef struct s_ray
 	double			distance;
 	uint32_t		color;
 	struct s_object	*object;
-}   t_ray;
+}	t_ray;
 
 typedef struct s_image_plane
 {
@@ -73,26 +71,24 @@ typedef struct s_image_plane
 	t_ray		ray;
 }	t_image_plane;
 
-typedef struct	s_object
+typedef struct s_object
 {
 	t_type		type;
 	uint32_t	color;
-	double		numerator;
 	double		diameter;
 	double		height;
 	double		brightness;
 	t_vector	location;
 	t_vector	orientation;
 	int			(*collisionf)(t_ray *, struct s_object *);
-	int 		fov;
+	int			fov;
 }	t_object;
 
-
-typedef struct	s_ambient
+typedef struct s_ambient
 {
 	t_object	*ambient;
 	t_vector	ambient_col;
-} t_ambient;
+}	t_ambient;
 
 typedef struct s_light
 {
@@ -106,7 +102,7 @@ typedef struct s_light
 	int			r;
 	int			g;
 	int			b;
-} t_light;
+}	t_light;
 
 typedef struct s_objarr
 {
@@ -123,7 +119,7 @@ typedef struct s_mouse
 	int		right;
 }	t_mouse;
 
-typedef struct	s_data
+typedef struct s_data
 {
 	t_objarr		*objects;
 	t_object		*camera;
@@ -145,16 +141,38 @@ typedef struct s_disc
 	double	discriminant;
 }	t_disc;
 
+typedef struct s_cylinder_coll
+{
+	t_vector	proj_dir;
+	t_vector	oc_proj;
+	t_vector	oc;
+	t_vector	coll_point;
+	double		height_proj;
+}	t_cylinder_coll;
+
+typedef struct s_cap_collision
+{
+	t_vector	center;
+	t_vector	cap_normal;
+	t_vector	collision;
+	double		t;
+	double		denom;
+}	t_cap_collision;
+
+/*collision utils.c*/
+t_vector		compute_normal_curved(t_vector collision_point, t_object *cy);
+void			update_ray(t_ray *ray, t_object *object, double t);
+double			calc_t(double *t, t_vector v1, t_vector v2, double r);
+
 /*rotation.c*/
-t_vector		rotate_vector_x(t_vector v, float theta);
-t_vector		rotate_vector_y(t_vector v, float theta);
-t_vector		rotate_vector_z(t_vector v, float theta);
+void			rotate_vector(t_vector *v, t_vector k, float theta);
 
 /*printer.c*/
 void			camera_light_ambient(t_object *c, t_object *l, t_object *a);
 void			the_objects(t_object *o);
 void			print_vector(t_vector v);
 void			print_object(t_object *o);
+void			print_help(void);
 
 /*user_interface.c*/
 void			select_object(t_object *object, t_data *data);
@@ -167,8 +185,8 @@ void			redraw(t_data *data);
 void			reset_scene(t_data *data);
 
 /*transformation.c*/
-void			rotate_object(t_object *object, t_vector new_orientation, t_data *data);
-void			translate_object(t_object *object, t_vector delta, t_data *data);
+void			rotate_object(t_object *object, t_vector new_orientation);
+void			translate_object(t_object *object, t_vector delta);
 
 /*collision.c*/
 int				sphere_collision(t_ray *ray, t_object *sp);
@@ -176,7 +194,7 @@ int				plane_collision(t_ray *ray, t_object *pl);
 int				cylinder_collision(t_ray *ray, t_object *cy);
 
 /*color.c*/
-void			color_pixel(mlx_image_t *image, uint32_t pixel_color, int x, int y);
+void			color_pixel(mlx_image_t *i, uint32_t pixel_c, int x, int y);
 
 /*data*/
 t_data			*init_data(char *file);
@@ -192,20 +210,25 @@ int				read_objects(t_data *data);
 void			keypress(mlx_key_data_t mlx_data, void *param);
 void			rt_mouse(void *param);
 
+/*keyhandler2.c*/
+int				change_fov(mlx_key_data_t mlx_data, t_object *selected);
+int				adjust_brightness(mlx_key_data_t mlx_data, t_object *selected);
+int				resize_object(mlx_key_data_t mlx_data, t_object *selected);
+
 /*lights.c*/
 void			ambient_checks(int (**checks)(char *));
 void			lights_checks(int (**checks)(char *));
 void			create_light(t_light *light, t_ray *ray, t_vector collision);
-uint32_t		set_lights(t_data *data, t_ray *ray, t_vector collision, t_vector normal);
+uint32_t		set_lights(t_data *d, t_ray *r, t_vector coll, t_vector norm);
 
 /*light_utils.c*/
-int				in_the_shadow(t_vector collision, t_object *light, t_objarr *objarr);
+int				in_the_shadow(t_vector coll, t_object *light, t_objarr *oj);
 double			set_specular(t_vector norm, t_light *light);
 double			set_diffuse(t_vector normal, t_light *light);
 
 /*object_array.c*/
 t_objarr		*init_objarr(size_t capacity);
-int 			add_object(t_data *data, char *line);
+int				add_object(t_data *data, char *line);
 void			free_objarr(t_objarr *objarr);
 
 /*object_parser.c*/
@@ -268,7 +291,7 @@ int				is_int(char *ptr);
 t_vector		reflect_vector(t_vector light_dir, t_vector normal);
 t_vector		vector(double x, double y, double z);
 t_vector		cross_product(t_vector v1, t_vector v2);
-double			dot_product(t_vector v1, t_vector v2);
+double			dot(t_vector v1, t_vector v2);
 int				is_normalized_vector(t_vector v);
 
 /*vector_geometry.c*/

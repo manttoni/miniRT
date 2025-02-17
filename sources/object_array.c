@@ -21,8 +21,8 @@ t_objarr	*init_objarr(size_t capacity)
 
 static int	reallocate(t_objarr *objarr)
 {
-	t_object *new_arr;
-	size_t i;
+	t_object	*new_arr;
+	size_t		i;
 
 	objarr->capacity *= 2;
 	new_arr = malloc(objarr->capacity * sizeof(t_object));
@@ -42,9 +42,12 @@ static int	reallocate(t_objarr *objarr)
 
 /*	Adds an object to the array
 	parse_object parses that object from line
-	if array is full, doubles the arrays allocated memory */
-int add_object(t_data *data, char *line)
+	if array is full, doubles the arrays allocated memory 
+	CLA are instead put in data */
+int	add_object(t_data *data, char *line)
 {
+	t_object	*object;
+
 	if (validate(line) == FAILURE)
 		return (failure("Validation failed"));
 	if (line[0] == 'C')
@@ -56,7 +59,8 @@ int add_object(t_data *data, char *line)
 	if (data->objects->capacity == data->objects->objects)
 		if (reallocate(data->objects) == FAILURE)
 			return (FAILURE);
-	if (parse_object(data->objects->arr + data->objects->objects, line) == FAILURE)
+	object = data->objects->arr + data->objects->objects;
+	if (parse_object(object, line) == FAILURE)
 		return (FAILURE);
 	data->objects->objects++;
 	return (SUCCESS);

@@ -9,11 +9,11 @@ SRC = $(SRC_DIR)main.c\
 	$(SRC_DIR)errors.c\
 	$(SRC_DIR)file_reader.c\
 	$(SRC_DIR)keyhandler.c\
+	$(SRC_DIR)keyhandler2.c\
 	$(SRC_DIR)light.c\
 	$(SRC_DIR)light_utils.c\
 	$(SRC_DIR)object.c\
 	$(SRC_DIR)object_array.c\
-	$(SRC_DIR)object_parser.c\
 	$(SRC_DIR)parser.c\
 	$(SRC_DIR)ray.c\
 	$(SRC_DIR)utils.c\
@@ -27,12 +27,12 @@ SRC = $(SRC_DIR)main.c\
 	$(SRC_DIR)user_interface.c\
 	$(SRC_DIR)image.c\
 	$(SRC_DIR)printer.c\
-	$(SRC_DIR)rotation.c\
 	$(SRC_DIR)plane.c\
 	$(SRC_DIR)sphere.c\
 	$(SRC_DIR)cylinder.c\
 	$(SRC_DIR)camera.c\
-	$(SRC_DIR)precalculations.c
+	$(SRC_DIR)precalculations.c\
+	$(SRC_DIR)collision_utils.c
 
 
 FLAGS = -Wall -Werror -Wextra -g -O2

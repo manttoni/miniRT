@@ -40,7 +40,7 @@ uint32_t	set_lights(t_data *data, t_ray *ray, t_vector collision, t_vector norma
 	t_vector	final_col;
 
 	create_light(data->light, ray, collision);
-	if (dot_product(normal, data->light->light_dir) < 0)
+	if (dot(normal, data->light->light_dir) < 0)
 		normal = v_mul(-1, normal);
 	data->ambient->ambient_col.x = ((data->ambient->ambient->color >> 24) & 0xff) / 255.0;
 	data->ambient->ambient_col.y = ((data->ambient->ambient->color >> 16) & 0xff) / 255.0;
