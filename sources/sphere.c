@@ -22,7 +22,7 @@ int	assign_sphere(t_object *sphere, char **info)
 
 void	print_sphere(t_object *s)
 {
-	printf("Sphere: ⚪\n");
+	printf("Sphere:   ⚪\n");
 	printf("Location: ");
 	print_vector(s->location);
 	printf("Diameter: %f\n", s->diameter);

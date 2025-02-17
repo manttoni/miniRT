@@ -22,7 +22,7 @@ int	assign_camera(t_object *camera, char **info)
 
 void	print_camera(t_object *c)
 {
-	printf("Camera: 📷\n");
+	printf("Camera:   📷\n");
 	printf("Location: ");
 	print_vector(c->orientation);
 	printf("Orientation: ");

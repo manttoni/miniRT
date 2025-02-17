@@ -29,7 +29,7 @@ int	assign_cylinder(t_object *cylinder, char **info)
 
 void	print_cylinder(t_object *c)
 {
-	printf("Cylinder: 🛢\n");
+	printf("Cylinder: 🛢️\n");
 	printf("Location: ");
 	print_vector(c->location);
 	printf("Orientation: ");

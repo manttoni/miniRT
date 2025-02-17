@@ -27,7 +27,7 @@ int	assign_plane(t_object *plane, char **info)
 
 void	print_plane(t_object *p)
 {
-	printf("Plane: ✈️\n");
+	printf("Plane:    ✈️\n");
 	printf("Location: ");
 	print_vector(p->location);
 	printf("Orientation: ");
