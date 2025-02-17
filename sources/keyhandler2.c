@@ -5,28 +5,22 @@ int	resize_object(mlx_key_data_t mlx_data, t_object *selected)
 	double	delta;
 
 	delta = 1;
-	if (mlx_data.key == MLX_KEY_KP_ADD && selected->diameter + delta < DBL_MAX)
-	{
+	if (mlx_data.key == MLX_KEY_KP_ADD
+		&& selected->diameter + delta < DBL_MAX)
 		selected->diameter += delta;
-		return (SUCCESS);
-	}
 	else if (mlx_data.key == MLX_KEY_KP_SUBTRACT
 		&& selected->diameter - delta > 0)
-	{
 		selected->diameter -= delta;
-		return (SUCCESS);
-	}
-	if (mlx_data.key == MLX_KEY_PAGE_DOWN && selected->height - delta > 0)
-	{
+	else if (mlx_data.key == MLX_KEY_PAGE_DOWN
+		&& selected->height - delta > 0)
 		selected->height -= delta;
-		return (SUCCESS);
-	}
-	if (mlx_data.key == MLX_KEY_PAGE_UP && selected->height + delta < DBL_MAX)
-	{
+	else if (mlx_data.key == MLX_KEY_PAGE_UP
+		&& selected->height + delta < DBL_MAX)
 		selected->height += delta;
-		return (SUCCESS);
-	}
-	return (FAILURE);
+	else
+		return (FAILURE);
+	printf("Diameter: %f\n", selected->diameter);
+	return (SUCCESS);
 }
 
 int	adjust_brightness(mlx_key_data_t mlx_data, t_object *selected)
@@ -42,6 +36,7 @@ int	adjust_brightness(mlx_key_data_t mlx_data, t_object *selected)
 		selected->brightness -= delta;
 	else
 		return (FAILURE);
+	printf("Brightness: %f\n", selected->brightness);
 	return (SUCCESS);
 }
 
@@ -56,5 +51,6 @@ int	change_fov(mlx_key_data_t mlx_data, t_object *selected)
 		selected->fov -= delta;
 	else
 		return (FAILURE);
+	printf("Field of view: %d\n", selected->fov);
 	return (SUCCESS);
 }

@@ -98,6 +98,7 @@ void	raycast(t_data *data)
 			color_pixel(data->image, ray.color, x, y);
 			x++;
 		}
+		printf("%d%%\r", y * 100 / Y);
 		y++;
 	}
 	printf("Ready\r");

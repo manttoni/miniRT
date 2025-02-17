@@ -53,6 +53,8 @@ int	cap_collision(t_ray *ray, t_object *cy, int sign)
 		{
 			update_ray(ray, cy, c.t);
 			ray->coll_norm = c.cap_normal;
+			if (dot(ray->coll_norm, ray->direction) <= 0)
+				ray->coll_norm = v_mul(-1, ray->coll_norm);
 			return (HIT);
 		}
 	}

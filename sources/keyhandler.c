@@ -41,7 +41,6 @@ static int	translate(mlx_key_data_t mlx_data, t_object *selected, t_data *data)
 	else
 		return (FAILURE);
 	translate_object(selected, delta);
-	print_vector(selected->location);
 	return (SUCCESS);
 }
 
@@ -71,7 +70,6 @@ static int	rotate(mlx_key_data_t mlx_data, t_object *selected, t_data *data)
 		rotate_vector(&(selected->orientation), data->info.u, -d);
 	else
 		return (FAILURE);
-	print_vector(selected->orientation);
 	return (SUCCESS);
 }
 
