@@ -55,8 +55,8 @@ t_data	*init_data(char *file)
 
 void	free_data(t_data *data)
 {
-	if (data == NULL)
-		return ;
+	// if (data == NULL)
+	// 	return ;
 	free_objarr(data->objects);
 	free(data->light);
 	free(data->ambient);
