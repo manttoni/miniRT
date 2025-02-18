@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keyhandler2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/18 11:54:03 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/18 11:54:04 by amaula           ###   ########.fr       */
+/*   Created: 2025/02/18 13:42:12 by nzharkev          #+#    #+#             */
+/*   Updated: 2025/02/18 13:42:14 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static int	change_diameter(mlx_key_data_t mlx_data, t_object *selected)
 	else
 		return (FAILURE);
 	printf("Diameter: %f\n", selected->diameter);
+	printf("Height: %f\n", selected->height);
 	return (SUCCESS);
 }
 

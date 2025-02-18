@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   data.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/18 13:41:03 by nzharkev          #+#    #+#             */
+/*   Updated: 2025/02/18 13:46:44 by nzharkev         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minirt.h"
 
 static int	mlx_and_image(t_data *data)
@@ -34,8 +46,8 @@ int	data_mallocs(t_data *data, char *file)
 	data->light->light = data->camera + 1;
 	data->ambient->ambient = data->camera + 2;
 	data->camera->type = NONE;
-	data->light->light->type = NONE;
-	data->ambient->ambient->type = NONE;
+	data->light->obj->type = NONE;
+	data->ambient->obj->type = NONE;
 	return (SUCCESS);
 }
 

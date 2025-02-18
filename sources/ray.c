@@ -80,7 +80,7 @@ int	cast_ray(t_ray *ray, t_data *data, int reflections)
 	{
 		r = get_reflection(ray);
 		if (cast_ray(&r, data, reflections - 1) == HIT)
-			r.color = set_lights(data, &r, r.end, r.coll_norm);
+			r.color = set_lights(data, &r, r.end);
 		ray->color = mix_colors(ray->color, r.color, REFLECTIVITY);
 	}
 	return (is_collision);
@@ -100,7 +100,7 @@ void	raycast(t_data *data)
 		{
 			ray = get_ray(data->info, x, y);
 			if (cast_ray(&ray, data, REFLECTIONS) == HIT)
-				ray.color = set_lights(data, &ray, ray.end, ray.coll_norm);
+				ray.color = set_lights(data, &ray, ray.end);
 			color_pixel(data->image, ray.color, x, y);
 			x++;
 		}

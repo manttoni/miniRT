@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   object_array.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/18 14:03:37 by nzharkev          #+#    #+#             */
+/*   Updated: 2025/02/18 14:03:39 by nzharkev         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minirt.h"
 
 t_objarr	*init_objarr(size_t capacity)
@@ -43,16 +55,16 @@ int	add_cla(t_data *data, char *line)
 {
 	if (line[0] == 'C' && data->camera->type == NONE)
 		return (parse_object(data->camera, line));
-	if (line[0] == 'L' && data->light->light->type == NONE)
-		return (parse_object(data->light->light, line));
-	if (line[0] == 'A' && data->ambient->ambient->type == NONE)
-		return (parse_object(data->ambient->ambient, line));
+	if (line[0] == 'L' && data->light->obj->type == NONE)
+		return (parse_object(data->light->obj, line));
+	if (line[0] == 'A' && data->ambient->obj->type == NONE)
+		return (parse_object(data->ambient->obj, line));
 	return (failure("Duplicate camera, light or ambient"));
 }
 
 /*	Adds an object to the array
 	parse_object parses that object from line
-	if array is full, doubles the arrays allocated memory 
+	if array is full, doubles the arrays allocated memory
 	CLA are instead put in data */
 int	add_object(t_data *data, char *line)
 {
