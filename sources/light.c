@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:32:29 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/18 16:18:26 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/18 16:49:24 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	create_light(t_light *light, t_ray *ray, t_vector coll)
 	light->specular = 0.0;
 	light->shine = 2.0;
 	light->light_dir = normalize_vector(v_sub(coll, light->obj->location));
-	light->view_dir = normalize_vector(v_sub(ray->start, coll));
+	light->view_dir = v_mul(-1, ray->direction);
 }
 
 /**
