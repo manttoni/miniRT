@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:32:29 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/18 16:07:07 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/18 16:18:26 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ static void	create_light(t_light *light, t_ray *ray, t_vector coll)
 }
 
 /**
- * set_lights - Computes the final color based on ambient, diffuse, and specular lighting.
+ * set_lights - Computes the final color based on
+ *              ambient, diffuse, and specular lighting.
  *
  * @data: Pointer to the scene data.
  * @ray: Pointer to the ray being processed.

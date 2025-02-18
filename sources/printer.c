@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:51:24 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/18 15:41:52 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/18 16:17:05 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	print_color(uint32_t color)
 		(color >> 24) & 0xFF, (color >> 16) & 0xFF,
 		(color >> 8) & 0xFF, color);
 }
-
 
 /**
  * print_objects - Prints all objects in the scene.

@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:33:10 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/18 15:23:18 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/18 16:15:27 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static void	the_image(t_data *data)
 	mlx_loop(data->mlx);
 	mlx_terminate(data->mlx);
 }
-
 
 /**
  * format_validation - Checks if the input file has a valid .rt format.

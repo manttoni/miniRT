@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:50:36 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/18 16:03:10 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/18 16:17:35 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ double	v_dist(t_vector a, t_vector b)
 {
 	return (v_len(v_sub(a, b)));
 }
-
 
 /**
  * normalize_vector - Normalizes a vector to unit length.

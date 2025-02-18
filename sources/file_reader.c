@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 13:41:24 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/18 15:07:10 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/18 16:16:31 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static int	unique_check(t_data *data)
  * Once all objects are loaded, `set_precalculations` is called to prepare
  * data for rendering.
  *
- * Return: SUCCESS (0) if the scene is successfully loaded, otherwise FAILURE (-1).
+ * Return: SUCCESS if the scene is successfully loaded, otherwise FAILURE.
  */
 int	read_objects(t_data *data)
 {

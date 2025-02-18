@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:54:10 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/18 15:36:27 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/18 16:15:48 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ double	parse_double(char *str)
 	return ((sign * int_part)
 		+ (sign * fract_part / pow(10, fract_len(dot + 1))));
 }
-
 
 /**
  * parse_vector - Parses a string into a 3D vector.

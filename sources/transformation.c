@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:54:28 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/18 15:49:25 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/18 16:16:50 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	translate_object(t_object *object, t_vector delta)
 	object->location = v_sum(object->location, delta);
 	print_vector(object->location);
 }
-
 
 /**
  * rotate_vector - Rotates a vector around a given axis.

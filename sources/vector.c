@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:49:29 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/18 16:03:45 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/18 16:17:27 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ t_vector	reflect_vector(t_vector light_dir, t_vector normal)
 	return (v_sub(v_mul(2 * dot(normal, light_dir), normal),
 			light_dir));
 }
-
 
 /**
  * is_normalized_vector - Checks if a vector is normalized.

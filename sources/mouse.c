@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:54:39 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/18 15:24:49 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/18 16:15:34 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ static void	right_click(t_data *data)
 			select_object(ray.object, data);
 	}
 }
-
 
 /**
  * rt_mouse - Handles mouse input for selecting and rotating objects.
