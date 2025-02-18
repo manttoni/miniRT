@@ -73,9 +73,7 @@ int	cast_ray(t_ray *ray, t_data *data, int reflections)
 	while (i < data->objects->objects)
 	{
 		if ((*(arr[i].collisionf))(ray, &arr[i]) == HIT)
-		{
 			is_collision = 1;
-		}
 		i++;
 	}
 	if (reflections > 0 && is_collision && REFLECTIVITY > 0)
@@ -106,7 +104,7 @@ void	raycast(t_data *data)
 			color_pixel(data->image, ray.color, x, y);
 			x++;
 		}
-		printf("%d%%\r", y * 100 / Y);
+		printf("%d%%    \r", y * 100 / Y);
 		y++;
 	}
 	printf("Ready\r");

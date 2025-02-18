@@ -39,6 +39,16 @@ static int	reallocate(t_objarr *objarr)
 	objarr->arr = new_arr;
 	return (SUCCESS);
 }
+int	add_cla(t_data *data, char *line)
+{
+	if (line[0] == 'C' && data->camera->type == NONE)
+		return (parse_object(data->camera, line));
+	if (line[0] == 'L' && data->light->light->type == NONE)
+		return (parse_object(data->light->light, line));
+	if (line[0] == 'A' && data->ambient->ambient->type == NONE)
+		return (parse_object(data->ambient->ambient, line));
+	return (failure("Duplicate camera, light or ambient"));
+}
 
 /*	Adds an object to the array
 	parse_object parses that object from line
@@ -50,18 +60,14 @@ int	add_object(t_data *data, char *line)
 
 	if (validate(line) == FAILURE)
 		return (failure("Validation failed"));
-	if (line[0] == 'C')
-		return (parse_object(data->camera, line));
-	if (line[0] == 'L')
-		return (parse_object(data->light->light, line));
-	if (line[0] == 'A')
-		return (parse_object(data->ambient->ambient, line));
+	if (ft_strchr("CLA", line[0]) != NULL)
+		return (add_cla(data, line));
 	if (data->objects->capacity == data->objects->objects)
 		if (reallocate(data->objects) == FAILURE)
-			return (FAILURE);
+			return (failure("Malloc failed"));
 	object = data->objects->arr + data->objects->objects;
 	if (parse_object(object, line) == FAILURE)
-		return (FAILURE);
+		return (failure("parse_object failed"));
 	data->objects->objects++;
 	return (SUCCESS);
 }

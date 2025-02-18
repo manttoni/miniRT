@@ -12,18 +12,14 @@
 
 #include "../includes/minirt.h"
 
-int	resize_object(mlx_key_data_t mlx_data, t_object *selected)
+static int	change_height(mlx_key_data_t mlx_data, t_object *selected)
 {
 	double	delta;
 
 	delta = 1;
-	if (mlx_data.key == MLX_KEY_KP_ADD
-		&& selected->diameter + delta < DBL_MAX)
-		selected->diameter += delta;
-	else if (mlx_data.key == MLX_KEY_KP_SUBTRACT
-		&& selected->diameter - delta > 0)
-		selected->diameter -= delta;
-	else if (mlx_data.key == MLX_KEY_PAGE_DOWN
+	if (selected->type != CYLINDER)
+		return (FAILURE);
+	if (mlx_data.key == MLX_KEY_PAGE_DOWN
 		&& selected->height - delta > 0)
 		selected->height -= delta;
 	else if (mlx_data.key == MLX_KEY_PAGE_UP
@@ -31,8 +27,34 @@ int	resize_object(mlx_key_data_t mlx_data, t_object *selected)
 		selected->height += delta;
 	else
 		return (FAILURE);
+	printf("Height: %f\n", selected->height);
+	return (SUCCESS);
+}
+
+static int	change_diameter(mlx_key_data_t mlx_data, t_object *selected)
+{
+	double	delta;
+
+	delta = 1;
+	if (selected->type != CYLINDER && selected->type != SPHERE)
+		return (FAILURE);
+	if (mlx_data.key == MLX_KEY_KP_ADD
+		&& selected->diameter + delta < DBL_MAX)
+		selected->diameter += delta;
+	else if (mlx_data.key == MLX_KEY_KP_SUBTRACT
+		&& selected->diameter - delta > 0)
+		selected->diameter -= delta;
+	else
+		return (FAILURE);
 	printf("Diameter: %f\n", selected->diameter);
 	return (SUCCESS);
+}
+
+int	resize_object(mlx_key_data_t mlx_data, t_object *selected)
+{
+	if (change_height(mlx_data, selected) == SUCCESS)
+		return (SUCCESS);
+	return (change_diameter(mlx_data, selected));
 }
 
 int	adjust_brightness(mlx_key_data_t mlx_data, t_object *selected)

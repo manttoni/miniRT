@@ -40,7 +40,6 @@ int	read_objects(t_data *data)
 	{
 		if (*line != '\0' && *line != '#' && add_object(data, line) == FAILURE)
 		{
-			free_objarr(objarr);
 			free(line);
 			close(fd);
 			return (FAILURE);
@@ -50,5 +49,7 @@ int	read_objects(t_data *data)
 	}
 	close(fd);
 	set_precalculations(data);
+	if (data->objects->objects < 1)
+		return (failure("No visible object"));
 	return (SUCCESS);
 }
