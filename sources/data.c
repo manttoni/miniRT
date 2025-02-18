@@ -45,6 +45,9 @@ int	data_mallocs(t_data *data, char *file)
 		return (failure("malloc failed"));
 	data->light->obj = data->camera + 1;
 	data->ambient->obj = data->camera + 2;
+	data->camera->type = NONE;
+	data->light->obj->type = NONE;
+	data->ambient->obj->type = NONE;
 	return (SUCCESS);
 }
 

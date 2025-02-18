@@ -1,22 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vector_geometry.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/18 11:50:36 by amaula            #+#    #+#             */
+/*   Updated: 2025/02/18 11:50:51 by amaula           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minirt.h"
 
 double	v_len(t_vector v)
 {
 	return (sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
-}
-
-double	v_angle(t_vector a, t_vector b)
-{
-	double	dot_p;
-	double	cos_theta;
-
-	dot_p = dot(a, b);
-	cos_theta = dot_p / (v_len(a) * v_len(b));
-	if (cos_theta > 1.0)
-		cos_theta = 1.0;
-	if (cos_theta < -1.0)
-		cos_theta = -1.0;
-	return (acos(cos_theta));
 }
 
 double	v_dist(t_vector a, t_vector b)

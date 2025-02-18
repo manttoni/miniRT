@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   printer.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/18 11:51:24 by amaula            #+#    #+#             */
+/*   Updated: 2025/02/18 11:51:27 by amaula           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minirt.h"
 
 void	print_vector(t_vector v)
@@ -8,7 +20,7 @@ void	print_vector(t_vector v)
 
 void	print_color(uint32_t color)
 {
-		printf("\033[38;2;%d;%d;%dm%06X\033[0m\n",
+	printf("\033[38;2;%d;%d;%dm%06X\033[0m\n",
 		(color >> 24) & 0xFF, (color >> 16) & 0xFF,
 		(color >> 8) & 0xFF, color);
 }
@@ -40,7 +52,7 @@ void	print_help(void)
 {
 	printf("--------------\n");
 	printf("HOME: print objects\n");
-	printf("COMMA: this menu\n");
+	printf("H: this menu\n");
 	printf("Select object: right click, number keys and C L A\n");
 	printf("Movement keys (numpad):\n");
 	printf("L/R: 4 & 6\nUP/DOWN: 8 & 2\nFORWARD/BACK: 9 & 1\n");

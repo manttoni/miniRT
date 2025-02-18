@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   collision.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/18 11:52:44 by amaula            #+#    #+#             */
+/*   Updated: 2025/02/18 11:52:46 by amaula           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minirt.h"
 
 int	plane_collision(t_ray *ray, t_object *pl)
@@ -73,6 +85,10 @@ int	check_caps(t_ray *ray, t_object *cy)
 	return (hit);
 }
 
+/*	1. init values to struct
+	2. if t calculation is not good, try caps_collision
+	3. if collision is not in range of height, try caps
+	4. hit is now certain, but caps might still be closer than curved part*/
 int	cylinder_collision(t_ray *ray, t_object *cy)
 {
 	double			t;

@@ -24,6 +24,19 @@ static int	error_check(int fd, t_objarr *objarr)
 	return (SUCCESS);
 }
 
+static int	unique_check(t_data *data)
+{
+	if (data->camera->type == NONE)
+		return (failure("No camera"));
+	if (data->light->obj->type == NONE)
+		return (failure("No light"));
+	if (data->ambient->obj->type == NONE)
+		return (failure("No ambient"));
+	if (data->objects->objects < 1)
+		return (failure("No visible object"));
+	return (SUCCESS);
+}
+
 int	read_objects(t_data *data)
 {
 	char		*line;
@@ -40,7 +53,6 @@ int	read_objects(t_data *data)
 	{
 		if (*line != '\0' && *line != '#' && add_object(data, line) == FAILURE)
 		{
-			free_objarr(objarr);
 			free(line);
 			close(fd);
 			return (FAILURE);
@@ -50,5 +62,6 @@ int	read_objects(t_data *data)
 	}
 	close(fd);
 	set_precalculations(data);
-	return (SUCCESS);
+
+	return (unique_check(data));
 }

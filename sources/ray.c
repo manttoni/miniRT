@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ray.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/18 11:52:26 by amaula            #+#    #+#             */
+/*   Updated: 2025/02/18 11:52:28 by amaula           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minirt.h"
 
 /*	Returns a ray that is pointing towards pixel(x,y) of the image plane
@@ -16,18 +28,18 @@ t_ray	get_ray(t_image_plane info, int x, int y)
 	return (ray);
 }
 
-t_ray get_reflection(t_ray *ray)
+t_ray	get_reflection(t_ray *ray)
 {
-	t_ray	reflection;
-    double dot_product;
+	t_ray	r;
+	double	dot_p;
 
-	dot_product = dot(ray->direction, ray->coll_norm);
-    reflection.direction = v_sub(ray->direction, v_mul(2 * dot_product, ray->coll_norm));
-	reflection.start = v_sum(ray->end, v_mul(EPSILON, reflection.direction));
-	reflection.distance = DBL_MAX;
-	reflection.color = BACKGROUND_COLOR;
-	reflection.object = NULL;
-    return reflection;
+	dot_p = dot(ray->direction, ray->coll_norm);
+	r.direction = v_sub(ray->direction, v_mul(2 * dot_p, ray->coll_norm));
+	r.start = v_sum(ray->end, v_mul(EPSILON, r.direction));
+	r.distance = DBL_MAX;
+	r.color = BACKGROUND_COLOR;
+	r.object = NULL;
+	return (r);
 }
 
 uint32_t	mix_colors(uint32_t c1, uint32_t c2, double reflectivity)
@@ -61,9 +73,7 @@ int	cast_ray(t_ray *ray, t_data *data, int reflections)
 	while (i < data->objects->objects)
 	{
 		if ((*(arr[i].collisionf))(ray, &arr[i]) == HIT)
-		{
 			is_collision = 1;
-		}
 		i++;
 	}
 	if (reflections > 0 && is_collision && REFLECTIVITY > 0)
@@ -94,7 +104,7 @@ void	raycast(t_data *data)
 			color_pixel(data->image, ray.color, x, y);
 			x++;
 		}
-		printf("%d%%\r", y * 100 / Y);
+		printf("%d%%    \r", y * 100 / Y);
 		y++;
 	}
 	printf("Ready\r");

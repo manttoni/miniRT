@@ -4,14 +4,16 @@
 /* Defines */
 # define EPSILON 0.001
 # define BACKGROUND_COLOR 0x000000ff
-# define X 1000
-# define Y 1000
 # define FAILURE 1
 # define SUCCESS 0
 # define HIT 1
 # define NO_HIT 0
-# define TOP_CYLINDER_CAP 1
-# define BOTTOM_CYLINDER_CAP 0
+// # define TOP_CYLINDER_CAP 1
+// # define BOTTOM_CYLINDER_CAP 0
+
+/* Dimensions of the image_plane and initial window size */
+# define X 1000
+# define Y 1000
 
 /* Number of times a ray reflects off a surface */
 # define REFLECTIONS 10
@@ -19,8 +21,7 @@
 /*	How reflective each surface is in range [0,1]
 	0 = not reflective at all
 	1 = completely reflective */
-# define REFLECTIVITY 0.5
-
+# define REFLECTIVITY 1
 
 # include "../MLX42/include/MLX42/MLX42.h"
 # include "../libft/includes/libft.h"
