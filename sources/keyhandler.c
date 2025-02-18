@@ -18,9 +18,9 @@ static void	select_object_by_index(mlx_key_data_t mlx_data, t_data *data)
 	if (mlx_data.key == MLX_KEY_C)
 		select_object(data->camera, data);
 	if (mlx_data.key == MLX_KEY_L)
-		select_object(data->light->light, data);
+		select_object(data->light->obj, data);
 	if (mlx_data.key == MLX_KEY_A)
-		select_object(data->ambient->ambient, data);
+		select_object(data->ambient->obj, data);
 	if (mlx_data.key >= MLX_KEY_0 && mlx_data.key <= MLX_KEY_9)
 	{
 		if (mlx_data.key - MLX_KEY_0 < data->objects->objects)
@@ -28,7 +28,7 @@ static void	select_object_by_index(mlx_key_data_t mlx_data, t_data *data)
 	}
 }
 
-/* checks which key is pressed, creates a vector 
+/* checks which key is pressed, creates a vector
 and translates the object in that direction */
 static int	translate(mlx_key_data_t mlx_data, t_object *selected, t_data *data)
 {

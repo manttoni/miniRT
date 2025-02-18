@@ -47,6 +47,7 @@ static int	change_diameter(mlx_key_data_t mlx_data, t_object *selected)
 	else
 		return (FAILURE);
 	printf("Diameter: %f\n", selected->diameter);
+	printf("Height: %f\n", selected->height);
 	return (SUCCESS);
 }
 

@@ -34,9 +34,9 @@ void	print_objects(t_data *data)
 	printf("-------------\n");
 	data->camera->print_object(data->camera);
 	printf("-------------\n");
-	data->light->light->print_object(data->light->light);
+	data->light->obj->print_object(data->light->obj);
 	printf("-------------\n");
-	data->ambient->ambient->print_object(data->ambient->ambient);
+	data->ambient->obj->print_object(data->ambient->obj);
 	while (i < data->objects->objects)
 	{
 		o = data->objects->arr[i];
