@@ -35,7 +35,7 @@ SRC = $(SRC_DIR)main.c\
 
 
 FLAGS = -Wall -Werror -Wextra -g -O3
-OFLAGS = -Iinclude -ldl -lglfw -pthread -lm -march=native -flto
+OFLAGS += -Iinclude -ldl -lglfw -pthread -lm -march=native -flto
 MAKEFLAGS += --no-print-directory
 HEADS = -I. $(MLX_HEAD) -I$(LIBFT_DIR)
 
