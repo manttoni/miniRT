@@ -30,15 +30,18 @@ t_ray reflect(t_ray *ray)
     return reflection;
 }
 
-uint32_t	mix_colors(uint32_t c1, uint32_t c2, double refl_str)
+uint32_t	mix_colors(uint32_t c1, uint32_t c2, double reflectivity)
 {
 	int	r;
 	int	g;
 	int	b;
 
-	r = (((c1 >> 24) & 0xFF) + refl_str * ((c2 >> 24) & 0xFF)) / (1 + refl_str);
-	g = (((c1 >> 16) & 0xFF) + refl_str * ((c2 >> 16) & 0xFF)) / (1 + refl_str);
-	b = (((c1 >> 8) & 0xFF) + refl_str * ((c2 >> 8) & 0xFF)) / (1 + refl_str);
+	r = ((c1 >> 24) & 0xFF) * (1 - reflectivity)
+		+ ((c2 >> 24) & 0xFF) * reflectivity;
+	g = ((c1 >> 16) & 0xFF) * (1 - reflectivity)
+		+ ((c2 >> 16) & 0xFF) * reflectivity;
+	b = ((c1 >> 8) & 0xFF) * (1 - reflectivity)
+		+ ((c2 >> 8) & 0xFF) * reflectivity;
 
 	return (r << 24 | g << 16 | b << 8 | 255);
 }
@@ -64,12 +67,12 @@ int	cast_ray(t_ray *ray, t_data *data, int reflections)
 		}
 		i++;
 	}
-	if (reflections > 0 && is_collision)
+	if (reflections > 0 && is_collision && REFLECTIVITY > 0)
 	{
 		reflection = reflect(ray);
 		if (cast_ray(&reflection, data, reflections - 1) == HIT)
 			reflection.color = set_lights(data, &reflection, reflection.end, reflection.coll_norm);
-		ray->color = mix_colors(ray->color, reflection.color, 100);
+		ray->color = mix_colors(ray->color, reflection.color, REFLECTIVITY);
 	}
 	return (is_collision);
 }
@@ -87,7 +90,7 @@ void	raycast(t_data *data)
 		while (x < X)
 		{
 			ray = get_ray(data->info, x, y);
-			if (cast_ray(&ray, data, 1) == HIT)
+			if (cast_ray(&ray, data, REFLECTIONS) == HIT)
 				ray.color = set_lights(data, &ray, ray.end, ray.coll_norm);
 			// if (ray.color == BACKGROUND_COLOR)
 			// {
