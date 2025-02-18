@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   printer.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/18 11:51:24 by amaula            #+#    #+#             */
+/*   Updated: 2025/02/18 11:51:27 by amaula           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minirt.h"
 
 void	print_vector(t_vector v)
@@ -8,7 +20,7 @@ void	print_vector(t_vector v)
 
 void	print_color(uint32_t color)
 {
-		printf("\033[38;2;%d;%d;%dm%06X\033[0m\n",
+	printf("\033[38;2;%d;%d;%dm%06X\033[0m\n",
 		(color >> 24) & 0xFF, (color >> 16) & 0xFF,
 		(color >> 8) & 0xFF, color);
 }

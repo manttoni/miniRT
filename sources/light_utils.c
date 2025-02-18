@@ -5,7 +5,6 @@ double	in_the_shadow(t_vector collision, t_object *light, t_data *data)
 	t_ray	shadow;
 	double	light_dist;
 
-
 	light_dist = 0.0;
 	shadow.direction = normalize_vector(v_sub(light->location, collision));
 	shadow.start = v_sum(collision, v_mul(EPSILON, shadow.direction));

@@ -37,7 +37,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 		front++;
 	if (front > back)
 		return (ft_strdup(""));
-	while (ft_strchr(set, s1[back]))// && back >= 0)
+	while (ft_strchr(set, s1[back]))
 		back--;
 	result = (char *)malloc(sizeof(char) * (back - front + 2));
 	if (!result)

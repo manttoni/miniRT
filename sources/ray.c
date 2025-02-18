@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ray.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/18 11:52:26 by amaula            #+#    #+#             */
+/*   Updated: 2025/02/18 11:52:28 by amaula           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minirt.h"
 
 /*	Returns a ray that is pointing towards pixel(x,y) of the image plane
@@ -16,18 +28,18 @@ t_ray	get_ray(t_image_plane info, int x, int y)
 	return (ray);
 }
 
-t_ray reflect(t_ray *ray)
+t_ray	get_reflection(t_ray *ray)
 {
-	t_ray	reflection;
-    double dot_product;
-	
-	dot_product = dot(ray->direction, ray->coll_norm);
-    reflection.direction = v_sub(ray->direction, v_mul(2 * dot_product, ray->coll_norm));
-	reflection.start = v_sum(ray->end, v_mul(EPSILON, reflection.direction));
-	reflection.distance = DBL_MAX;
-	reflection.color = BACKGROUND_COLOR;
-	reflection.object = NULL;
-    return reflection;
+	t_ray	r;
+	double	dot_p;
+
+	dot_p = dot(ray->direction, ray->coll_norm);
+	r.direction = v_sub(ray->direction, v_mul(2 * dot_p, ray->coll_norm));
+	r.start = v_sum(ray->end, v_mul(EPSILON, r.direction));
+	r.distance = DBL_MAX;
+	r.color = BACKGROUND_COLOR;
+	r.object = NULL;
+	return (reflection);
 }
 
 uint32_t	mix_colors(uint32_t c1, uint32_t c2, double reflectivity)
@@ -42,7 +54,6 @@ uint32_t	mix_colors(uint32_t c1, uint32_t c2, double reflectivity)
 		+ ((c2 >> 16) & 0xFF) * reflectivity;
 	b = ((c1 >> 8) & 0xFF) * (1 - reflectivity)
 		+ ((c2 >> 8) & 0xFF) * reflectivity;
-
 	return (r << 24 | g << 16 | b << 8 | 255);
 }
 
@@ -54,7 +65,7 @@ int	cast_ray(t_ray *ray, t_data *data, int reflections)
 	size_t		i;
 	int			is_collision;
 	t_object	*arr;
-	t_ray		reflection;
+	t_ray		r;
 
 	is_collision = 0;
 	i = 0;
@@ -69,10 +80,10 @@ int	cast_ray(t_ray *ray, t_data *data, int reflections)
 	}
 	if (reflections > 0 && is_collision && REFLECTIVITY > 0)
 	{
-		reflection = reflect(ray);
-		if (cast_ray(&reflection, data, reflections - 1) == HIT)
-			reflection.color = set_lights(data, &reflection, reflection.end, reflection.coll_norm);
-		ray->color = mix_colors(ray->color, reflection.color, REFLECTIVITY);
+		r = get_reflection(ray);
+		if (cast_ray(&r, data, reflections - 1) == HIT)
+			r.color = set_lights(data, &r, r.end, r.coll_norm);
+		ray->color = mix_colors(ray->color, r.color, REFLECTIVITY);
 	}
 	return (is_collision);
 }
@@ -92,12 +103,6 @@ void	raycast(t_data *data)
 			ray = get_ray(data->info, x, y);
 			if (cast_ray(&ray, data, REFLECTIONS) == HIT)
 				ray.color = set_lights(data, &ray, ray.end, ray.coll_norm);
-			// if (ray.color == BACKGROUND_COLOR)
-			// {
-			// 	printf("After color: \033[38;2;%d;%d;%dm%06X\033[0m\n",
-			// 	(ray.color >> 24) & 0xFF, (ray.color >> 8) & 0xFF,
-			// 	(ray.color >> 16) & 0xFF, ray.color);
-			// }
 			color_pixel(data->image, ray.color, x, y);
 			x++;
 		}
