@@ -39,7 +39,7 @@ t_ray	get_reflection(t_ray *ray)
 	r.distance = DBL_MAX;
 	r.color = BACKGROUND_COLOR;
 	r.object = NULL;
-	return (reflection);
+	return (r);
 }
 
 uint32_t	mix_colors(uint32_t c1, uint32_t c2, double reflectivity)
