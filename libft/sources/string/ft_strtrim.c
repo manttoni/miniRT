@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 11:36:31 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/01/02 12:51:35 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/18 10:55:32 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 		front++;
 	if (front > back)
 		return (ft_strdup(""));
-	while (ft_strchr(set, s1[back]))// && back >= 0)
+	while (ft_strchr(set, s1[back]))
 		back--;
 	result = (char *)malloc(sizeof(char) * (back - front + 2));
 	if (!result)

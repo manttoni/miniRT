@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   object_array.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/18 14:03:37 by nzharkev          #+#    #+#             */
+/*   Updated: 2025/02/18 14:03:39 by nzharkev         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minirt.h"
 
 t_objarr	*init_objarr(size_t capacity)
@@ -42,7 +54,7 @@ static int	reallocate(t_objarr *objarr)
 
 /*	Adds an object to the array
 	parse_object parses that object from line
-	if array is full, doubles the arrays allocated memory 
+	if array is full, doubles the arrays allocated memory
 	CLA are instead put in data */
 int	add_object(t_data *data, char *line)
 {
@@ -53,9 +65,9 @@ int	add_object(t_data *data, char *line)
 	if (line[0] == 'C')
 		return (parse_object(data->camera, line));
 	if (line[0] == 'L')
-		return (parse_object(data->light->light, line));
+		return (parse_object(data->light->obj, line));
 	if (line[0] == 'A')
-		return (parse_object(data->ambient->ambient, line));
+		return (parse_object(data->ambient->obj, line));
 	if (data->objects->capacity == data->objects->objects)
 		if (reallocate(data->objects) == FAILURE)
 			return (FAILURE);

@@ -13,6 +13,15 @@
 # define TOP_CYLINDER_CAP 1
 # define BOTTOM_CYLINDER_CAP 0
 
+/* Number of times a ray reflects off a surface */
+# define REFLECTIONS 10
+
+/*	How reflective each surface is in range [0,1]
+	0 = not reflective at all
+	1 = completely reflective */
+# define REFLECTIVITY 0.5
+
+
 # include "../MLX42/include/MLX42/MLX42.h"
 # include "../libft/includes/libft.h"
 # include <stdlib.h>
@@ -87,13 +96,13 @@ typedef struct s_object
 
 typedef struct s_ambient
 {
-	t_object	*ambient;
-	t_vector	ambient_col;
+	t_object	*obj;
+	t_vector	color;
 }	t_ambient;
 
 typedef struct s_light
 {
-	t_object	*light;
+	t_object	*obj;
 	t_vector	light_dir;
 	t_vector	view_dir;
 	double		diffuse;
@@ -219,10 +228,10 @@ int				resize_object(mlx_key_data_t mlx_data, t_object *selected);
 void			ambient_checks(int (**checks)(char *));
 void			lights_checks(int (**checks)(char *));
 void			create_light(t_light *light, t_ray *ray, t_vector collision);
-uint32_t		set_lights(t_data *d, t_ray *r, t_vector coll, t_vector norm);
+uint32_t		set_lights(t_data *d, t_ray *r, t_vector coll);
 
 /*light_utils.c*/
-double				in_the_shadow(t_vector coll, t_object *light, t_data *data);
+double			in_the_shadow(t_vector coll, t_object *light, t_data *data);
 double			set_specular(t_vector norm, t_light *light);
 double			set_diffuse(t_vector normal, t_light *light);
 void			print_light(t_object *l);
@@ -311,3 +320,4 @@ t_vector		v_sub(t_vector v1, t_vector v2);
 t_vector		v_sum(t_vector v1, t_vector v2);
 
 #endif
+

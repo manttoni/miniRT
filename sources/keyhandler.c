@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   keyhandler.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/18 13:41:59 by nzharkev          #+#    #+#             */
+/*   Updated: 2025/02/18 13:47:06 by nzharkev         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minirt.h"
 
 /* select an object by its index in the array, visible in terminal. only 0-9 */
@@ -6,9 +18,9 @@ static void	select_object_by_index(mlx_key_data_t mlx_data, t_data *data)
 	if (mlx_data.key == MLX_KEY_C)
 		select_object(data->camera, data);
 	if (mlx_data.key == MLX_KEY_L)
-		select_object(data->light->light, data);
+		select_object(data->light->obj, data);
 	if (mlx_data.key == MLX_KEY_A)
-		select_object(data->ambient->ambient, data);
+		select_object(data->ambient->obj, data);
 	if (mlx_data.key >= MLX_KEY_0 && mlx_data.key <= MLX_KEY_9)
 	{
 		if (mlx_data.key - MLX_KEY_0 < data->objects->objects)
@@ -16,7 +28,7 @@ static void	select_object_by_index(mlx_key_data_t mlx_data, t_data *data)
 	}
 }
 
-/* checks which key is pressed, creates a vector 
+/* checks which key is pressed, creates a vector
 and translates the object in that direction */
 static int	translate(mlx_key_data_t mlx_data, t_object *selected, t_data *data)
 {
@@ -87,7 +99,7 @@ void	keypress(mlx_key_data_t mlx_data, void *param)
 		}
 		if (mlx_data.key == MLX_KEY_HOME)
 			print_objects(data);
-		if (mlx_data.key == MLX_KEY_COMMA)
+		if (mlx_data.key == MLX_KEY_H)
 			print_help();
 		if (mlx_data.key == MLX_KEY_R)
 			reset_scene(data);

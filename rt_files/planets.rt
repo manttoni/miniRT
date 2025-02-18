@@ -2,7 +2,7 @@
 A 0.1 76,76,117
 
 # Camera: Positioned at (0,0,50), looking toward the center of the system
-C 0,0,1 1,0,0 90
+C 30,-30,0 0,1,0 90
 
 # Light Source (Sun as the light)
 L 0,0,0 0.4
@@ -38,3 +38,4 @@ sp 68,-4,2 4.0 0,0,255
 
 # Background Plane (Black space behind the planets)
 # pl 80,0,0 1,0,0 0,0,0
+# pl -40,0,0 1,0,0 0,0,0

@@ -1,10 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   light_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/18 12:32:42 by nzharkev          #+#    #+#             */
+/*   Updated: 2025/02/18 13:48:53 by nzharkev         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minirt.h"
 
 double	in_the_shadow(t_vector collision, t_object *light, t_data *data)
 {
 	t_ray	shadow;
 	double	light_dist;
-
 
 	light_dist = 0.0;
 	shadow.direction = normalize_vector(v_sub(light->location, collision));
@@ -28,7 +39,7 @@ double	set_specular(t_vector norm, t_light *light)
 	dot_p = dot(norm, halfway);
 	if (dot_p < 0)
 		return (0);
-	return (light->light->brightness * pow(fmax(dot_p, 0.0), light->shine));
+	return (light->obj->brightness * pow(fmax(dot_p, 0.0), light->shine));
 }
 
 double	set_diffuse(t_vector normal, t_light *light)
@@ -38,7 +49,7 @@ double	set_diffuse(t_vector normal, t_light *light)
 	dot_p = dot(normal, light->light_dir);
 	if (dot_p < 0)
 		return (0);
-	return (light->light->brightness * dot_p);
+	return (light->obj->brightness * dot_p);
 }
 
 void	print_light(t_object *l)
