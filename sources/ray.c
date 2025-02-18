@@ -32,6 +32,7 @@ static t_ray	get_reflection(t_ray *ray)
 	t_ray	r;
 	double	dot_p;
 
+	ft_memset(&r, 0, sizeof(t_ray));
 	dot_p = dot(ray->direction, ray->coll_norm);
 	r.direction = v_sub(ray->direction, v_mul(2 * dot_p, ray->coll_norm));
 	r.start = v_sum(ray->end, v_mul(EPSILON, r.direction));
