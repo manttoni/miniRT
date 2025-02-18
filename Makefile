@@ -3,36 +3,35 @@ NAME = miniRT
 SRC_DIR = sources/
 
 SRC = $(SRC_DIR)main.c\
+	$(SRC_DIR)camera.c\
 	$(SRC_DIR)collision.c\
+	$(SRC_DIR)collision_utils.c\
 	$(SRC_DIR)color.c\
+	$(SRC_DIR)cylinder.c\
 	$(SRC_DIR)data.c\
 	$(SRC_DIR)errors.c\
 	$(SRC_DIR)file_reader.c\
+	$(SRC_DIR)image.c\
 	$(SRC_DIR)keyhandler.c\
 	$(SRC_DIR)keyhandler2.c\
 	$(SRC_DIR)light.c\
 	$(SRC_DIR)light_utils.c\
+	$(SRC_DIR)mouse.c\
 	$(SRC_DIR)object.c\
 	$(SRC_DIR)object_array.c\
 	$(SRC_DIR)parser.c\
+	$(SRC_DIR)plane.c\
+	$(SRC_DIR)precalculations.c\
+	$(SRC_DIR)printer.c\
 	$(SRC_DIR)ray.c\
+	$(SRC_DIR)sphere.c\
+	$(SRC_DIR)transformation.c\
 	$(SRC_DIR)utils.c\
 	$(SRC_DIR)validation.c\
 	$(SRC_DIR)validation_utils.c\
 	$(SRC_DIR)vector.c\
 	$(SRC_DIR)vector_math.c\
-	$(SRC_DIR)vector_geometry.c\
-	$(SRC_DIR)transformation.c\
-	$(SRC_DIR)mouse.c\
-	$(SRC_DIR)user_interface.c\
-	$(SRC_DIR)image.c\
-	$(SRC_DIR)printer.c\
-	$(SRC_DIR)plane.c\
-	$(SRC_DIR)sphere.c\
-	$(SRC_DIR)cylinder.c\
-	$(SRC_DIR)camera.c\
-	$(SRC_DIR)precalculations.c\
-	$(SRC_DIR)collision_utils.c
+	$(SRC_DIR)vector_geometry.c
 
 
 FLAGS = -Wall -Werror -Wextra -g -O2

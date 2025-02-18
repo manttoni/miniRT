@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:32:29 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/18 15:18:01 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/18 16:07:07 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,32 +64,6 @@ static void	create_light(t_light *light, t_ray *ray, t_vector coll)
 	light->shine = 2.0;
 	light->light_dir = normalize_vector(v_sub(coll, light->obj->location));
 	light->view_dir = normalize_vector(v_sub(ray->start, coll));
-}
-
-/**
- * light_col - Computes the diffuse and specular lighting contributions.
- *
- * @data: Pointer to the scene data.
- * @ray: Pointer to the ray being processed.
- * @f_col: Pointer to the final color vector to be updated.
- * @s_f: Shadow factor determining light intensity contribution.
- *
- * If `s_f` (shadow factor) is greater than 0.2, the function calculates the
- * diffuse and specular lighting contributions and adds them to the final color.
- */
-static void	light_col(t_data *data, t_ray *ray, t_vector *f_col, double s_f)
-{
-	if (s_f > 0.2)
-	{
-		data->light->diffuse = set_diffuse(ray->coll_norm, data->light) * s_f;
-		data->light->specular = set_specular(ray->coll_norm, data->light) * s_f;
-		f_col->x += data->light->diffuse * ((ray->color >> 24) & 0xff) / 255.0;
-		f_col->y += data->light->diffuse * ((ray->color >> 16) & 0xff) / 255.0;
-		f_col->z += data->light->diffuse * ((ray->color >> 8) & 0xff) / 255.0;
-		f_col->x += data->light->specular;
-		f_col->y += data->light->specular;
-		f_col->z += data->light->specular;
-	}
 }
 
 /**

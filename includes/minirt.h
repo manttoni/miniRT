@@ -339,7 +339,8 @@ void			update_ray(t_ray *ray, t_object *object, double t);
 double			calc_t(double *t, t_vector v1, t_vector v2, double r);
 
 /*color.c*/
-
+uint32_t		mix_colors(uint32_t c1, uint32_t c2, double reflectivity);
+void			light_col(t_data *data, t_ray *ray, t_vector *f_col, double s_f);
 void			color_pixel(mlx_image_t *i, uint32_t pixel_c, int x, int y);
 
 /*cylinder.c*/
@@ -448,12 +449,9 @@ void			rotate_object(t_object *object, t_vector new_orientation);
 void			rotate_vector(t_vector *v, t_vector k, float theta);
 void			translate_object(t_object *object, t_vector delta);
 
-/*user_interface.c*/
-
-void			select_object(t_object *object, t_data *data);
-
 /*utils.c*/
 
+void			select_object(t_object *object, t_data *data);
 int				min(int a, int b);
 int				max(int a, int b);
 char			*trim_newline(char *str);

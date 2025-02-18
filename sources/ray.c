@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:52:26 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/18 15:45:30 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/18 16:08:06 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,34 +39,6 @@ static t_ray	get_reflection(t_ray *ray)
 	r.color = BACKGROUND_COLOR;
 	r.object = NULL;
 	return (r);
-}
-
-/**
- * mix_colors - Blends two colors based on reflectivity.
- *
- * @c1: The base color (original object color).
- * @c2: The reflection color.
- * @reflectivity: The blending factor (0 = no reflection, 1 = full reflection).
- *
- * This function linearly interpolates between two colors using
- * the reflectivity factor. The higher the reflectivity, the more
- * the reflection color dominates.
- *
- * Returns: The blended color as a 32-bit ARGB value.
- */
-static uint32_t	mix_colors(uint32_t c1, uint32_t c2, double reflectivity)
-{
-	int	r;
-	int	g;
-	int	b;
-
-	r = ((c1 >> 24) & 0xFF) * (1 - reflectivity)
-		+ ((c2 >> 24) & 0xFF) * reflectivity;
-	g = ((c1 >> 16) & 0xFF) * (1 - reflectivity)
-		+ ((c2 >> 16) & 0xFF) * reflectivity;
-	b = ((c1 >> 8) & 0xFF) * (1 - reflectivity)
-		+ ((c2 >> 8) & 0xFF) * reflectivity;
-	return (r << 24 | g << 16 | b << 8 | 255);
 }
 
 /**
