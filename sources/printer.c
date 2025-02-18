@@ -3,21 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   printer.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:51:24 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/18 11:51:27 by amaula           ###   ########.fr       */
+/*   Updated: 2025/02/18 15:41:52 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
 
+/**
+ * print_vector - Prints a 3D vector with its length.
+ *
+ * @v: The vector to be printed.
+ *
+ * This function prints the x, y, and z components of the vector,
+ * along with its computed length using `v_len(v)`.
+ */
 void	print_vector(t_vector v)
 {
 	printf("x: %1.2f, y: %1.2f, z: %1.2f, len: %1.2f\n",
 		v.x, v.y, v.z, v_len(v));
 }
 
+/**
+ * print_color - Prints an RGB color in hex format with terminal coloring.
+ *
+ * @color: The color value in ARGB format (uint32_t).
+ *
+ * This function extracts the red, green, and blue components from
+ * the 32-bit integer and prints the color with ANSI escape codes
+ * to display it in the corresponding color in the terminal.
+ */
 void	print_color(uint32_t color)
 {
 	printf("\033[38;2;%d;%d;%dm%06X\033[0m\n",
@@ -25,6 +42,16 @@ void	print_color(uint32_t color)
 		(color >> 8) & 0xFF, color);
 }
 
+
+/**
+ * print_objects - Prints all objects in the scene.
+ *
+ * @data: Pointer to the scene data structure.
+ *
+ * This function prints the details of all objects in the scene,
+ * including the camera, light, ambient light, and all other objects
+ * stored in the object array.
+ */
 void	print_objects(t_data *data)
 {
 	size_t		i;
@@ -48,6 +75,12 @@ void	print_objects(t_data *data)
 	printf("-------------\n");
 }
 
+/**
+ * print_help - Displays a help menu for user controls.
+ *
+ * This function prints instructions for interacting with the ray tracing
+ * program, including movement, object selection, and scene manipulation.
+ */
 void	print_help(void)
 {
 	printf("--------------\n");

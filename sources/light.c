@@ -6,12 +6,22 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:32:29 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/18 13:50:14 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:18:01 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
 
+/**
+ * ambient_checks - Sets up validation checks for ambient light properties.
+ *
+ * @checks: Array of function pointers for validation.
+ *
+ * The function assigns:
+ * - `is_double` to check ambient brightness.
+ * - `is_color` to check ambient color.
+ * - NULL to indicate the end of the checks.
+ */
 void	ambient_checks(int (**checks)(char *))
 {
 	checks[0] = &is_double;
@@ -19,6 +29,16 @@ void	ambient_checks(int (**checks)(char *))
 	checks[2] = NULL;
 }
 
+/**
+ * lights_checks - Sets up validation checks for light source properties.
+ *
+ * @checks: Array of function pointers for validation.
+ *
+ * The function assigns:
+ * - `is_vector` to check light position.
+ * - `is_double` to check light brightness.
+ * - NULL to indicate the end of the checks.
+ */
 void	lights_checks(int (**checks)(char *))
 {
 	checks[0] = &is_vector;
@@ -26,7 +46,18 @@ void	lights_checks(int (**checks)(char *))
 	checks[2] = NULL;
 }
 
-void	create_light(t_light *light, t_ray *ray, t_vector coll)
+/**
+ * create_light - Initializes lighting calculations.
+ *
+ * @light: Pointer to the light object.
+ * @ray: Pointer to the ray being processed.
+ * @coll: The collision point where the light is interacting.
+ *
+ * Computes the light direction and view direction based on the collision point
+ * and stores them in the `t_light` structure. Resets diffuse and specular
+ * components to zero.
+ */
+static void	create_light(t_light *light, t_ray *ray, t_vector coll)
 {
 	light->diffuse = 0.0;
 	light->specular = 0.0;
@@ -35,7 +66,18 @@ void	create_light(t_light *light, t_ray *ray, t_vector coll)
 	light->view_dir = normalize_vector(v_sub(ray->start, coll));
 }
 
-void	light_col(t_data *data, t_ray *ray, t_vector *f_col, double s_f)
+/**
+ * light_col - Computes the diffuse and specular lighting contributions.
+ *
+ * @data: Pointer to the scene data.
+ * @ray: Pointer to the ray being processed.
+ * @f_col: Pointer to the final color vector to be updated.
+ * @s_f: Shadow factor determining light intensity contribution.
+ *
+ * If `s_f` (shadow factor) is greater than 0.2, the function calculates the
+ * diffuse and specular lighting contributions and adds them to the final color.
+ */
+static void	light_col(t_data *data, t_ray *ray, t_vector *f_col, double s_f)
 {
 	if (s_f > 0.2)
 	{
@@ -50,6 +92,20 @@ void	light_col(t_data *data, t_ray *ray, t_vector *f_col, double s_f)
 	}
 }
 
+/**
+ * set_lights - Computes the final color based on ambient, diffuse, and specular lighting.
+ *
+ * @data: Pointer to the scene data.
+ * @ray: Pointer to the ray being processed.
+ * @collision: The collision point where light calculations occur.
+ *
+ * The function initializes lighting, applies ambient lighting, calculates
+ * shadows, and applies diffuse and specular lighting if the point is lit.
+ * The final RGB values are clamped to the 0-255 range.
+ *
+ * Returns:
+ * - The computed color as a 32-bit RGBA value.
+ */
 uint32_t	set_lights(t_data *data, t_ray *ray, t_vector collision)
 {
 	t_vector	final_col;

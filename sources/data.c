@@ -6,12 +6,23 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 13:41:03 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/18 13:46:44 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:03:55 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
 
+/**
+ * mlx_and_image - Initializes the MLX library and creates an image.
+ *
+ * @data: Pointer to the main program data structure.
+ *
+ * This function initializes the MLX window and creates an image buffer
+ * for rendering. If either initialization fails, an error message is
+ * displayed and the function returns FAILURE.
+ *
+ * Return: SUCCESS (0) on success, FAILURE (-1) on error.
+ */
 static int	mlx_and_image(t_data *data)
 {
 	data->mlx = mlx_init(X, Y, "miniRT", true);
@@ -29,7 +40,24 @@ static int	mlx_and_image(t_data *data)
 	return (SUCCESS);
 }
 
-int	data_mallocs(t_data *data, char *file)
+/**
+ * data_mallocs - Allocates and initializes memory for the t_data structure.
+ *
+ * @data: Pointer to the t_data structure.
+ * @file: File path containing scene description.
+ *
+ * This function allocates memory for the main data structure, the ambient
+ * light, the light source, and the camera. The first three objects in
+ * `data->camera` are reserved for:
+ *   - Camera (`data->camera`)
+ *   - Light (`data->light->obj`)
+ *   - Ambient light (`data->ambient->obj`)
+ *
+ * If any allocation fails, the function returns FAILURE.
+ *
+ * Return: SUCCESS (0) on success, FAILURE (-1) on error.
+ */
+static int	data_mallocs(t_data *data, char *file)
 {
 	if (data == NULL)
 		return (failure("malloc failed"));
@@ -51,6 +79,17 @@ int	data_mallocs(t_data *data, char *file)
 	return (SUCCESS);
 }
 
+/**
+ * init_data - Initializes the scene data and reads objects from file.
+ *
+ * @file: Path to the scene description file.
+ *
+ * This function allocates memory for the `t_data` structure and initializes
+ * the necessary components, including reading scene objects and setting
+ * up the MLX window and image. If any step fails, allocated memory is freed.
+ *
+ * Return: Pointer to the initialized t_data structure, or NULL on failure.
+ */
 t_data	*init_data(char *file)
 {
 	t_data	*data;
@@ -68,6 +107,15 @@ t_data	*init_data(char *file)
 	return (data);
 }
 
+/**
+ * free_data - Frees all allocated memory in the t_data structure.
+ *
+ * @data: Pointer to the t_data structure to be freed.
+ *
+ * This function ensures that all dynamically allocated objects, including
+ * scene objects, lights, ambient lighting, and camera, are properly freed.
+ * If `data` is NULL, the function does nothing.
+ */
 void	free_data(t_data *data)
 {
 	if (data == NULL)

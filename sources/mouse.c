@@ -3,17 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   mouse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:54:39 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/18 11:54:40 by amaula           ###   ########.fr       */
+/*   Updated: 2025/02/18 15:24:49 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
 
-/* Rotates camera to look at the cursor*/
-void	left_click(t_data *data)
+/**
+ * left_click - Rotates the camera to face the selected point.
+ *
+ * @data: Pointer to the main scene data structure.
+ *
+ * This function retrieves the direction of the ray corresponding to the
+ * current mouse position, then updates the camera's orientation accordingly.
+ * The scene is redrawn after the camera rotation.
+ */
+static void	left_click(t_data *data)
 {
 	t_vector	new_ori;
 
@@ -22,8 +30,15 @@ void	left_click(t_data *data)
 	redraw(data);
 }
 
-/* Selects an object at the cursor*/
-void	right_click(t_data *data)
+/**
+ * right_click - Selects the object under the mouse cursor.
+ *
+ * @data: Pointer to the main scene data structure.
+ *
+ * This function casts a ray from the camera through the mouse position.
+ * If the ray intersects an object, that object is selected.
+ */
+static void	right_click(t_data *data)
 {
 	t_ray	ray;
 
@@ -35,8 +50,17 @@ void	right_click(t_data *data)
 	}
 }
 
-/* mouse.left and mouse.right checks prevent 
-the program from executing the functions every frame */
+
+/**
+ * rt_mouse - Handles mouse input for selecting and rotating objects.
+ *
+ * @param: Pointer to the main scene data structure.
+ *
+ * This function tracks mouse movement and button presses. If the left mouse
+ * button is pressed, it rotates the camera toward the clicked direction.
+ * If the right mouse button is pressed, it selects the object under the cursor.
+ * The function also updates the mouse position relative to the window size.
+ */
 void	rt_mouse(void *param)
 {
 	t_data	*data;

@@ -3,18 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   precalculations.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:30:15 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/18 12:30:20 by amaula           ###   ########.fr       */
+/*   Updated: 2025/02/18 15:40:19 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
 
-/* Calculates the distance to the image plane 
-from the camera so that the angle is fov */
-double	calc_view_distance(int fov)
+/**
+ * calc_view_distance - Calculates the view distance for the camera.
+ *
+ * @fov: The field of view in degrees.
+ *
+ * This function converts the field of view (FOV) from degrees to radians
+ * and calculates the distance from the camera to the image plane.
+ * The formula used is:
+ *   distance = (X / 2) / tan(FOV / 2)
+ *
+ * Return: The computed view distance.
+ */
+static double	calc_view_distance(int fov)
 {
 	double	fov_rad;
 
@@ -22,6 +32,26 @@ double	calc_view_distance(int fov)
 	return ((X / 2) / tan(fov_rad / 2));
 }
 
+/**
+ * image_plane - Computes the image plane parameters based on the camera.
+ *
+ * @camera: Pointer to the camera object.
+ *
+ * This function calculates the camera's image plane orientation.
+ * It determines the right (u) and up (v) vectors for the camera,
+ * ensuring that the up vector remains stable for edge cases (like
+ * when the camera is pointing straight up or down).
+ *
+ * - u: The right vector, computed as the cross product of the up vector
+ *      and the camera direction.
+ * - v: The up vector, computed as the cross product of the camera
+ *      direction and u.
+ *
+ * If the camera is looking straight up or down, a different up vector
+ * is chosen to avoid instability.
+ *
+ * Return: A structure containing the computed image plane properties.
+ */
 t_image_plane	image_plane(t_object *camera)
 {
 	t_image_plane	info;
@@ -45,6 +75,14 @@ t_image_plane	image_plane(t_object *camera)
 	return (info);
 }
 
+/**
+ * set_precalculations - Updates image plane parameters in the scene data.
+ *
+ * @data: Pointer to the scene data structure.
+ *
+ * This function recalculates the camera's image plane and updates
+ * the relevant fields in the `t_data` structure.
+ */
 void	set_precalculations(t_data *data)
 {
 	data->info = image_plane(data->camera);

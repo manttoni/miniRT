@@ -3,32 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:52:26 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/18 11:52:28 by amaula           ###   ########.fr       */
+/*   Updated: 2025/02/18 15:45:30 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
 
-/*	Returns a ray that is pointing towards pixel(x,y) of the image plane
-	Camera holds precalculated data
-		Basic vectors (u and v) of the image plane. Used for finding pixels
-		All rays share some information like starting point and general direction
-		aka camera direction	*/
-t_ray	get_ray(t_image_plane info, int x, int y)
-{
-	t_ray		ray;
-
-	ray = info.ray;
-	ray.direction = v_sum(ray.direction, v_mul((-X / 2 + x + 0.5), info.u));
-	ray.direction = v_sum(ray.direction, v_mul((-Y / 2 + y + 0.5), info.v));
-	ray.direction = normalize_vector(ray.direction);
-	return (ray);
-}
-
-t_ray	get_reflection(t_ray *ray)
+/**
+ * get_reflection - Computes the reflected ray direction.
+ *
+ * @ray: The incident ray that hits a reflective surface.
+ *
+ * This function calculates the reflection of a ray off a surface using
+ * the reflection formula:
+ *     R = D - 2 * (D . N) * N
+ * where D is the incident ray direction and N is the surface normal.
+ *
+ * The new ray starts slightly offset from the collision point to prevent
+ * self-intersections.
+ *
+ * Returns: A new reflected ray.
+ */
+static t_ray	get_reflection(t_ray *ray)
 {
 	t_ray	r;
 	double	dot_p;
@@ -42,7 +41,20 @@ t_ray	get_reflection(t_ray *ray)
 	return (r);
 }
 
-uint32_t	mix_colors(uint32_t c1, uint32_t c2, double reflectivity)
+/**
+ * mix_colors - Blends two colors based on reflectivity.
+ *
+ * @c1: The base color (original object color).
+ * @c2: The reflection color.
+ * @reflectivity: The blending factor (0 = no reflection, 1 = full reflection).
+ *
+ * This function linearly interpolates between two colors using
+ * the reflectivity factor. The higher the reflectivity, the more
+ * the reflection color dominates.
+ *
+ * Returns: The blended color as a 32-bit ARGB value.
+ */
+static uint32_t	mix_colors(uint32_t c1, uint32_t c2, double reflectivity)
 {
 	int	r;
 	int	g;
@@ -57,9 +69,43 @@ uint32_t	mix_colors(uint32_t c1, uint32_t c2, double reflectivity)
 	return (r << 24 | g << 16 | b << 8 | 255);
 }
 
-/* Shoots a ray towards a pixel in the image plane
-	if it hits something, returns 1, otherwise 0
-	in case of 1, ray has been updated with values from the object it hit */
+/**
+ * get_ray - Computes the primary ray for a pixel.
+ *
+ * @info: The image plane and camera data.
+ * @x: The x-coordinate of the pixel.
+ * @y: The y-coordinate of the pixel.
+ *
+ * This function generates a primary ray originating from the camera
+ * and passing through the given pixel. The direction is computed
+ * based on the camera's basis vectors.
+ *
+ * Returns: The computed ray.
+ */
+t_ray	get_ray(t_image_plane info, int x, int y)
+{
+	t_ray		ray;
+
+	ray = info.ray;
+	ray.direction = v_sum(ray.direction, v_mul((-X / 2 + x + 0.5), info.u));
+	ray.direction = v_sum(ray.direction, v_mul((-Y / 2 + y + 0.5), info.v));
+	ray.direction = normalize_vector(ray.direction);
+	return (ray);
+}
+
+/**
+ * cast_ray - Traces a ray through the scene, checking for intersections.
+ *
+ * @ray: The ray to be cast.
+ * @data: The scene data.
+ * @reflections: The number of allowed reflections.
+ *
+ * This function iterates through all objects to determine the closest
+ * intersection. If reflections are enabled, the function calculates
+ * the reflected ray and blends colors accordingly.
+ *
+ * Returns: 1 if a collision occurs, 0 otherwise.
+ */
 int	cast_ray(t_ray *ray, t_data *data, int reflections)
 {
 	size_t		i;
@@ -86,6 +132,15 @@ int	cast_ray(t_ray *ray, t_data *data, int reflections)
 	return (is_collision);
 }
 
+/**
+ * raycast - Performs ray tracing for the entire image.
+ *
+ * @data: The scene data containing objects, lights, and camera.
+ *
+ * This function iterates over every pixel in the image, casting a ray
+ * and determining the pixel color. The final image is then stored in
+ * the `data->image` buffer.
+ */
 void	raycast(t_data *data)
 {
 	int		x;

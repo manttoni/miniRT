@@ -3,15 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:54:10 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/18 11:54:13 by amaula           ###   ########.fr       */
+/*   Updated: 2025/02/18 15:36:27 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
 
+/**
+ * fract_len - Calculates the length of the fractional part of a number.
+ *
+ * @ptr: Pointer to the start of the fractional part in a string.
+ *
+ * This function iterates through the fractional digits and counts them.
+ *
+ * Return: The number of digits in the fractional part.
+ */
 static size_t	fract_len(char *ptr)
 {
 	size_t	len;
@@ -22,8 +31,16 @@ static size_t	fract_len(char *ptr)
 	return (len);
 }
 
-/* Parses a double until a non double character is found
-	assumes the format has been validated */
+/**
+ * parse_double - Parses a string into a double.
+ *
+ * @str: The string representation of a floating-point number.
+ *
+ * This function handles both integer and fractional parts, including
+ * negative numbers. If no decimal point is found, it returns the integer part.
+ *
+ * Return: The parsed double value.
+ */
 double	parse_double(char *str)
 {
 	int		int_part;
@@ -50,6 +67,17 @@ double	parse_double(char *str)
 		+ (sign * fract_part / pow(10, fract_len(dot + 1))));
 }
 
+
+/**
+ * parse_vector - Parses a string into a 3D vector.
+ *
+ * @str: The string containing three comma-separated values.
+ *
+ * This function extracts the x, y, and z components of a vector from
+ * a formatted string and returns a t_vector struct.
+ *
+ * Return: A t_vector structure with parsed values.
+ */
 t_vector	parse_vector(char *str)
 {
 	t_vector	v;
@@ -62,6 +90,16 @@ t_vector	parse_vector(char *str)
 	return (v);
 }
 
+/**
+ * parse_color - Parses a string into a 32-bit RGBA color.
+ *
+ * @str: The string containing three comma-separated integer values (R, G, B).
+ *
+ * This function extracts the red, green, and blue components and
+ * combines them into a 32-bit unsigned integer with full opacity (alpha=255).
+ *
+ * Return: A uint32_t representing the color in ARGB format.
+ */
 uint32_t	parse_color(char *str)
 {
 	int	r;

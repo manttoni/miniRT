@@ -3,16 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   keyhandler.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaula <amaula@student.hive.fi>            +#+  +:+       +#+        */
+/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:50:16 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/18 11:50:18 by amaula           ###   ########.fr       */
+/*   Updated: 2025/02/18 15:12:30 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
 
-/* select an object by its index in the array, visible in terminal. only 0-9 */
+/**
+ * select_object_by_index - Selects an object based on key input.
+ *
+ * @mlx_data: The key event data.
+ * @data: Pointer to the main program data structure.
+ *
+ * If 'C', 'L', or 'A' is pressed, selects the camera, light, or ambient
+ * light respectively. If a number key ('0' to '9') is pressed, selects
+ * the corresponding object in the object array, if it exists.
+ */
 static void	select_object_by_index(mlx_key_data_t mlx_data, t_data *data)
 {
 	if (mlx_data.key == MLX_KEY_C)
@@ -28,8 +37,21 @@ static void	select_object_by_index(mlx_key_data_t mlx_data, t_data *data)
 	}
 }
 
-/* checks which key is pressed, creates a vector
-and translates the object in that direction */
+/**
+ * translate - Moves the selected object based on key input.
+ *
+ * @mlx_data: The key event data.
+ * @selected: Pointer to the currently selected object.
+ * @data: Pointer to the main program data structure.
+ *
+ * Moves the object in the direction of the camera's orientation
+ * or along the image plane's basis vectors. The movement keys
+ * correspond to numpad keys (8, 2, 4, 6, 9, 1).
+ *
+ * Returns:
+ * - SUCCESS if the translation occurs.
+ * - FAILURE if no valid movement key is pressed.
+ */
 static int	translate(mlx_key_data_t mlx_data, t_object *selected, t_data *data)
 {
 	t_vector	delta;
@@ -56,6 +78,21 @@ static int	translate(mlx_key_data_t mlx_data, t_object *selected, t_data *data)
 	return (SUCCESS);
 }
 
+/**
+ * change_value - Modifies an object's properties based on key input.
+ *
+ * @mlx_data: The key event data.
+ * @selected: Pointer to the currently selected object.
+ *
+ * Adjusts object properties:
+ * - Resizes spheres and cylinders.
+ * - Adjusts brightness for lights and ambient light.
+ * - Changes the FOV for the camera.
+ *
+ * Returns:
+ * - SUCCESS if a property is modified.
+ * - FAILURE if no valid modification is possible.
+ */
 static int	change_value(mlx_key_data_t mlx_data, t_object *selected)
 {
 	if (selected->type == SPHERE || selected->type == CYLINDER)
@@ -67,6 +104,21 @@ static int	change_value(mlx_key_data_t mlx_data, t_object *selected)
 	return (FAILURE);
 }
 
+/**
+ * rotate - Rotates the selected object's orientation.
+ *
+ * @mlx_data: The key event data.
+ * @selected: Pointer to the currently selected object.
+ * @data: Pointer to the main program data structure.
+ *
+ * Rotates the object around the image plane's basis vectors:
+ * - Left/Right arrows rotate around the vertical axis.
+ * - Up/Down arrows rotate around the horizontal axis.
+ *
+ * Returns:
+ * - SUCCESS if rotation occurs.
+ * - FAILURE if no valid rotation key is pressed.
+ */
 static int	rotate(mlx_key_data_t mlx_data, t_object *selected, t_data *data)
 {
 	float		d;
@@ -85,6 +137,22 @@ static int	rotate(mlx_key_data_t mlx_data, t_object *selected, t_data *data)
 	return (SUCCESS);
 }
 
+/**
+ * keypress - Handles key press events and updates the scene.
+ *
+ * @mlx_data: The key event data.
+ * @param: Pointer to the main program data structure.
+ *
+ * Supports multiple actions:
+ * - Escape: Closes the program.
+ * - Home: Prints all objects.
+ * - H: Prints help instructions.
+ * - R: Resets the scene.
+ * - Arrow keys & numpad: Translates or rotates the selected object.
+ * - Number keys (0-9): Selects an object by index.
+ *
+ * If any action modifies the scene, it triggers a redraw.
+ */
 void	keypress(mlx_key_data_t mlx_data, void *param)
 {
 	t_data	*data;

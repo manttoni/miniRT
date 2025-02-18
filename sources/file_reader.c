@@ -6,12 +6,24 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 13:41:24 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/18 13:41:28 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:07:10 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
 
+/**
+ * error_check - Checks for file descriptor and object array validity.
+ *
+ * @fd: The file descriptor to check.
+ * @objarr: Pointer to the object array structure.
+ *
+ * This function ensures that the file descriptor is valid (not negative)
+ * and that the object array has been allocated. If either is invalid,
+ * it closes the file descriptor (if open) and frees the object array.
+ *
+ * Return: SUCCESS (0) if no errors, otherwise FAILURE (-1).
+ */
 static int	error_check(int fd, t_objarr *objarr)
 {
 	if (objarr == NULL || fd < 0)
@@ -24,6 +36,17 @@ static int	error_check(int fd, t_objarr *objarr)
 	return (SUCCESS);
 }
 
+/**
+ * unique_check - Ensures required scene elements exist.
+ *
+ * @data: Pointer to the main program data structure.
+ *
+ * This function verifies that the scene has a camera, a light source,
+ * ambient lighting, and at least one visible object. If any of these
+ * elements are missing, an error message is printed.
+ *
+ * Return: SUCCESS (0) if all elements are present, otherwise FAILURE (-1).
+ */
 static int	unique_check(t_data *data)
 {
 	if (data->camera->type == NONE)
@@ -37,6 +60,23 @@ static int	unique_check(t_data *data)
 	return (SUCCESS);
 }
 
+/**
+ * read_objects - Parses the scene description file and loads objects.
+ *
+ * @data: Pointer to the main program data structure.
+ *
+ * This function reads the scene description file specified in `data->file`.
+ * It initializes an object array, checks for errors, and then reads the file
+ * line by line. Each line is processed and added as an object to the scene.
+ *
+ * Lines starting with '#' are treated as comments and ignored.
+ * If an error occurs while adding an object, the function terminates early.
+ *
+ * Once all objects are loaded, `set_precalculations` is called to prepare
+ * data for rendering.
+ *
+ * Return: SUCCESS (0) if the scene is successfully loaded, otherwise FAILURE (-1).
+ */
 int	read_objects(t_data *data)
 {
 	char		*line;
@@ -62,6 +102,5 @@ int	read_objects(t_data *data)
 	}
 	close(fd);
 	set_precalculations(data);
-
 	return (unique_check(data));
 }
