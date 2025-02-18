@@ -99,7 +99,7 @@ void	keypress(mlx_key_data_t mlx_data, void *param)
 		}
 		if (mlx_data.key == MLX_KEY_HOME)
 			print_objects(data);
-		if (mlx_data.key == MLX_KEY_COMMA)
+		if (mlx_data.key == MLX_KEY_H)
 			print_help();
 		if (mlx_data.key == MLX_KEY_R)
 			reset_scene(data);
