@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:53:05 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/18 14:48:54 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/19 12:56:33 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ int	assign_camera(t_object *camera, char **info)
 	camera->orientation = parse_vector(info[2]);
 	camera->fov = ft_atoi(info[3]);
 	camera->orientation = normalize_vector(camera->orientation); // delete this line before eval
+	if (!is_normalized_vector(camera->orientation))
+		return(failure("Camera orientation not normalized"))
 	if (camera->fov < 0 || camera->fov > 180)
 		return (failure("FOV not valid"));
 	camera->print_object = &print_camera;

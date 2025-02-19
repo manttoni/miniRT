@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:33:10 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/18 16:15:27 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/19 13:05:27 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,16 @@
  * event loop. It also enables image stretching and terminates the MLX instance
  * upon exit.
  */
-static void	the_image(t_data *data)
+static int	the_image(t_data *data)
 {
 	mlx_key_hook(data->mlx, &keypress, data);
-	mlx_image_to_window(data->mlx, data->image, 0, 0);
+	if (mlx_image_to_window(data->mlx, data->image, 0, 0) == -1)
+		return (FAILURE);
 	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
 	mlx_loop_hook(data->mlx, &rt_mouse, data);
 	mlx_loop(data->mlx);
 	mlx_terminate(data->mlx);
+	return (SUCCESS);
 }
 
 /**
@@ -84,7 +86,8 @@ int	main(int argc, char **argv)
 	if (data == NULL)
 		return (failure("data initialization failed"));
 	raycast(data);
-	the_image(data);
+	if (the_image(data))
+		return (FAILURE);
 	free_data(data);
-	return (0);
+	return (SUCCESS);
 }

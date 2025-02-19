@@ -8,8 +8,7 @@
 # define SUCCESS 0
 # define HIT 1
 # define NO_HIT 0
-// # define TOP_CYLINDER_CAP 1
-// # define BOTTOM_CYLINDER_CAP 0
+# define SHINE 32.0
 
 /* Dimensions of the image_plane and initial window size */
 # define X 1000
@@ -59,23 +58,6 @@ typedef enum e_type
 	CYLINDER,
 	NONE
 }	t_type;
-
-/**
- * e_rgba - Enum representing RGBA color channels.
- *
- * Members:
- * - RED: Red color channel.
- * - GREEN: Green color channel.
- * - BLUE: Blue color channel.
- * - ALPHA: Alpha (transparency) channel.
- */
-typedef enum e_rgba
-{
-	RED,
-	GREEN,
-	BLUE,
-	ALPHA
-}	t_rgba;
 
 /*Structs*/
 

@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 13:38:45 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/18 15:05:28 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/19 13:02:50 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@
  */
 int	failure(char *message)
 {
-	printf("Error\n\t%s\n", message);
+	ft_putstr_fd("Error\n\t", 2);
+	ft_putendl_fd(message, 2);
 	return (FAILURE);
 }
 

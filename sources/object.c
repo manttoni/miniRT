@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 14:03:22 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/18 15:29:41 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/19 12:57:53 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,8 +141,7 @@ int	parse_object(t_object *object, char *line)
 	if (assign_values(object, info) == FAILURE)
 	{
 		ft_free_array(info);
-		failure("assign_values FAILURE");
-		return (FAILURE);
+		return (failure("assign_values FAILURE"));
 	}
 	ft_free_array(info);
 	return (SUCCESS);
