@@ -47,7 +47,7 @@ void	reset_scene(t_data *data)
 	data->light->obj->type = NONE;
 	data->ambient->obj->type = NONE;
 	read_objects(data);
-	data->selected = data->camera;
+	select_object(data->camera, data);
 	printf("Scene resetted\n");
 	redraw(data);
 }

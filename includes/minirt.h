@@ -16,7 +16,7 @@
 # define Y 1000
 
 /* Number of times a ray reflects off a surface */
-# define REFLECTIONS 2
+# define REFLECTIONS 0
 
 /*	How reflective each surface is in range [0,1]
 	0 = not reflective at all
@@ -33,6 +33,7 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <error.h>
+# include <time.h> // deleteme, probably not needed
 
 /* Enums */
 

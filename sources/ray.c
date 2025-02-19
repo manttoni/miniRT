@@ -66,6 +66,21 @@ t_ray	get_ray(t_image_plane info, int x, int y)
 	return (ray);
 }
 
+static int rejected(t_ray ray, t_object *object)
+{
+	t_object	sphere;
+	t_ray		r;
+
+	if (object->type != CYLINDER)
+		return (0);
+	r = ray;
+	sphere.location = object->location;
+	sphere.diameter = hypot(object->height / 2, object->diameter / 2);
+	if (sphere_collision(&r, &sphere) == HIT)
+		return (0);
+	return (1);
+}
+
 /**
  * cast_ray - Traces a ray through the scene, checking for intersections.
  *
@@ -91,7 +106,8 @@ int	cast_ray(t_ray *ray, t_data *data, int reflections)
 	arr = data->objects->arr;
 	while (i < data->objects->objects)
 	{
-		if ((*(arr[i].collisionf))(ray, &arr[i]) == HIT)
+		if (rejected(*ray, &arr[i]) == 0 
+			&& (*(arr[i].collisionf))(ray, &arr[i]) == HIT)
 			is_collision = 1;
 		i++;
 	}
@@ -114,11 +130,14 @@ int	cast_ray(t_ray *ray, t_data *data, int reflections)
  * and determining the pixel color. The final image is then stored in
  * the `data->image` buffer.
  */
-void	raycast(t_data *data)
+void raycast(t_data *data)
 {
-	int		x;
-	int		y;
+	int		x, y;
 	t_ray	ray;
+	clock_t start, end;
+	double elapsed_time;
+
+	start = clock(); // Start measuring time
 
 	y = 0;
 	while (y < Y)
@@ -133,8 +152,17 @@ void	raycast(t_data *data)
 			x++;
 		}
 		printf("%d%%    \r", y * 100 / Y);
+		fflush(stdout);
 		y++;
 	}
-	printf("Ready\r");
+
+	end = clock(); // End measuring time
+
+	// Calculate elapsed time in seconds
+	elapsed_time = (double)(end - start) / CLOCKS_PER_SEC;
+
+	printf("Ready\n");
+	printf("Render time: %.3f seconds\n", elapsed_time);
 	fflush(stdout);
 }
+
