@@ -56,7 +56,7 @@ char	*ft_itoa(int n)
 	i = number_len(num);
 	if (num == 0)
 		return (ft_strdup("0"));
-	str = (char *)malloc(sizeof(char) * (i + 1));
+	str = malloc(sizeof(char) * (i + 1));
 	if (str == 0)
 		return (0);
 	str[i] = '\0';

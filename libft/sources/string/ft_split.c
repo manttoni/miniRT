@@ -91,7 +91,7 @@ static char	**separator(char const *s, char c, size_t i, char **result)
 			start = s;
 			while (*s && *s != c)
 				s++;
-			result[i] = (char *)malloc(sizeof(char) * (s - start + 1));
+			result[i] = malloc(sizeof(char) * (s - start + 1));
 			if (!result[i])
 			{
 				free_array(result, i);
@@ -126,7 +126,7 @@ char	**ft_split(char const *s, char c)
 	char	**result;
 
 	i = 0;
-	result = (char **)malloc(sizeof(char *) * (count_words(s, c) + 1));
+	result = malloc(sizeof(char *) * (count_words(s, c) + 1));
 	if (!s || !result)
 	{
 		return (NULL);

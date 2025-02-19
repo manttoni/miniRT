@@ -60,6 +60,19 @@ static int	unique_check(t_data *data)
 	return (SUCCESS);
 }
 
+int	in_read(t_data *data, char **line, int fd)
+{
+	if (**line != '\0' && **line != '#' && add_object(data, *line) == FAILURE)
+	{
+		free(*line);
+		close(fd);
+		return (FAILURE);
+	}
+	free(*line);
+	*line = trim_newline(get_next_line(fd));
+	return (SUCCESS);
+}
+
 /**
  * read_objects - Parses the scene description file and loads objects.
  *
@@ -91,16 +104,14 @@ int	read_objects(t_data *data)
 	line = trim_newline(get_next_line(fd));
 	while (line)
 	{
-		if (*line != '\0' && *line != '#' && add_object(data, line) == FAILURE)
-		{
-			free(line);
-			close(fd);
+		if (in_read(data, &line, fd) == FAILURE)
 			return (FAILURE);
-		}
-		free(line);
-		line = trim_newline(get_next_line(fd));
 	}
 	close(fd);
-	set_precalculations(data);
-	return (unique_check(data));
+	if (unique_check(data) == SUCCESS)
+	{
+		set_precalculations(data);
+		return (SUCCESS);
+	}
+	return (FAILURE);
 }

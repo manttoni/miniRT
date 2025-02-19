@@ -61,6 +61,7 @@ static int	data_mallocs(t_data *data, char *file)
 {
 	if (data == NULL)
 		return (failure("malloc failed"));
+	ft_bzero(&data->info, sizeof(t_image_plane));
 	ft_bzero(data, sizeof(t_data));
 	ft_bzero(&(data->mouse), sizeof(t_mouse));
 	data->file = file;

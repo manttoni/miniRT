@@ -66,12 +66,12 @@ double	set_specular(t_vector norm, t_light *light)
 	t_vector	halfway;
 	double		dot_p;
 
-
 	halfway = normalize_vector(v_sum(light->light_dir, light->view_dir));
 	dot_p = dot(norm, halfway);
 	if (dot_p < 0)
 		return (0);
-	return (light->obj->brightness * pow(fmax(dot_p, 0.0), light->shine) * REFLECTIVITY);
+	return (light->obj->brightness * pow(fmax(dot_p, 0.0),
+			light->shine) * REFLECTIVITY);
 }
 
 /**

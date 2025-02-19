@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minirt.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amaula <amaula@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/19 14:36:28 by amaula            #+#    #+#             */
+/*   Updated: 2025/02/19 14:37:45 by amaula           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINIRT_H
 # define MINIRT_H
 
@@ -15,7 +27,7 @@
 # define Y 1000
 
 /* Number of times a ray reflects off a surface */
-# define REFLECTIONS 0
+# define REFLECTIONS 10
 
 /*	How reflective each surface is in range [0,1]
 	0 = not reflective at all
@@ -32,7 +44,6 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <error.h>
-# include <time.h> // deleteme, probably not needed
 
 /* Enums */
 
@@ -323,7 +334,7 @@ double			calc_t(double *t, t_vector v1, t_vector v2, double r);
 
 /*color.c*/
 uint32_t		mix_colors(uint32_t c1, uint32_t c2, double reflectivity);
-void			light_col(t_data *data, t_ray *ray, t_vector *f_col, double s_f);
+void			light_col(t_data *d, t_ray *ray, t_vector *f_col, double s_f);
 void			color_pixel(mlx_image_t *i, uint32_t pixel_c, int x, int y);
 
 /*cylinder.c*/
@@ -471,4 +482,3 @@ t_vector		v_sub(t_vector v1, t_vector v2);
 t_vector		v_sum(t_vector v1, t_vector v2);
 
 #endif
-
