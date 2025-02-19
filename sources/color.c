@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 13:38:21 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/18 16:07:39 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/19 11:49:21 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,11 @@ void	light_col(t_data *data, t_ray *ray, t_vector *f_col, double s_f)
 {
 	if (s_f > 0.2)
 	{
+		if (dot(ray->coll_norm, data->light->light_dir) < 0)
+			ray->coll_norm = v_mul(-1, ray->coll_norm);
 		data->light->diffuse = set_diffuse(ray->coll_norm, data->light) * s_f;
-		data->light->specular = set_specular(ray->coll_norm, data->light) * s_f;
+		// if (ray->object->type != PLANE)
+			data->light->specular = set_specular(ray->coll_norm, data->light) * s_f;
 		f_col->x += data->light->diffuse * ((ray->color >> 24) & 0xff) / 255.0;
 		f_col->y += data->light->diffuse * ((ray->color >> 16) & 0xff) / 255.0;
 		f_col->z += data->light->diffuse * ((ray->color >> 8) & 0xff) / 255.0;

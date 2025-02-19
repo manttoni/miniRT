@@ -2,7 +2,7 @@
 A 0.1 76,76,117
 
 # Camera: Positioned at (0,0,50), looking toward the center of the system
-C 30,-30,0 0,1,0 90
+C -10,0,0 1,0,0 90
 
 # Light Source (Sun as the light)
 L 0,0,0 0.4

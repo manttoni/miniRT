@@ -21,7 +21,7 @@
 /*	How reflective each surface is in range [0,1]
 	0 = not reflective at all
 	1 = completely reflective */
-# define REFLECTIVITY 0.3
+# define REFLECTIVITY 1
 
 # include "../MLX42/include/MLX42/MLX42.h"
 # include "../libft/includes/libft.h"

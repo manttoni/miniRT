@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:32:42 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/18 15:20:12 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/19 12:03:58 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,12 @@ double	set_specular(t_vector norm, t_light *light)
 	t_vector	halfway;
 	double		dot_p;
 
+
 	halfway = normalize_vector(v_sum(light->light_dir, light->view_dir));
 	dot_p = dot(norm, halfway);
 	if (dot_p < 0)
 		return (0);
-	return (light->obj->brightness * pow(fmax(dot_p, 0.0), light->shine));
+	return (light->obj->brightness * pow(fmax(dot_p, 0.0), light->shine) * REFLECTIVITY);
 }
 
 /**
