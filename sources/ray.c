@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:52:26 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/18 16:08:06 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/20 14:03:12 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static t_ray	get_reflection(t_ray *ray)
 	ft_memset(&r, 0, sizeof(t_ray));
 	dot_p = dot(ray->direction, ray->coll_norm);
 	r.direction = v_sub(ray->direction, v_mul(2 * dot_p, ray->coll_norm));
+	r.direction = normalize_vector(r.direction);
 	r.start = v_sum(ray->end, v_mul(EPSILON, r.direction));
 	r.distance = DBL_MAX;
 	r.color = BACKGROUND_COLOR;

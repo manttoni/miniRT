@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:53:05 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/19 12:56:33 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/20 15:10:45 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	camera_checks(int (**checks)(char *))
  *
  * Returns:
  * - SUCCESS (0) if the camera is correctly assigned.
- * - FAILURE (-1) if FOV is out of range.
+ * - FAILURE (1) if FOV is out of range.
  */
 int	assign_camera(t_object *camera, char **info)
 {
