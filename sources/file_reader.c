@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 13:41:24 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/18 16:16:31 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/20 10:11:52 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,21 @@ static int	unique_check(t_data *data)
 	return (SUCCESS);
 }
 
+/**
+ * in_read - Processes a line from the scene description file.
+ *
+ * This function reads and validates a line from the input file, ensuring
+ * that it is not empty or a comment. If the line represents a valid object,
+ * it is added to the scene. If an error occurs, the function frees allocated
+ * memory and closes the file descriptor.
+ *
+ * @data: Pointer to the main data structure.
+ * @line: Pointer to the line string, which will be modified.
+ * @fd: File descriptor of the scene file.
+ *
+ * Return: SUCCESS (0) if the line is processed correctly,
+ *         FAILURE (1) if an error occurs.
+ */
 int	in_read(t_data *data, char **line, int fd)
 {
 	if (**line != '\0' && **line != '#' && add_object(data, *line) == FAILURE)

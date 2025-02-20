@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:33:10 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/19 13:05:27 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/20 10:15:55 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,18 +76,18 @@ int	main(int argc, char **argv)
 	t_data	*data;
 
 	if (argc != 2)
-	{
-		printf("Error\n\tWrong amount of arguments!\n");
-		return (FAILURE);
-	}
+		return (failure("Wrong amount of arguments!"));
 	if (format_validation(argv[1]) == FAILURE)
-		return (failure("argv validation failed"));
+		return (FAILURE);
 	data = init_data(argv[1]);
 	if (data == NULL)
-		return (failure("data initialization failed"));
+		return (FAILURE);
 	raycast(data);
 	if (the_image(data))
+	{
+		free_data(data);
 		return (FAILURE);
+	}
 	free_data(data);
 	return (SUCCESS);
 }
