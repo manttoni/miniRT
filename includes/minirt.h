@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaula <amaula@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:36:28 by amaula            #+#    #+#             */
 /*   Updated: 2025/02/20 13:04:43 by amaula           ###   ########.fr       */
@@ -21,6 +21,7 @@
 # define HIT 1
 # define NO_HIT 0
 # define SHINE 32.0
+# define HAS_COLOR 0
 
 /* Dimensions of the image_plane and initial window size */
 # define X 1000
@@ -193,8 +194,8 @@ typedef struct s_light
 	t_object	*obj;
 	t_vector	light_dir;
 	t_vector	view_dir;
-	double		diffuse;
-	double		specular;
+	double		diff;
+	double		spec;
 	double		shine;
 	uint32_t	color;
 	int			r;

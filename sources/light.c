@@ -43,7 +43,15 @@ void	lights_checks(int (**checks)(char *))
 {
 	checks[0] = &is_vector;
 	checks[1] = &is_double;
-	checks[2] = NULL;
+	checks[2] = &is_color;
+	checks[3] = NULL;
+	// if (HAS_COLOR == 1)
+	// {
+	// 	checks[2] = &is_color;
+	// 	checks[3] = NULL;
+	// }
+	// else
+	// 	checks[2] = NULL;
 }
 
 /**
@@ -59,8 +67,8 @@ void	lights_checks(int (**checks)(char *))
  */
 static void	create_light(t_light *light, t_ray *ray, t_vector coll)
 {
-	light->diffuse = 0.0;
-	light->specular = 0.0;
+	light->diff = 0.0;
+	light->spec = 0.0;
 	light->shine = SHINE;
 	light->light_dir = normalize_vector(v_sub(light->obj->location, coll));
 	light->view_dir = v_mul(-1, ray->direction);
