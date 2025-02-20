@@ -5,7 +5,7 @@ A 0.1 76,76,117
 C -10,0,0 1,0,0 90
 
 # Light Source (Sun as the light)
-L 0,0,0 0.4
+L 0,0,0 0.4 247,190,83
 
 # Sun (Large sphere, yellow)
 # sp 0,0,0 10 255,204,0

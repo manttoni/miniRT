@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaula <amaula@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:36:28 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/19 14:37:45 by amaula           ###   ########.fr       */
+/*   Updated: 2025/02/20 12:32:13 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,14 @@
 # define HIT 1
 # define NO_HIT 0
 # define SHINE 32.0
+# define HAS_COLOR 0
 
 /* Dimensions of the image_plane and initial window size */
 # define X 1000
 # define Y 1000
 
 /* Number of times a ray reflects off a surface */
-# define REFLECTIONS 10
+# define REFLECTIONS 0
 
 /*	How reflective each surface is in range [0,1]
 	0 = not reflective at all
@@ -189,8 +190,8 @@ typedef struct s_light
 	t_object	*obj;
 	t_vector	light_dir;
 	t_vector	view_dir;
-	double		diffuse;
-	double		specular;
+	double		diff;
+	double		spec;
 	double		shine;
 	uint32_t	color;
 	int			r;
