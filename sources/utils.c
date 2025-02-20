@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: amaula <amaula@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:53:48 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/18 16:08:51 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/20 11:18:47 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
+
 
 /**
  * select_object - Selects an object and updates the current selection.

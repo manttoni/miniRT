@@ -16,6 +16,7 @@ SRC = $(SRC_DIR)main.c\
 	$(SRC_DIR)keyhandler2.c\
 	$(SRC_DIR)light.c\
 	$(SRC_DIR)light_utils.c\
+	$(SRC_DIR)light_utils2.c\
 	$(SRC_DIR)mouse.c\
 	$(SRC_DIR)object.c\
 	$(SRC_DIR)object_array.c\
