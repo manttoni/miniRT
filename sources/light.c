@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: amaula <amaula@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:32:29 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/19 12:59:55 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/20 11:54:26 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ uint32_t	set_lights(t_data *data, t_ray *ray, t_vector collision)
 	data->ambient->color = v_mul(data->ambient->obj->brightness,
 			data->ambient->color);
 	final_col = data->ambient->color;
-	shadow_f = in_the_shadow(collision, data->light->obj, data);
+	shadow_f = in_the_shadow(ray, data->light->obj, data);
 	light_col(data, ray, &final_col, shadow_f);
 	data->light->r = min(255, (int)(final_col.x * 255));
 	data->light->g = min(255, (int)(final_col.y * 255));

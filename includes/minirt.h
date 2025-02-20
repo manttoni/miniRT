@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:36:28 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/19 14:37:45 by amaula           ###   ########.fr       */
+/*   Updated: 2025/02/20 13:04:43 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,11 @@
 # define Y 1000
 
 /* Number of times a ray reflects off a surface */
-# define REFLECTIONS 10
+# define REFLECTIONS 1
+
+/* Number of rays a shadowed collision generates to 
+	get indirect light from reflections */
+# define INDIRECT_LIGHT_RAYS 1
 
 /*	How reflective each surface is in range [0,1]
 	0 = not reflective at all
@@ -380,11 +384,15 @@ uint32_t		set_lights(t_data *d, t_ray *r, t_vector coll);
 
 /*light_utils.c*/
 
-double			in_the_shadow(t_vector coll, t_object *light, t_data *data);
+double			in_the_shadow(t_ray *ray, t_object *light, t_data *data);
 double			set_specular(t_vector norm, t_light *light);
 double			set_diffuse(t_vector normal, t_light *light);
 void			print_light(t_object *l);
 void			print_ambient(t_object *a);
+
+/*light_utils2.c*/
+
+double	indirect_light(t_ray *ray, t_data *data);
 
 /*mouse.c*/
 
