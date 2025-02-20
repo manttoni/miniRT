@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 13:41:24 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/20 10:11:52 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/20 15:14:15 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,19 @@
  * and that the object array has been allocated. If either is invalid,
  * it closes the file descriptor (if open) and frees the object array.
  *
- * Return: SUCCESS (0) if no errors, otherwise FAILURE (-1).
+ * Return: SUCCESS (0) if no errors, otherwise FAILURE (1).
  */
 static int	error_check(int fd, t_objarr *objarr)
 {
 	if (objarr == NULL || fd < 0)
 	{
 		if (fd > 2)
+		{
 			close(fd);
+			failure("Could not open file");
+		}
 		free_objarr(objarr);
+		failure("Failed to create objects array");
 		return (FAILURE);
 	}
 	return (SUCCESS);
@@ -45,7 +49,7 @@ static int	error_check(int fd, t_objarr *objarr)
  * ambient lighting, and at least one visible object. If any of these
  * elements are missing, an error message is printed.
  *
- * Return: SUCCESS (0) if all elements are present, otherwise FAILURE (-1).
+ * Return: SUCCESS (0) if all elements are present, otherwise FAILURE (1).
  */
 static int	unique_check(t_data *data)
 {
@@ -81,7 +85,7 @@ int	in_read(t_data *data, char **line, int fd)
 	{
 		free(*line);
 		close(fd);
-		return (FAILURE);
+		return (failure("Could not add object to array"));
 	}
 	free(*line);
 	*line = trim_newline(get_next_line(fd));

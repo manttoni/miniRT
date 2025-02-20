@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:33:10 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/20 10:15:55 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/20 15:14:11 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static int	format_validation(char *str)
  *
  * Returns:
  * - SUCCESS (0) if the program runs successfully.
- * - FAILURE (-1) if an error occurs during initialization or execution.
+ * - FAILURE (1) if an error occurs during initialization or execution.
  */
 int	main(int argc, char **argv)
 {
