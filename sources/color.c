@@ -6,11 +6,26 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 13:38:21 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/20 12:33:28 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:23:13 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
+
+uint32_t    recompose_color(t_vector color)
+{
+    return ((int)color.x << 24 | (int)color.y << 16 | (int)color.z << 8 | 255);
+}
+
+t_vector     decompose_color(uint32_t color)
+{
+    t_vector decomposed;
+
+    decomposed.x = color >> 24 & 0xFF;
+    decomposed.y = color >> 16 & 0xFF;
+    decomposed.z = color >> 8 & 0xFF;
+    return (decomposed);
+}
 
 /**
  * mix_colors - Blends two colors based on reflectivity.
@@ -53,21 +68,27 @@ uint32_t	mix_colors(uint32_t c1, uint32_t c2, double reflectivity)
  */
 void	light_col(t_data *data, t_ray *ray, t_vector *f_col, double s_f)
 {
-	if (s_f > 0.2)
+	if (s_f > 0)
 	{
 		if (dot(ray->coll_norm, data->light->light_dir) < 0)
 			ray->coll_norm = v_mul(-1, ray->coll_norm);
-		data->light->diff = set_diffuse(ray->coll_norm, data->light) * s_f;
 		data->light->spec = set_specular(ray->coll_norm, data->light) * s_f;
-		f_col->x += data->light->diff * ((ray->color >> 24) & 0xff) / 255.0
-				* ((data->light->obj->color >> 24) & 0xff) / 255.0;
-		f_col->y += data->light->diff * ((ray->color >> 16) & 0xff) / 255.0
-				* ((data->light->obj->color >> 16) & 0xff) / 255.0;
-		f_col->z += data->light->diff * ((ray->color >> 8) & 0xff) / 255.0
-				* ((data->light->obj->color >> 8) & 0xff) / 255.0;
-		f_col->x += data->light->spec * ((data->light->obj->color >> 24) & 0xff) / 255.0;;
-		f_col->y += data->light->spec * ((data->light->obj->color >> 16) & 0xff) / 255.0;;
-		f_col->z += data->light->spec * ((data->light->obj->color >> 8) & 0xff) / 255.0;;
+		data->light->diff = set_diffuse(ray->coll_norm, data->light) * s_f;
+		// if (data->ambient->obj->brightness == 0.0)
+		// {
+			f_col->x += data->light->diff  * (((ray->color >> 24) & 0xff) + ((data->light->obj->color >> 24) & 0xff)) / 2;
+			f_col->y += data->light->diff  * (((ray->color >> 16) & 0xff) + ((data->light->obj->color >> 16) & 0xff)) / 2;
+			f_col->z += data->light->diff  * (((ray->color >> 8) & 0xff) + ((data->light->obj->color >> 8) & 0xff)) / 2;
+		// }
+		// else
+		// {
+		// 	f_col->x += data->light->diff * ((data->light->obj->color >> 24) & 0xff);
+		// 	f_col->y += data->light->diff * ((data->light->obj->color >> 16) & 0xff);
+		// 	f_col->z += data->light->diff * ((data->light->obj->color >> 8) & 0xff);
+		// }
+		f_col->x += data->light->spec * ((data->light->obj->color >> 24) & 0xff);
+		f_col->y += data->light->spec * ((data->light->obj->color >> 16) & 0xff);
+		f_col->z += data->light->spec * ((data->light->obj->color >> 8) & 0xff);
 	}
 }
 

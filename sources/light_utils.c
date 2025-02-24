@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaula <amaula@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:32:42 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/20 12:56:42 by amaula           ###   ########.fr       */
+/*   Updated: 2025/02/24 17:00:10 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ double	in_the_shadow(t_ray *ray, t_object *light, t_data *data)
 	{
 		light_dist = v_dist(light->location, ray->end);
 		if (shadow.distance + EPSILON < v_dist(light->location, ray->end))
-			return (fmax(0.2 + indirect_light(ray, data), shadow.distance / light_dist));
+			return (0);
 	}
-	return (1.0);
+	return (1);
 }
 
 /**

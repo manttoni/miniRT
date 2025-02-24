@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaula <amaula@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:32:29 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/20 11:54:26 by amaula           ###   ########.fr       */
+/*   Updated: 2025/02/24 18:16:57 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,20 +93,27 @@ uint32_t	set_lights(t_data *data, t_ray *ray, t_vector collision)
 {
 	t_vector	final_col;
 	double		shadow_f;
+	// t_vector	ray_col;
 
 	shadow_f = 1.0;
 	create_light(data->light, ray, collision);
-	data->ambient->color.x = ((data->ambient->obj->color >> 24) & 0xff) / 255.0;
-	data->ambient->color.y = ((data->ambient->obj->color >> 16) & 0xff) / 255.0;
-	data->ambient->color.z = ((data->ambient->obj->color >> 8) & 0xff) / 255.0;
-	data->ambient->color = v_mul(data->ambient->obj->brightness,
-			data->ambient->color);
-	final_col = data->ambient->color;
+	// ray_col = decompose_color(ray->color);
+	data->ambient->color.x = ((data->ambient->obj->color >> 24) & 0xff);
+	data->ambient->color.y = ((data->ambient->obj->color >> 16) & 0xff);
+	data->ambient->color.z = ((data->ambient->obj->color >> 8) & 0xff);
+	// data->ambient->color = v_mul(data->ambient->obj->brightness,
+	// 		data->ambient->color);
+	// final_col = data->ambient->color;
+	final_col = v_sum(data->ambient->color, decompose_color(ray->color));
+	final_col = v_mul(0.5, final_col);
+	final_col = v_mul(data->ambient->obj->brightness, final_col);
 	shadow_f = in_the_shadow(ray, data->light->obj, data);
+	if (shadow_f == 0)
+		return (recompose_color(final_col));
 	light_col(data, ray, &final_col, shadow_f);
-	data->light->r = min(255, (int)(final_col.x * 255));
-	data->light->g = min(255, (int)(final_col.y * 255));
-	data->light->b = min(255, (int)(final_col.z * 255));
+	data->light->r = min(255, (int)(final_col.x));
+	data->light->g = min(255, (int)(final_col.y));
+	data->light->b = min(255, (int)(final_col.z));
 	data->light->color = (data->light->r << 24 | data->light->g << 16
 			| data->light->b << 8 | 255);
 	return (data->light->color);

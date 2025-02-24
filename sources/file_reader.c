@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 13:41:24 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/20 15:14:15 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:46:17 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,20 @@
  *
  * Return: SUCCESS (0) if no errors, otherwise FAILURE (1).
  */
-static int	error_check(int fd, t_objarr *objarr)
+static int	format_validation(char *str)
 {
-	if (objarr == NULL || fd < 0)
+	int	len;
+	int fd = open(str, O_RDONLY);
+	char file[1];
+	len = ft_strlen(str);
+	if (ft_strncmp(&str[len - 3], ".rt", 3) != 0)
+		return (failure("Wrong file type"));
+	if (read(fd, file, 1) == -1)
 	{
-		if (fd > 2)
-		{
-			close(fd);
-			failure("Could not open file");
-		}
-		free_objarr(objarr);
-		failure("Failed to create objects array");
-		return (FAILURE);
+		close(fd);
+		return (failure("Could not read"));
 	}
+	close(fd);
 	return (SUCCESS);
 }
 

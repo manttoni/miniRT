@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:36:28 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/20 15:34:46 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:30:54 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,16 @@
 # define Y 1000
 
 /* Number of times a ray reflects off a surface */
-# define REFLECTIONS 0
+# define REFLECTIONS 5
 
 /* Number of rays a shadowed collision generates to
 	get indirect light from reflections */
-# define INDIRECT_LIGHT_RAYS 1
+# define INDIRECT_LIGHT_RAYS 0
 
 /*	How reflective each surface is in range [0,1]
 	0 = not reflective at all
 	1 = completely reflective */
-# define REFLECTIVITY 0.1
+# define REFLECTIVITY 0.5
 
 # include "../MLX42/include/MLX42/MLX42.h"
 # include "../libft/includes/libft.h"
@@ -338,9 +338,12 @@ void			update_ray(t_ray *ray, t_object *object, double t);
 double			calc_t(double *t, t_vector v1, t_vector v2, double r);
 
 /*color.c*/
+
 uint32_t		mix_colors(uint32_t c1, uint32_t c2, double reflectivity);
 void			light_col(t_data *d, t_ray *ray, t_vector *f_col, double s_f);
 void			color_pixel(mlx_image_t *i, uint32_t pixel_c, int x, int y);
+t_vector     decompose_color(uint32_t color);
+uint32_t    recompose_color(t_vector color);
 
 /*cylinder.c*/
 
