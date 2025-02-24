@@ -6,7 +6,7 @@
 /*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:32:42 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/24 17:00:10 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:50:51 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,12 @@
 double	in_the_shadow(t_ray *ray, t_object *light, t_data *data)
 {
 	t_ray	shadow;
-	double	light_dist;
 
-	light_dist = 0.0;
 	shadow.direction = normalize_vector(v_sub(light->location, ray->end));
 	shadow.start = v_sum(ray->end, v_mul(EPSILON, shadow.direction));
 	shadow.distance = DBL_MAX;
 	if (cast_ray(&shadow, data, 0))
 	{
-		light_dist = v_dist(light->location, ray->end);
 		if (shadow.distance + EPSILON < v_dist(light->location, ray->end))
 			return (0);
 	}
