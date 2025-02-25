@@ -16,7 +16,6 @@ SRC = $(SRC_DIR)main.c\
 	$(SRC_DIR)keyhandler2.c\
 	$(SRC_DIR)light.c\
 	$(SRC_DIR)light_utils.c\
-	$(SRC_DIR)light_utils2.c\
 	$(SRC_DIR)mouse.c\
 	$(SRC_DIR)object.c\
 	$(SRC_DIR)object_array.c\
@@ -35,7 +34,7 @@ SRC = $(SRC_DIR)main.c\
 	$(SRC_DIR)vector_geometry.c
 
 
-FLAGS = -Wall -Werror -Wextra -g -O3
+FLAGS = -Wall -Werror -Wextra -O3
 OFLAGS += -Iinclude -ldl -lglfw -pthread -lm -march=native -flto
 MAKEFLAGS += --no-print-directory
 HEADS = -I. $(MLX_HEAD) -I$(LIBFT_DIR)

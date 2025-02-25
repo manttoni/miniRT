@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: amaula <amaula@hive.fi>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:36:28 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/24 18:30:54 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/25 11:57:45 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,7 @@
 # define Y 1000
 
 /* Number of times a ray reflects off a surface */
-# define REFLECTIONS 5
-
-/* Number of rays a shadowed collision generates to
-	get indirect light from reflections */
-# define INDIRECT_LIGHT_RAYS 0
+# define REFLECTIONS 0
 
 /*	How reflective each surface is in range [0,1]
 	0 = not reflective at all
@@ -393,10 +389,6 @@ double			set_specular(t_vector norm, t_light *light);
 double			set_diffuse(t_vector normal, t_light *light);
 void			print_light(t_object *l);
 void			print_ambient(t_object *a);
-
-/*light_utils2.c*/
-
-double	indirect_light(t_ray *ray, t_data *data);
 
 /*mouse.c*/
 
