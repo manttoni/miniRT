@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@hive.fi>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:32:29 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/25 11:53:56 by amaula           ###   ########.fr       */
+/*   Updated: 2025/02/25 12:12:39 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,6 @@ void	lights_checks(int (**checks)(char *))
 	checks[1] = &is_double;
 	checks[2] = &is_color;
 	checks[3] = NULL;
-	// if (HAS_COLOR == 1)
-	// {
-	// 	checks[2] = &is_color;
-	// 	checks[3] = NULL;
-	// }
-	// else
-	// 	checks[2] = NULL;
 }
 
 /**

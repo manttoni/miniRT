@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@hive.fi>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:36:28 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/25 11:57:45 by amaula           ###   ########.fr       */
+/*   Updated: 2025/02/25 12:11:34 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -338,8 +338,8 @@ double			calc_t(double *t, t_vector v1, t_vector v2, double r);
 uint32_t		mix_colors(uint32_t c1, uint32_t c2, double reflectivity);
 void			light_col(t_data *d, t_ray *ray, t_vector *f_col, double s_f);
 void			color_pixel(mlx_image_t *i, uint32_t pixel_c, int x, int y);
-t_vector     decompose_color(uint32_t color);
-uint32_t    recompose_color(t_vector color);
+t_vector		decompose_color(uint32_t color);
+uint32_t		recompose_color(t_vector color);
 
 /*cylinder.c*/
 

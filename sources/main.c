@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: amaula <amaula@hive.fi>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:33:10 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/24 18:49:10 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/25 12:13:35 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,14 @@ static int	the_image(t_data *data)
  */
 static int	format_validation(char *str)
 {
-	int	len;
-	int fd = open(str, O_RDONLY);
-	char file[1];
+	int		len;
+	int		fd;
+	char	file[1];
+
 	len = ft_strlen(str);
 	if (ft_strncmp(&str[len - 3], ".rt", 3) != 0)
 		return (failure("Wrong file type"));
+	fd = open(str, O_RDONLY);
 	if (read(fd, file, 1) == -1)
 	{
 		close(fd);
