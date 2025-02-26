@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaula <amaula@hive.fi>                    +#+  +:+       +#+        */
+/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 13:38:21 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/25 12:15:43 by amaula           ###   ########.fr       */
+/*   Updated: 2025/02/26 15:26:40 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,20 +72,33 @@ void	light_col(t_data *data, t_ray *ray, t_vector *f_col, double s_f)
 	{
 		if (dot(ray->coll_norm, data->light->light_dir) < 0)
 			ray->coll_norm = v_mul(-1, ray->coll_norm);
-		data->light->spec = set_specular(ray->coll_norm, data->light) * s_f;
+		if (SPEC == 1)
+			data->light->spec = set_specular(ray->coll_norm, data->light) * s_f;
 		data->light->diff = set_diffuse(ray->coll_norm, data->light) * s_f;
-		f_col->x += data->light->diff * (((ray->color >> 24) & 0xff)
-				+ ((data->light->obj->color >> 24) & 0xff)) / 2;
-		f_col->y += data->light->diff * (((ray->color >> 16) & 0xff)
-				+ ((data->light->obj->color >> 16) & 0xff)) / 2;
-		f_col->z += data->light->diff * (((ray->color >> 8) & 0xff)
-				+ ((data->light->obj->color >> 8) & 0xff)) / 2;
-		f_col->x += data->light->spec
-			* ((data->light->obj->color >> 24) & 0xff);
-		f_col->y += data->light->spec
-			* ((data->light->obj->color >> 16) & 0xff);
-		f_col->z += data->light->spec
-			* ((data->light->obj->color >> 8) & 0xff);
+		if (HAS_COLOR == 1)
+		{
+			f_col->x += data->light->diff * (((ray->color >> 24) & 0xff)
+					+ ((data->light->obj->color >> 24) & 0xff));// / 2;
+			f_col->y += data->light->diff * (((ray->color >> 16) & 0xff)
+					+ ((data->light->obj->color >> 16) & 0xff));// / 2;
+			f_col->z += data->light->diff * (((ray->color >> 8) & 0xff)
+					+ ((data->light->obj->color >> 8) & 0xff));// / 2;
+		}
+		else
+		{
+			f_col->x += data->light->diff * ((ray->color >> 24) & 0xff);// / 2;
+			f_col->y += data->light->diff * ((ray->color >> 16) & 0xff);// / 2;
+			f_col->z += data->light->diff * ((ray->color >> 8) & 0xff);// / 2;
+		}
+		if (SPEC == 1)
+		{
+			f_col->x += data->light->spec
+				* ((data->light->obj->color >> 24) & 0xff);
+			f_col->y += data->light->spec
+				* ((data->light->obj->color >> 16) & 0xff);
+			f_col->z += data->light->spec
+				* ((data->light->obj->color >> 8) & 0xff);
+		}
 	}
 }
 

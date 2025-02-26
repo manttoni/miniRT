@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amaula <amaula@hive.fi>                    +#+  +:+       +#+        */
+/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:36:28 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/26 13:58:27 by amaula           ###   ########.fr       */
+/*   Updated: 2025/02/26 15:56:42 by nzharkev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,22 @@
 # define MINIRT_H
 
 /* Defines */
-# define EPSILON 0.00001
+# define EPSILON 0.001
 # define BACKGROUND_COLOR 0x000000ff
 # define FAILURE 1
 # define SUCCESS 0
 # define HIT 1
 # define NO_HIT 0
 # define SHINE 32.0
-# define HAS_COLOR 1
+# define HAS_COLOR 0
+# define SPEC 0
 
 /* Dimensions of the image_plane and initial window size */
 # define X 1000
 # define Y 1000
 
 /* Number of times a ray reflects off a surface */
-# define REFLECTIONS 10
+# define REFLECTIONS 0
 
 /*	How reflective each surface is in range [0,1]
 	0 = not reflective at all
