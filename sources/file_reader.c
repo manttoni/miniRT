@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_reader.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: amaula <amaula@hive.fi>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 13:41:24 by nzharkev          #+#    #+#             */
-/*   Updated: 2025/02/24 18:49:01 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/25 11:53:09 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,16 @@
  */
 static int	error_check(int fd, t_objarr *objarr)
 {
-	if (objarr == NULL || fd < 0)
+	if (objarr == NULL)
 	{
 		if (fd > 2)
 			close(fd);
-		failure("Could not open file");
-		if (objarr == NULL)
-			free_objarr(objarr);
-		failure("Failed to create objects array");
-		return (FAILURE);
+		return (failure("Failed to create objects array"));
+	}
+	if (fd < 0)
+	{
+		free_objarr(objarr);
+		return (failure("Could not open file"));
 	}
 	return (SUCCESS);
 }
