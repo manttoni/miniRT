@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: amaula <amaula@hive.fi>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:53:05 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/20 15:10:45 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/26 14:13:04 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	print_camera(t_object *c)
 {
 	printf("Camera:   📷\n");
 	printf("Location: ");
-	print_vector(c->orientation);
+	print_vector(c->location);
 	printf("Orientation: ");
 	print_vector(c->orientation);
 }
