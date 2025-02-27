@@ -6,7 +6,7 @@
 /*   By: amaula <amaula@hive.fi>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 11:50:59 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/26 14:14:58 by amaula           ###   ########.fr       */
+/*   Updated: 2025/02/27 15:43:32 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ static int	is_cs_double(char *ptr)
 	}
 	if (*ptr != ' ' && *ptr != '\0' && *ptr != ',')
 		return (0);
-
-	return (chars.x <= 1 && chars.y + chars.z >= 1 && chars.y < 10 && chars.z < 10);
+	return (chars.x <= 1 && chars.y
+		+ chars.z >= 1 && chars.y < 10 && chars.z < 10);
 }
 
 /**
@@ -92,7 +92,8 @@ int	is_double(char *ptr)
 	}
 	if (*ptr != ' ' && *ptr != '\0')
 		return (0);
-	return (chars.x <= 1 && chars.y + chars.z >= 1 && chars.y < 10 && chars.z < 10);
+	return (chars.x <= 1 && chars.y
+		+ chars.z >= 1 && chars.y < 10 && chars.z < 10);
 }
 
 /**

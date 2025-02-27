@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nzharkev <nzharkev@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: amaula <amaula@hive.fi>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 14:36:28 by amaula            #+#    #+#             */
-/*   Updated: 2025/02/26 15:56:42 by nzharkev         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:42:28 by amaula           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 /*	How reflective each surface is in range [0,1]
 	0 = not reflective at all
 	1 = completely reflective */
-# define REFLECTIVITY 0.5
+# define REFLECTIVITY 0
 
 # include "../MLX42/include/MLX42/MLX42.h"
 # include "../libft/includes/libft.h"
@@ -454,6 +454,7 @@ void			select_object(t_object *object, t_data *data);
 int				min(int a, int b);
 int				max(int a, int b);
 char			*trim_newline(char *str);
+void			light_helper(t_vector *f_col, t_data *data, t_ray *ray);
 
 /*validation.c*/
 
